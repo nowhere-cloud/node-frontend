@@ -27,20 +27,32 @@ const StoreInstance = new SessionStore({
  */
 const app = express();
 
-// view engine + Static File setup
+/* Load Various Supporting Middleware */
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-app.use(logger('common'));
-app.use(require('stylus').middleware(path.join(__dirname, 'public')));
+app.use(require('stylus').middleware({
+  src: path.join(__dirname, 'assets'),
+  dest: path.join(__dirname, 'public'),
+  compress: process.env.NODE_ENV === 'development' ? false : true
+}));
 app.use(express.static(path.join(__dirname, 'public')));
+// Enable Pretty HTML, based on current environment value
+// TODO: Cleanup when push to production stage
+// app.locals.pretty = process.env.NODE_ENV === 'development' ? true : false;
+app.locals.pretty = true;
 
 // Post Body Parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-/*
- * Session & Authentication Stuffs
- */
+// Apache-Style logger
+app.use(logger('common'));
+
+/* =========================================== */
+
+/* Session & Authentication Stuffs */
+
 app.use(cookieParser(secret_key)); // For non-authentication cookies
 
 StoreInstance.sync(); // Auto Deploy Session Table
@@ -57,7 +69,9 @@ app.use(passport.session());
 // Init Authenticator
 passport.use(model.User.createStrategy());
 
-// Setup Routs here.
+/* =========================================== */
+
+// Setup Routes here.
 app.use('/', require('./controllers/index'));
 app.use('/api', require('./controllers/api'));
 app.use('/users', require('./controllers/users'));
@@ -73,11 +87,14 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
+  // TODO: Cleanup when push to production stage
   // res.locals.error = req.app.get('env') === 'development' ? err : {};
   res.locals.error = err;
 
   // render the error page
-  res.status(err.status || 500).render('error');
+  res.status(err.status || 500).render('error', {
+    title: 'Express'
+  });
 });
 
 module.exports = app;

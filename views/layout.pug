@@ -2,6 +2,19 @@ doctype html
 html
   head
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    //- Head CSS
+    include includes/head-css.pug
   body
+    //- Menu
+    .navbar.navbar-toggleable-md.navbar-light.bg-faded(role="navigation")
+      .container
+        button.navbar-toggler.navbar-toggler-right(type="button", data-toggle="collapse", data-target="#top-navbar-Nav", aria-controls="top-navbar-Nav", aria-expanded="false", aria-label="Toggle navigation")
+          span.navbar-toggler-icon
+        a.navbar-brand= title
+        .collapse.navbar-collapse#top-navbar-Nav
+          ul.navbar-nav
+            block menu
+    //- Main Body  
     block content
+    //- Footer Libraries
+    include includes/footer-js.pug

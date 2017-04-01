@@ -1,6 +1,15 @@
 extends layout
 
+block menu
+  li.nav-item
+    a.nav-link(href="/") Home
+
 block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+  .container.public-body
+    .card.card-danger
+      .card-block.white-text-please
+        h4.card-tite= message
+        h6.card-subtitle.mb-2= error.status
+        details
+          summary StackTrace
+          pre.card-text.error= error.stack

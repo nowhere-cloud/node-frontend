@@ -1,5 +1,11 @@
 extends layout
 
+block menu
+  li.nav-item
+    a.nav-link(href="/") Home
+  li.nav-item
+    a.nav-link(href="/status-update") Service Update
 block content
-  h1= title
-  p Welcome to #{title}
+  .container.public-body
+    h1= title
+    p Welcome to #{title}
