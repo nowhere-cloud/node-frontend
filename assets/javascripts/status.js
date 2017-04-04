@@ -1,3 +1,4 @@
+
 'use strict';
 
 // https://stackoverflow.com/questions/7671965/how-to-reset-dom-after-manipulation
@@ -17,7 +18,6 @@ const service_nicknames = ['umeda', 'ikeda', 'namba', 'yamada', 'nigawa'];
         $('#status-' + element).removeClass('label-default').addClass('label-danger').html('Error');
       });
     }, this);
-    return false;
   };
 
   /**
