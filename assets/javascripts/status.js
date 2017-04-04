@@ -39,11 +39,10 @@ const service_nicknames = ['umeda', 'ikeda', 'namba', 'yamada', 'nigawa'];
     });
   };
 
-
   /**
    * Do these on load
    */
-  $(document).on('ready', () => {
+  $(document).ready(() => {
     $(document).data('initial-status-check', $('#status-mothership').clone(true));
     $(document).data('initial-status-stats', $('#status-health-metrics').clone(true));
     loadStatus();
