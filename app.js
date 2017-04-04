@@ -71,10 +71,8 @@ passport.use(model.User.createStrategy());
 
 /* =========================================== */
 
-// Setup Routes here.
-app.use('/', require('./controllers/index'));
-app.use('/api', require('./controllers/api'));
-app.use('/users', require('./controllers/users'));
+// Load All Controllers.
+app.use('/', require('./controllers'));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

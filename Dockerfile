@@ -4,7 +4,7 @@ WORKDIR /srv
 
 COPY . /srv
 
-RUN npm install
+RUN npm install --production
 
 EXPOSE 3000
 

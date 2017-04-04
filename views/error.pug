@@ -5,11 +5,14 @@ block menu
     a.nav-link(href="/") Home
 
 block content
-  .container.public-body
-    .card.card-danger
-      .card-block.white-text-please
-        h4.card-tite= message
-        h6.card-subtitle.mb-2= error.status
-        details
+  .container
+    .panel.panel-danger
+      .panel-heading
+        h3.panel-tite= error.status
+      .panel-body
+        | #{message}
+    if error.stack
+      .panel.panel-info
+        details.panel-body
           summary StackTrace
-          pre.card-text.error= error.stack
+          pre= error.stack

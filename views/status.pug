@@ -1,0 +1,23 @@
+extends layout
+
+block menu
+  li
+    a(href="/") Home
+  li.active
+    a(href="#") System Status
+block breadcrumb
+  li
+    a(href="/") Home
+  li.active
+    System Status
+block content
+  .container
+    h1 #{title}
+    p How's the system going?
+    include includes/status-list-group.pug
+    include includes/status-syslog-ovv.pug
+    hr
+    a.btn.btn-primary(href="#")#status-loader
+      span.glyphicon.glyphicon-refresh(aria-hidden="true")
+block additional-libraries
+  script(src="javascripts/status.js")

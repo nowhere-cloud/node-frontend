@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/block-for-mysql.js && node ./bin/www.js"
+    "start": "node ./bin/block-for-mysql.js && node ./bin/www.js",
+    "build": "babel assets/javascripts -d public/javascripts "
   },
   "dependencies": {
     "body-parser": "~1.16.0",
@@ -22,5 +23,16 @@
     "sequelize": "^3.30.4",
     "stylus": "0.54.5"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-babili": "0.0.12",
+    "babel-preset-env": "^1.3.2"
+  },
+  "babel": {
+    "presets": [
+      "env",
+      "babili"
+    ]
+  }
 }

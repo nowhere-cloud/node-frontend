@@ -1,13 +1,24 @@
 'use strict';
 
 const express = require('express');
-const router = express.Router();
+const Proxy   = require('express-http-proxy');
+const Router = express.Router();
 
 /* GET home page. */
-router.get('/', (req, res, next) => {
+Router.get('/', (req, res, next) => {
   res.render('index', {
-    title: 'Express'
+    breadcrumb: false,
+    title: 'Home'
   });
 });
 
-module.exports = router;
+// Systm Status
+Router.use('/status', require('./status'));
+
+// Users UX
+Router.use('/users', require('./users/'));
+
+// Admin UX
+Router.use('/admin', require('./admin/'));
+
+module.exports = Router;
