@@ -55,7 +55,7 @@ class PrettyDate {
    * Generate two list-group-item for stats
    */
   const empty_stats = $('<div/>').addClass('list-group-item').addClass('list-group-item-info').html('Not Available');
-  const error_stats = $('<div/>').addClass('list-group-item').addClass('list-group-item-danger').html('Error Retreving System Statistics');
+  const error_stats = $('<div/>').addClass('list-group-item').addClass('list-group-item-danger').html('Error While Retreving System Statistics');
   
   /**
    * Static List of endpoint nicknames
@@ -85,8 +85,8 @@ class PrettyDate {
         $('#status-health-metrics').html(empty_stats);
       } else {
         $('#status-health-metrics').html('');
-        let _w = $('<div/>').addClass('list-group-item');
         $.each(data, (index, el) => {
+          let _w = $('<div/>').addClass('list-group-item');
           if (el._id === 7) {
             return true;
           } else {
