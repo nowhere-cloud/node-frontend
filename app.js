@@ -1,23 +1,25 @@
 
 'use strict';
 
-const express       = require('express');
-const path          = require('path');
-const logger        = require('morgan');
+const Express       = require('express');
+const Path          = require('path');
+const Logger        = require('morgan');
 const cookieParser  = require('cookie-parser');
 const bodyParser    = require('body-parser');
-const passport      = require('passport');
-const session       = require('express-session');
-const crypto        = require('crypto');
-const model         = require('./models');
-const SessionStore  = require('connect-session-sequelize')(session.Store);
+const CSRF          = require('csurf');
+const Stylus        = require('stylus');
+const Passport      = require('passport');
+const Session       = require('express-session');
+const Crypto        = require('crypto');
+const Model         = require('./models');
+const SessionStore  = require('connect-session-sequelize')(Session.Store);
 
 // Generate Cookie Key, or get key from environment variables
-const secret_key = process.env.SESS_KEY || crypto.randomBytes(20).toString('hex');
+const secret_key = process.env.SESS_KEY || Crypto.randomBytes(20).toString('hex');
 
 // Session Store Instance
 const StoreInstance = new SessionStore({
-  db: model.sequelize,
+  db: Model.sequelize,
   checkExpirationInterval: 15 * 60 * 1000, // The interval at which to cleanup expired sessions in milliseconds. (15 min)
   expiration: 24 * 60 * 60 * 1000          // The maximum age (in milliseconds) of a valid session. (24 hrs)
 });
@@ -25,18 +27,18 @@ const StoreInstance = new SessionStore({
 /**
  * Express Core`
  */
-const app = express();
+const app = Express();
 
 /* Load Various Supporting Middleware */
 
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', Path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-app.use(require('stylus').middleware({
-  src: path.join(__dirname, 'assets'),
-  dest: path.join(__dirname, 'public'),
+app.use(Stylus.middleware({
+  src: Path.join(__dirname, 'assets'),
+  dest: Path.join(__dirname, 'public'),
   compress: process.env.NODE_ENV === 'development' ? false : true
 }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(Express.static(Path.join(__dirname, 'public')));
 // Enable Pretty HTML, based on current environment value
 // TODO: Cleanup when push to production stage
 // app.locals.pretty = process.env.NODE_ENV === 'development' ? true : false;
@@ -47,7 +49,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Apache-Style logger
-app.use(logger('common'));
+app.use(Logger('common'));
+
+// CSRF (Cross Site Request Forgery)
+app.use(CSRF());
 
 /* =========================================== */
 
@@ -56,18 +61,18 @@ app.use(logger('common'));
 app.use(cookieParser(secret_key)); // For non-authentication cookies
 
 StoreInstance.sync(); // Auto Deploy Session Table
-app.use(session({
+app.use(Session({
   secret: secret_key,
   store: StoreInstance,
   proxy: true,
   resave: false,
   saveUninitialized: true
 }));
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(Passport.initialize());
+app.use(Passport.session());
 
 // Init Authenticator
-passport.use(model.User.createStrategy());
+Passport.use(Model.User.createStrategy());
 
 /* =========================================== */
 

@@ -14,19 +14,7 @@ block content
       br
       | Please Login to Continue. If you don't have a account, contact your local administrator for assistance.
   .container
-    .row
-      .col-md-3
-        .panel.panel-primary
-      .col-md-3.col-md-offset-1
-        .panel.panel-primary
-          .panel-heading
-            h3.panel-title System Health Overview
-          include includes/status-syslog-ovv.pug
-      .col-md-4.col-md-offset-1
-        .panel.panel-primary
-          .panel-heading
-            h3.panel-title Live System Status
-          include includes/status-list-group.pug
+    include includes/status-list-group.pug
 block additional-libraries
   script(src="javascripts/status.js")
           

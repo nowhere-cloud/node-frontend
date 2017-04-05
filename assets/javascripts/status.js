@@ -1,4 +1,3 @@
-
 'use strict';
 
 // https://stackoverflow.com/questions/7671965/how-to-reset-dom-after-manipulation
@@ -8,46 +7,49 @@ const service_nicknames = ['umeda', 'ikeda', 'namba', 'yamada', 'nigawa'];
 (($) => {
 
   /**
-   * Load System Status
+   * Generate two list-group-item for stats
    */
-  const loadStatus = () => {
-    service_nicknames.forEach(function (element) {
-      $.get('/status/api/' + element).done(() => {
-        $('#status-' + element).removeClass('label-default').addClass('label-success').html('OK');
-      }).fail(() => {
-        $('#status-' + element).removeClass('label-default').addClass('label-danger').html('Error');
-      });
-    }, this);
-  };
+  const empty_stats = $('<div/>').addClass('list-group-item').addClass('list-group-item-info').html('Not Available');
+  const error_stats = $('<div/>').addClass('list-group-item').addClass('list-group-item-danger').html('Error Retreving System Statistics');
 
   /**
-   * Load Simple Syslog Stats (on severity)
+   * Load Status from Endpoint
    */
-  const loadStats = () => {
-    $.get('/status/api/yamato-saidaiji').done((data) => {
-      let generated = $('<div/>')
-        .addClass('list-group-item')
-        .addClass('list-group-item-danger')
-        .html('Error Retreving System Statistics');
-      $('#status-health-metrics').html(generated);
-    }).fail(() => {
-      let generated = $('<div/>')
-        .addClass('list-group-item')
-        .addClass('list-group-item-danger')
-        .html('Error Retreving System Statistics');
-      $('#status-health-metrics').html(generated);
+  const loadStatus = () => {
+    $.each(service_nicknames, (index, el) => {
+      // $.get('/status/api/' + el).done(() => {
+      $.get('http://10.1.123.11/status/api/yamato-saidaiji' + el).done(() => {
+        $('#status-' + el).removeClass('label-default').addClass('label-success').html('OK');
+      }).fail(() => {
+        $('#status-' + el).removeClass('label-default').addClass('label-danger').html('Error');
+      });
     });
   };
 
   /**
-   * Do these on load
+   * Load Syslog Stats (on severity)
    */
-  $(document).ready(() => {
-    $(document).data('initial-status-check', $('#status-mothership').clone(true));
-    $(document).data('initial-status-stats', $('#status-health-metrics').clone(true));
-    loadStatus();
-    loadStats();
-  });
+  const loadStats = () => {
+    $.get('/status/api/yamato-saidaiji').done((data) => {
+      if (data.length === 0) {
+        $('#status-health-metrics').html(empty_stats);
+      } else {
+        $('#status-health-metrics').html('');
+        let _w = $('<div/>').addClass('list-group-item');
+        $.each(data, (index, el) => {
+          if (el._id === 7) {
+            return true;
+          } else {
+            _w.html(el._id);
+            $('<span/>').addClass('badge').html(el.count).appendTo(_w);
+          }
+          _w.appendTo('#status-health-metrics');
+        });
+      }
+    }).fail(() => {
+      $('#status-health-metrics').html(error_stats);
+    });
+  };
 
   /**
    * The Refresh Button
@@ -62,5 +64,15 @@ const service_nicknames = ['umeda', 'ikeda', 'namba', 'yamada', 'nigawa'];
     loadStatus();
     loadStats();
     return false;
+  });
+
+  /**
+   * Do these on load
+   */
+  $(document).ready(() => {
+    $(document).data('initial-status-check', $('#status-mothership').clone(true));
+    $(document).data('initial-status-stats', $('#status-health-metrics').clone(true));
+    loadStatus();
+    loadStats();
   });
 })(jQuery);
