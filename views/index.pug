@@ -1,20 +1,22 @@
 extends layout
 
 block menu
-  li.active
-    a(href="#") Home
-  li
-    a(href="/status") System Status
+  li.nav-item.active
+    a.nav-link(href="#") Home
+  li.nav-item
+    a.nav-link(href="/status") System Status
 block content
-  .jumbotron
+  .jumbotron.jumbotron-fluid
     .container
-      h1 Welcome!
-      p
+      h1.display-3 Welcome!
+      p.lead
       | Welcome to your Private Cloud platform!
       br
       | Please Login to Continue. If you don't have a account, contact your local administrator for assistance.
   .container
-    include includes/status-list-group.pug
+    .card
+      h3.card-header System Status
+      include includes/status-list-group.pug
 block additional-libraries
   script(src="javascripts/status.js")
           

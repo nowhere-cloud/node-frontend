@@ -1,21 +1,24 @@
 extends layout
 
 block menu
-  li
-    a(href="/") Home
-  li.active
-    a(href="#") System Status
+  li.nav-item
+    a.nav-link(href="/") Home
+  li.nav-item.active
+    a.nav-link(href="#") System Status
 block breadcrumb
-  li
+  li.breadcrumb-item
     a(href="/") Home
-  li.active
-    System Status
+  li.breadcrumb-item.active
+    | System Status
 block content
   .container
     h1 #{title}
     p How's the system going?
-    include includes/status-list-group.pug
-    include includes/status-syslog-ovv.pug
+    .card
+      h3.card-header System Status
+      include includes/status-list-group.pug
+      h3.card-header System Health Statistics (Events)
+      include includes/status-syslog-ovv.pug
     hr
     p
       | Last Updated: 

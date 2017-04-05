@@ -1,9 +1,8 @@
-nav.navbar.navbar-default.navbar-fixed-top
+nav.navbar.fixed-top.navbar-toggleable-md.navbar-light.bg-faded
   .container
-    .navbar-header
-      button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target="#top-navbar-Nav")
-        span.glyphicon.glyphicon-th
-      a.navbar-brand Private Cloud
-    .collapse.navbar-collapse#top-navbar-Nav
-      ul.nav.navbar-nav
+    button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+      span.navbar-toggler-icon
+    a.navbar-brand Private Cloud
+    #navbarSupportedContent.collapse.navbar-collapse
+      ul.navbar-nav.mr-auto
         block menu

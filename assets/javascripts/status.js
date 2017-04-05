@@ -72,9 +72,9 @@ class PrettyDate {
   const loadStatus = () => {
     $.each(service_nicknames, (index, el) => {
       $.get('/status/api/' + el).done(() => {
-        $('#status-' + el).removeClass('label-default').addClass('label-success').html('OK');
+        $('#status-' + el).removeClass('badge-default').addClass('badge-success').html('OK');
       }).fail(() => {
-        $('#status-' + el).removeClass('label-default').addClass('label-danger').html('Error');
+        $('#status-' + el).removeClass('badge-default').addClass('badge-danger').html('Error');
       });
     });
   };
@@ -89,13 +89,13 @@ class PrettyDate {
       } else {
         $('#status-health-metrics').html('');
         $.each(data, (index, el) => {
-          let _w = $('<div/>').addClass('list-group-item');
+          let _w = $('<div/>').addClass('list-group-item').addClass('justify-content-between');
           // Informational and Debug Messages are meant noting to System Health, so we filter them
           if (el._id >= 6) {
             return true;
           } else {
             _w.addClass('list-group-item-' + severity_DOM[el._id]).html(severity_Human[el._id]);
-            $('<span/>').addClass('badge').html(el.count).appendTo(_w);
+            $('<span/>').addClass('badge').addClass('badge-default').addClass('badge-pill').html(el.count).appendTo(_w);
           }
           _w.appendTo('#status-health-metrics');
         });
