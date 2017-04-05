@@ -39,10 +39,7 @@ app.use(Stylus.middleware({
   compress: process.env.NODE_ENV === 'development' ? false : true
 }));
 app.use(Express.static(Path.join(__dirname, 'public')));
-// Enable Pretty HTML, based on current environment value
-// TODO: Cleanup when push to production stage
-// app.locals.pretty = process.env.NODE_ENV === 'development' ? true : false;
-app.locals.pretty = true;
+app.locals.pretty = process.env.NODE_ENV === 'development' ? true : false;
 
 // Post Body Parser
 app.use(bodyParser.json());
@@ -50,9 +47,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Apache-Style logger
 app.use(Logger('common'));
-
-// CSRF (Cross Site Request Forgery)
-app.use(CSRF());
 
 /* =========================================== */
 
@@ -73,6 +67,9 @@ app.use(Passport.session());
 
 // Init Authenticator
 Passport.use(Model.User.createStrategy());
+
+// CSRF (Cross Site Request Forgery)
+app.use(CSRF());
 
 /* =========================================== */
 
