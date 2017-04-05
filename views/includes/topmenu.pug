@@ -1,7 +1,10 @@
-nav.navbar.fixed-top.navbar-toggleable-md.navbar-light.bg-faded
-  a.navbar-brand Private Cloud
+nav.navbar.fixed-top.navbar-toggleable-md.navbar-inverse.bg-inverse
+  h1.navbar-brand.mb-0 Private Cloud
   button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
     span.navbar-toggler-icon
   #navbarSupportedContent.collapse.navbar-collapse
     ul.navbar-nav.mr-auto
       block menu
+    .form-inline.my-2.my-lg-0
+      a.btn.btn-outline-success.my-2.my-sm-0(href="/login")
+        | Login

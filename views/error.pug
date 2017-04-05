@@ -6,13 +6,12 @@ block menu
 
 block content
   .container
-    .panel.panel-danger
-      .panel-heading
-        h3.panel-tite= error.status
-      .panel-body
-        | #{message}
-    if error.stack
-      .panel.panel-info
-        details.panel-body
-          summary StackTrace
-          pre= error.stack
+    .card
+      h3.card-header= error.status
+      .card-block
+        p.card-text #{message}
+      if error.stack
+        .card-block
+          details
+            summary.card-text StackTrace
+            pre.card-text= error.stack
