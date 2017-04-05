@@ -57,11 +57,14 @@ class PrettyDate {
   const empty_stats = $('<div/>').addClass('list-group-item').addClass('list-group-item-info').html('Not Available');
   const error_stats = $('<div/>').addClass('list-group-item').addClass('list-group-item-danger').html('Error While Retreving System Statistics');
   
-  /**
-   * Static List of endpoint nicknames
-   */
+  // Static List of endpoint nicknames
   const service_nicknames = ['umeda', 'ikeda', 'namba', 'yamada', 'nigawa'];
-  const DateString = new PrettyDate();
+  // Human Readable Syslog Severity
+  const severity_Human    = 'Emergency Alert Critical Error Warning Notice'.toLowerCase().split(' ');
+  // Severity Coloring for DOM
+  const severity_DOM      = ['danger', 'danger', 'danger', 'danger', 'warning', 'info'];
+  // Date String 
+  const DateString        = new PrettyDate();
 
   /**
    * Load Status from Endpoint
@@ -87,10 +90,11 @@ class PrettyDate {
         $('#status-health-metrics').html('');
         $.each(data, (index, el) => {
           let _w = $('<div/>').addClass('list-group-item');
-          if (el._id === 7) {
+          // Informational and Debug Messages are meant noting to System Health, so we filter them
+          if (el._id >= 6) {
             return true;
           } else {
-            _w.html(el._id);
+            _w.addClass('list-group-item-' + severity_DOM[el._id]).html(severity_Human[el._id]);
             $('<span/>').addClass('badge').html(el.count).appendTo(_w);
           }
           _w.appendTo('#status-health-metrics');
