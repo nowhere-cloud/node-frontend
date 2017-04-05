@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/block-for-mysql.js && node ./bin/www.js",
-    "build": "babel assets/javascripts -d public/javascripts "
+    "build": "babel assets/javascripts -d public/assets/javascripts "
   },
   "dependencies": {
     "body-parser": "~1.16.0",

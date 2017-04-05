@@ -36,7 +36,7 @@ app.set('views', Path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 app.use(Stylus.middleware({
   src: Path.join(__dirname, 'assets'),
-  dest: Path.join(__dirname, 'public'),
+  dest: Path.join(__dirname, 'public/assets'),
   compress: process.env.NODE_ENV === 'development' ? false : true
 }));
 app.use(Express.static(Path.join(__dirname, 'public')));

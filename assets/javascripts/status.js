@@ -23,7 +23,7 @@ class PrettyDate {
    * @memberOf PrettyDate
    */
   getTodayDate() {
-    return ((this.now.getDate() < 10)?'0':'') + this.now.getDate() +'/'+(((this.now.getMonth()+1) < 10)?'0':'') + (this.now.getMonth()+1) +'/'+ this.now.getFullYear();
+    return ((this.now.getDate() < 10) ? '0' : '') + this.now.getDate() + '/' + (((this.now.getMonth() + 1) < 10) ? '0' : '') + (this.now.getMonth() + 1) + '/' + this.now.getFullYear();
   }
 
   /**
@@ -34,7 +34,7 @@ class PrettyDate {
    * @memberOf PrettyDate
    */
   getCurrentTime() {
-    return ((this.now.getHours() < 10)?'0':'') + this.now.getHours() +':'+ ((this.now.getMinutes() < 10)?'0':'') + this.now.getMinutes() +':'+ ((this.now.getSeconds() < 10)?'0':'') + this.now.getSeconds();
+    return ((this.now.getHours() < 10) ? '0' : '') + this.now.getHours() + ':' + ((this.now.getMinutes() < 10) ? '0' : '') + this.now.getMinutes() + ':' + ((this.now.getSeconds() < 10) ? '0' : '') + this.now.getSeconds();
   }
 
   /**
@@ -60,11 +60,11 @@ class PrettyDate {
   // Static List of endpoint nicknames
   const service_nicknames = ['umeda', 'ikeda', 'namba', 'yamada', 'nigawa'];
   // Human Readable Syslog Severity, also copied from source code
-  const severity_Human    = 'Emergency Alert Critical Error Warning Notice'.split(' ');
+  const severity_Human = 'Emergency Alert Critical Error Warning Notice'.split(' ');
   // Severity Coloring for DOM
-  const severity_DOM      = ['danger', 'danger', 'danger', 'danger', 'warning', 'info'];
+  const severity_DOM = ['danger', 'danger', 'danger', 'danger', 'warning', 'info'];
   // Date String
-  const DateString        = new PrettyDate();
+  const DateString = new PrettyDate();
 
   /**
    * Load Status from Endpoint
@@ -109,8 +109,8 @@ class PrettyDate {
    * Do these on load
    */
   $(document).ready(() => {
-    loadStatus();
-    loadStats();
     $('#now').html(DateString.getTodayDate() + ' @ ' + DateString.getCurrentTime());
+    loadStatus();
+    if ($('#status-health-metrics').length > 0) loadStats();
   });
 })(jQuery);
