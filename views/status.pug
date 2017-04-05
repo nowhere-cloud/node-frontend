@@ -17,7 +17,10 @@ block content
     include includes/status-list-group.pug
     include includes/status-syslog-ovv.pug
     hr
-    a.btn.btn-primary(href="#")#status-loader
-      span.glyphicon.glyphicon-refresh(aria-hidden="true")
+    p
+      | Last Updated: 
+      span#now
+    //-a.btn.btn-primary(href="#")#status-loader
+    //-  span.glyphicon.glyphicon-refresh(aria-hidden="true")
 block additional-libraries
   script(src="javascripts/status.js")
