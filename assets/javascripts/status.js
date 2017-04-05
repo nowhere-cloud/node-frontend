@@ -59,8 +59,8 @@ class PrettyDate {
   
   // Static List of endpoint nicknames
   const service_nicknames = ['umeda', 'ikeda', 'namba', 'yamada', 'nigawa'];
-  // Human Readable Syslog Severity
-  const severity_Human    = 'Emergency Alert Critical Error Warning Notice'.toLowerCase().split(' ');
+  // Human Readable Syslog Severity, also copied from source code
+  const severity_Human    = 'Emergency Alert Critical Error Warning Notice'.split(' ');
   // Severity Coloring for DOM
   const severity_DOM      = ['danger', 'danger', 'danger', 'danger', 'warning', 'info'];
   // Date String 
