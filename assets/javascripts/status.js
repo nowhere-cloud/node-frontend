@@ -80,7 +80,7 @@ class PrettyDate {
    * Load Syslog Stats (on severity)
    */
   const loadStats = () => {
-    $.get('http://10.1.123.11/status/api/yamato-saidaiji').done((data) => {
+    $.get('/status/api/yamato-saidaiji').done((data) => {
       if (data.length === 0) {
         $('#status-health-metrics').html(empty_stats);
       } else {
