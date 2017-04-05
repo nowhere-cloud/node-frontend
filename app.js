@@ -13,6 +13,7 @@ const Session       = require('express-session');
 const Crypto        = require('crypto');
 const Model         = require('./models');
 const SessionStore  = require('connect-session-sequelize')(Session.Store);
+const Flash         = require('connect-flash');
 
 // Generate Cookie Key, or get key from environment variables
 const secret_key = process.env.SESS_KEY || Crypto.randomBytes(20).toString('hex');
@@ -45,7 +46,7 @@ app.locals.pretty = process.env.NODE_ENV === 'development' ? true : false;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// Apache-Style logger
+// Apache-Style logger, although it is useless because we dont have terminal?
 app.use(Logger('common'));
 
 /* =========================================== */
@@ -70,6 +71,8 @@ Passport.use(Model.User.createStrategy());
 
 // CSRF (Cross Site Request Forgery)
 app.use(CSRF());
+// Flash Messages (Login Fail, or what!?)
+app.use(Flash());
 
 /* =========================================== */
 
