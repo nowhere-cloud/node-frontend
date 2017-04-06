@@ -7,7 +7,7 @@ block menu
 block content
   .container
     .card
-      h3.card-header= error.status
+      h3.card-header= error.status || 500
       .card-block
         p.card-text #{message}
       if error.stack

@@ -20,10 +20,6 @@ block content
       h3.card-header System Health Statistics (Events)
       include includes/status-syslog-ovv.pug
     hr
-    p
-      | Last Updated: 
-      span#now
-    //-a.btn.btn-primary(href="#")#status-loader
-    //-  span.glyphicon.glyphicon-refresh(aria-hidden="true")
+    p Last Updated: #[span#now]
 block additional-libraries
   script(src="assets/javascripts/status.js")
