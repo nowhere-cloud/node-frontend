@@ -1,0 +1,39 @@
+extends ../layout
+
+block menu
+  li.nav-item
+    a.nav-link(href="/") Home
+  li.nav-item.active
+    a.nav-link(href="#") Login
+block breadcrumb
+  li.breadcrumb-item
+    a(href="/") Home
+  li.breadcrumb-item
+    | User Panel
+  li.breadcrumb-item
+    | Login
+block content
+  .container
+    h1 #{title}
+    p Login to access the operation panel.
+    .card
+      form.card-block(method="post")
+        .form-group.row
+          label.col-md-2.col-form-label(for="username") Username
+          .col-md-10
+            input.form-control(type="text", name="username", id="username", required)
+        .form-group.row
+          label.col-md-2.col-form-label(for="password") Password
+          .col-md-10
+            input.form-control(type="password", name="password", id="password" required)
+        input(type="hidden" name="_csrf" value=`${csrfToken}`)
+        .form-group.row
+          .btn-toolbar.offset-md-2.col-md-10
+            .btn-group.mr-2
+              button.btn.btn-primary(type="submit")
+                | Login
+            .btn-group
+              button.btn.btn-success(type="reset")
+                | Reset
+
+block additional-libraries

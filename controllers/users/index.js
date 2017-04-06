@@ -6,7 +6,7 @@ const Passport  = require('passport');
 const Helper    = require('../../helpers');
 
 /* GET users listing. */
-Router.get('/', Helper.ensureAuthenticated, (req, res, next) => {
+Router.get('/', Helper.ensureUserIsAuthenticated, (req, res, next) => {
   res.send('respond with a resource');
 });
 
