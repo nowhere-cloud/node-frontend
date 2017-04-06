@@ -16,6 +16,8 @@ block content
   .container
     h1 #{title}
     p Login to access the operation panel.
+    if errorMessage.length
+      .alert.alert-danger !{errorMessage}
     .card
       form.card-block(method="post")
         .form-group.row

@@ -29,7 +29,6 @@ const StoreInstance = new SessionStore({
  * Express Core`
  */
 const app = Express();
-
 /* Load Various Supporting Middleware */
 
 app.set('views', Path.join(__dirname, 'views'));
@@ -40,7 +39,6 @@ app.use(Stylus.middleware({
   compress: process.env.NODE_ENV === 'development' ? false : true
 }));
 app.use(Express.static(Path.join(__dirname, 'public')));
-app.locals.pretty = process.env.NODE_ENV === 'development' ? true : false;
 
 // Post Body Parser
 app.use(bodyParser.json());
@@ -55,7 +53,8 @@ app.use(Logger('common'));
 
 app.use(cookieParser(secret_key)); // For non-authentication cookies
 
-StoreInstance.sync(); // Auto Deploy Session Table
+// Auto Deploy Session Table
+StoreInstance.sync();
 app.use(Session({
   secret: secret_key,
   store: StoreInstance,

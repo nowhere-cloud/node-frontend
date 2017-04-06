@@ -14,7 +14,9 @@ Router.get('/login', (req, res, next) => {
   res.render('user/login', {
     breadcrumb: true,
     csrfToken: req.csrfToken(),
-    title: 'Login'
+    title: 'Login',
+    errorMessage: req.flash('error'),
+    hideNavLoginButton: true
   });
 });
 
