@@ -3,10 +3,10 @@
 const Express   = require('express');
 const Router    = Express.Router();
 const Passport  = require('passport');
-const Helper    = require('../../helpers');
+const Auth      = require('../../helpers/authenticator');
 
 /* GET users listing. */
-Router.get('/', Helper.ensureUserIsAuthenticated, (req, res, next) => {
+Router.get('/', Auth.UserProtector, (req, res, next) => {
   res.send('respond with a resource');
 });
 
@@ -20,10 +20,15 @@ Router.get('/login', (req, res, next) => {
   });
 });
 
-Router.post('/login', Passport.authenticate('local', {
+Router.post('/login', Auth.Passport.authenticate('local', {
   successRedirect: '/users',
   failureRedirect: '/users/login',
   failureFlash: true
 }));
+
+Router.get('/logout', (req, res, next) => {
+  req.session.destroy();
+  res.redirect('/');
+});
 
 module.exports = Router;
