@@ -11,16 +11,16 @@ const Auth            = require('./helpers/authenticator');
 const Session         = require('express-session');
 const Flash           = require('connect-flash');
 
+/* Express Core */
+const app = Express();
+
 // Get key from environment variables
-if (!process.env.SESS_KEY) {
+// Error if Such Key Not Found. Important for Session Security
+// Generate a random key on development environment.
+if (!process.env.SESS_KEY && app.get('env') !== 'development') {
   throw new Error('Crictical Error: No Crypt Words Defined. This word is important for maintain user security');
 }
-const secret_key = process.env.SESS_KEY;
-
-/**
- * Express Core
- */
-const app = Express();
+const secret_key = app.get('env') === 'development' ? Auth.SHA256(Math.random()) : process.env.SESS_KEY;
 
 /* Load Various Supporting Middleware */
 
@@ -29,7 +29,7 @@ app.set('view engine', 'pug');
 app.use(Stylus.middleware({
   src: Path.join(__dirname, 'assets'),
   dest: Path.join(__dirname, 'public/assets'),
-  compress: true
+  compress: app.get('env') === 'development' ? false : true
 }));
 app.use(Express.static(Path.join(__dirname, 'public')));
 
@@ -37,14 +37,10 @@ app.use(Express.static(Path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-// Apache-Style logger, although it is useless because we dont have terminal?
-app.use(Logger('common'));
+// Cookie Parser
+app.use(cookieParser(secret_key));
 
-/* Session & Authentication Stuffs */
-
-app.use(cookieParser(secret_key)); // For non-authentication cookies
-
-// Auto Deploy Session Table
+// Session
 Auth.SessionStore.sync();
 app.use(Session({
   secret: secret_key,
@@ -53,23 +49,36 @@ app.use(Session({
   resave: false,
   saveUninitialized: true
 }));
-app.use(Auth.Passport.initialize());
-app.use(Auth.Passport.session());
 
-// Init Authenticator
-Auth.Passport.use(Auth.Strategy);
-
-// Connect Authenticator to User Model
-Auth.Passport.serializeUser(Auth.Serialize);
-Auth.Passport.deserializeUser(Auth.deSerialize);
+// Apache-Style logger, although it is useless because we dont have terminal?
+app.use(Logger('common'));
 
 // CSRF (Cross Site Request Forgery)
 app.use(CSRF());
 // Flash Messages (Login Fail, or what!?)
 app.use(Flash());
 
-// Load Controllers.
+/* Authentication Stuffs */
+
+// Create Authenticator
+Auth.Passport.use(Auth.Strategy);
+
+// Connect Authenticator to User Model
+Auth.Passport.serializeUser(Auth.Serialize);
+Auth.Passport.deserializeUser(Auth.deSerialize);
+
+// Attach Authenticator
+app.use(Auth.Passport.initialize());
+app.use(Auth.Passport.session());
+
+// Expose User Instance
+app.use(Auth.GlobalUser());
+
+/* Load Controllers. */
+
 app.use('/', require('./controllers'));
+
+/* Error Handlers */
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -88,7 +97,9 @@ app.use((err, req, res, next) => {
   res.locals.error = err;
 
   // render the error page
-  res.status(err.status || 500).render('error', {title: 'Express'});
+  res.status(err.status || 500).render('error', {
+    title: 'Express'
+  });
 });
 
 module.exports = app;

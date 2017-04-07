@@ -5,7 +5,13 @@ nav.navbar.fixed-top.navbar-toggleable-md.navbar-inverse.bg-inverse
   #navbarSupportedContent.collapse.navbar-collapse
     ul.navbar-nav.mr-auto
       block menu
+      if user
+        block menu-user
     if !hideNavLoginButton
       .form-inline.my-2.my-lg-0
         a.btn.btn-outline-success.my-2.my-sm-0(href="/users")
-          | Login
+          if user
+            | Access Control Panel
+          else
+            | Login
+    

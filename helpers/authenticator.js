@@ -1,7 +1,16 @@
 'use strict';
 
-// Based On an Open Source Implementation Cookbook
-// https://github.com/super-secret/passport-sequelize
+/**
+ * Derivated from a Creative Commons Zero (CC0) Licensed,
+ * General Assembly WEB DEVELOPMENT IMMERSIVE Lesson Material
+ * https://github.com/ga-wdi-lessons/express-passport-sequelize
+ *
+ * The Code derivated from the above repo are publicized in Public Domain.
+ * The main derivations are:
+ * 1. using Native Crypto Library (selectively based on System Environment) instead of BCrypt.
+ * 2. Extracted into a seperate file and called as CommonJS Module.
+ * 3. ES6 Optimized.
+ */
 
 const DBConnection  = require('../models').sequelize;
 const User          = require('../models').User;
@@ -26,25 +35,33 @@ try {
 /* eslint-enable global-require */
 
 /**
+ * Calculate SHA256 of a specified String
+ * @param {String} source Clear text
+ * @return {String}       Ciphertext
+ */
+const GenerateSHA256 = (source) => {
+  let cleanString = Sanitizer.sanitize(source);
+  return Native ? SHA256.update(Buffer.from(cleanString)).digest('hex') : SHA256(cleanString).toString();
+};
+
+/**
  * Passport Strategy
  */
-const Strategy = new LocalStrategy((username, password, cb) => {
-  let cleanedPassword = Sanitizer.sanitize(password);
-  let hashedPassword  = Native ? SHA256.update(Buffer.from(cleanedPassword)).digest('hex') : SHA256(cleanedPassword).toString();
+const Strategy = new LocalStrategy((username, password, callback) => {
   User.findOne({
     where: {
       username: username
     }
   }).then((user) => {
     if (!user) {
-      return cb(null, false);
+      return callback(null, false);
     }
-    if (hashedPassword !== user.password) {
-      return cb(null, false);
+    if (GenerateSHA256(password) !== user.password) {
+      return callback(null, false);
     }
-    return cb(null, user);
+    return callback(null, user);
   }).catch((err) => {
-    return cb(err);
+    return callback(err);
   });
 });
 
@@ -78,12 +95,24 @@ const deSerialize = (uid, cb) => {
  * @return {Null}
  */
 const EnsureUserIsLoggedIn = (req, res, next) => {
-  if(req.user){
-    res.locals.currentUser = req.user.username;
+  if (req.user) {
     return next();
   } else {
     res.redirect('/users/login');
   }
+};
+
+/**
+ * Expose User Instance for controlling menus.
+ * @param  {Object}   req  Express//Connect Request
+ * @param  {Object}   res  Express//Connect Response
+ * @param  {Function} next Call next middleware
+ */
+const SetGlobalUserInstance = (req, res, next) => {
+  if (req.user) {
+    res.locals.user = req.user;
+  }
+  next();
 };
 
 /**
@@ -101,7 +130,8 @@ module.exports = {
   Serialize: Serialize,
   deSerialize: deSerialize,
   UserProtector: EnsureUserIsLoggedIn,
+  GlobalUser: SetGlobalUserInstance,
   Passport: Passport,
-  Session: Session,
-  SessionStore: StoreInstance
+  SessionStore: StoreInstance,
+  SHA256: GenerateSHA256
 };
