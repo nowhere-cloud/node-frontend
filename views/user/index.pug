@@ -1,0 +1,22 @@
+extends ../layout
+
+block menu
+  li.nav-item
+    a.nav-link(href="/") Home
+  li.nav-item
+    a.nav-link(href="/status") System Status
+
+block menu-user
+  li.nav-item.active
+    a.nav-link(href="/users") Operation Hub
+
+block breadcrumb
+  li.breadcrumb-item
+    a(href="/") Home
+  li.breadcrumb-item
+    | User Panel
+
+block content
+  .container
+    h1 Welcome! #{user}
+    p What would you like to do today?

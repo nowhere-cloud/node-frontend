@@ -12,14 +12,14 @@
  * 3. ES6 Optimized.
  */
 
-const DBConnection  = require('../models').sequelize;
-const User          = require('../models').User;
-const Passport      = require('passport');
+const DBConnection = require('../models').sequelize;
+const User = require('../models').User;
+const Passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const debug         = require('debug')('authenticator');
-const Session       = require('express-session');
-const SessionStore  = require('connect-session-sequelize')(Session.Store);
-const Sanitizer     = require('sanitizer');
+const debug = require('debug')('authenticator');
+const Session = require('express-session');
+const SessionStore = require('connect-session-sequelize')(Session.Store);
+const Sanitizer = require('sanitizer');
 let SHA256;
 let Native = true;
 
@@ -124,6 +124,118 @@ const StoreInstance = new SessionStore({
   expiration: 24 * 60 * 60 * 1000 // The maximum age (in milliseconds) of a valid session. (24 hrs)
 });
 
+/**
+ * Logout Action.
+ * @param  {Object}   req  Express//Connect Request
+ * @param  {Object}   res  Express//Connect Response
+ * @param  {Function} next Call next middleware
+ */
+const Logout = (req, res, next) => {
+  req.session.destroy();
+  next();
+};
+
+/**
+ * Create User
+ * @param  {Object}   req  Express//Connect Request
+ * @param  {Object}   res  Express//Connect Response
+ * @param  {Function} next Call next middleware
+ */
+const CreateUser = (req, res, next) => {
+  User.findOne({
+    username: Sanitizer.sanitize(req.body.username)
+  }).then((user) => {
+    if (user) {
+      req.flash('error', 'User: ' + req.body.username + ' already occupied.');
+      return next();
+    } else {
+      User.create({
+        username: Sanitizer.sanitize(req.body.username),
+        password: GenerateSHA256(req.body.password)
+      }).then(function (user) {
+        req.flash('success', 'User: ' + req.body.username + ' created.');
+        return next();
+      }).catch((err) => {
+        return next(err);
+      });
+    }
+  }).catch((err) => {
+    return next(err);
+  });
+};
+
+/**
+ * Delete Specified User
+ * @param  {Object}   req  Express//Connect Request
+ * @param  {Object}   res  Express//Connect Response
+ * @param  {Function} next Call next middleware
+ */
+const DeleteUser = (req, res, next) => {
+  User.findOne({
+    username: Sanitizer.sanitize(req.body.username)
+  }).then((user) => {
+    return user.destroy();
+  }).then(() => {
+    req.flash('success', 'User: ' + req.body.username + ' deleted.');
+    return next();
+  }).catch((err) => {
+    return next(err);
+  });
+};
+
+/**
+ * Find User by ID
+ * @param  {Object}   req  Express//Connect Request
+ * @param  {Object}   res  Express//Connect Response
+ * @param  {Function} next Call next middleware
+ */
+const FindUserById = (req, res, next) => {
+  User.findById(
+    Sanitizer.sanitize(req.body.userid)
+  ).then((user) => {
+    res.locals.userdata = user;
+    next();
+  }).catch((err) => {
+    return next(err);
+  });
+};
+
+/**
+ * Find User by Username
+ * @param  {Object}   req  Express//Connect Request
+ * @param  {Object}   res  Express//Connect Response
+ * @param  {Function} next Call next middleware
+ */
+const FindUserByUsername = (req, res, next) => {
+  User.findOne({
+    username: Sanitizer.sanitize(req.body.username)
+  }).then((user) => {
+    res.locals.userdata = user;
+    next();
+  }).catch((err) => {
+    return next(err);
+  });
+};
+
+/**
+ * Update Password
+ * @param  {Object}   req  Express//Connect Request
+ * @param  {Object}   res  Express//Connect Response
+ * @param  {Function} next Call next middleware
+ */
+const UpdatePassword = (req, res, next) => {
+  User.findById(req.user.id).then((user) => {
+    return user.update({
+      password: GenerateSHA256(req.body.password)
+    });
+  }).then(() => {
+    req.flash('success', 'Password Updated.');
+    return next();
+  }).catch((err) => {
+    return next(err);
+  });
+};
+
 module.exports = {
   Connection: DBConnection,
   Strategy: Strategy,
@@ -132,6 +244,12 @@ module.exports = {
   UserProtector: EnsureUserIsLoggedIn,
   GlobalUser: SetGlobalUserInstance,
   Passport: Passport,
-  SessionStore: StoreInstance,
-  SHA256: GenerateSHA256
+  SHA256: GenerateSHA256,
+  Logout: Logout,
+  NewUser: CreateUser,
+  DeleteUser: DeleteUser,
+  FindUserById: FindUserById,
+  FindUserByUsername: FindUserByUsername,
+  ChangePassword: UpdatePassword,
+  SessionStore: StoreInstance
 };

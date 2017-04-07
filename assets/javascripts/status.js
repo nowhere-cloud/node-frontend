@@ -58,7 +58,7 @@ class PrettyDate {
   const error_stats = $('<div/>').addClass('list-group-item list-group-item-danger').html('Error While Retreving System Statistics');
 
   // Static List of endpoint nicknames
-  const service_nicknames = ['umeda', 'ikeda', 'namba', 'yamada', 'nigawa'];
+  const service_nicknames = ['umeda', 'tonda', 'ikeda', 'suita', 'yamada', 'sonoda'];
   // Human Readable Syslog Severity, also copied from source code
   const severity_Human = 'Emergency Alert Critical Error Warning Notice'.split(' ');
   // Severity Coloring for DOM
@@ -83,7 +83,7 @@ class PrettyDate {
    * Load Syslog Stats (on severity)
    */
   const loadStats = () => {
-    $.get('/status/api/yamato-saidaiji').done((data) => {
+    $.get('/status/api/ikoma').done((data) => {
       if (data.length === 0) {
         $('#status-health-metrics').html(empty_stats);
       } else {

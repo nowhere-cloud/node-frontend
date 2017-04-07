@@ -72,7 +72,7 @@ app.use(Auth.Passport.initialize());
 app.use(Auth.Passport.session());
 
 // Expose User Instance
-app.use(Auth.GlobalUser());
+app.use(Auth.GlobalUser);
 
 /* Load Controllers. */
 
@@ -89,6 +89,9 @@ app.use((req, res, next) => {
 
 // error handler
 app.use((err, req, res, next) => {
+  if (res.headersSent) {
+    return next(err);
+  }
   // set locals, only providing error in development
   res.locals.message = err.message;
   /* FIXME: Cleanup when push to production stage

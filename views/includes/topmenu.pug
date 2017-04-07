@@ -9,9 +9,11 @@ nav.navbar.fixed-top.navbar-toggleable-md.navbar-inverse.bg-inverse
         block menu-user
     if !hideNavLoginButton
       .form-inline.my-2.my-lg-0
-        a.btn.btn-outline-success.my-2.my-sm-0(href="/users")
-          if user
-            | Access Control Panel
-          else
-            | Login
-    
+        if user
+          .btn-toolbar.offset-md-2.col-md-10
+            .btn-group.mr-2
+              a.btn.btn-outline-primary.my-2.my-sm-0(href="/users") Access Control Panel
+            .btn-group
+              a.btn.btn-outline-success.my-2.my-sm-0(href="/users/logout") Access Control Panel
+        else
+          a.btn.btn-outline-primary.my-2.my-sm-0(href="/users") Login
