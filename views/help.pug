@@ -1,0 +1,14 @@
+extends layout
+
+block menu
+  +navbar-link("/", "Home")
+  +navbar-link("/status", "System Status")
+  +navbar-link-active()
+
+block content
+  .container
+    h1 #{title}
+    p Need Help?
+  .container
+    p TODO.
+block additional-libraries

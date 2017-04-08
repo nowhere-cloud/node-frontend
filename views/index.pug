@@ -1,10 +1,10 @@
 extends layout
 
 block menu
-  li.nav-item.active
-    a.nav-link(href="#") Home
-  li.nav-item
-    a.nav-link(href="/status") System Status
+  +navbar-link-active()
+  +navbar-link("/status", "System Status")
+  +navbar-link("/help", "Knowedge Base")
+
 block content
   .jumbotron.jumbotron-fluid
     .container
@@ -12,9 +12,12 @@ block content
       p.lead
       | Welcome to your Private Cloud platform! #[br]
       | Please Login to Continue. If you don't have a account, contact your local administrator for assistance.
+      hr.my-4
+      p.lead
+        a.btn.btn-primary.btn-lg(href="/users") Login
   .container
     .card
       h3.card-header System Status
-      include includes/status-list-group.pug
+      include includes/status-list-group
 block additional-libraries
   script(src="assets/javascripts/status.js")

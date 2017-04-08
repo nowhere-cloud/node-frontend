@@ -1,8 +1,7 @@
 extends layout
 
 block menu
-  li.nav-item
-    a.nav-link(href="/") Home
+  +navbar-link("/", "Home")
 
 block content
   .container

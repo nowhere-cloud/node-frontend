@@ -1,19 +1,30 @@
+mixin navbar-link(link, name)
+  li.nav-item
+    a.nav-link(href=link)= name
+
+mixin navbar-link-active()
+  li.nav-item.active
+    a.nav-link(href="#")= title
+
 nav.navbar.fixed-top.navbar-toggleable-md.navbar-inverse.bg-inverse
   h1.navbar-brand.mb-0 Private Cloud
   button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
     span.navbar-toggler-icon
   #navbarSupportedContent.collapse.navbar-collapse
-    ul.navbar-nav.mr-auto
-      block menu
-      if user
+    if user
+      ul.navbar-nav.mr-auto
+        block menu
         block menu-user
-    if !hideNavLoginButton
       .form-inline.my-2.my-lg-0
-        if user
-          .btn-toolbar.offset-md-2.col-md-10
-            .btn-group.mr-2
-              a.btn.btn-outline-primary.my-2.my-sm-0(href="/users") Access Control Panel
-            .btn-group
-              a.btn.btn-outline-success.my-2.my-sm-0(href="/users/logout") Access Control Panel
-        else
+        .btn-toolbar
+          .btn-group.mr-2
+            a.btn.btn-outline-primary.my-2.my-sm-0(href="/users") Access Control Panel
+          .btn-group
+            a.btn.btn-outline-success.my-2.my-sm-0(href="/users/logout") Logout
+    else
+      ul.navbar-nav.mr-auto
+        block menu
+      if !hideNavLoginButton
+        .form-inline.my-2.my-lg-0
           a.btn.btn-outline-primary.my-2.my-sm-0(href="/users") Login
+

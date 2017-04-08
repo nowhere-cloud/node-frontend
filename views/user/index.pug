@@ -1,22 +1,37 @@
 extends ../layout
 
 block menu
-  li.nav-item
-    a.nav-link(href="/") Home
-  li.nav-item
-    a.nav-link(href="/status") System Status
-
-block menu-user
-  li.nav-item.active
-    a.nav-link(href="/users") Operation Hub
-
-block breadcrumb
-  li.breadcrumb-item
-    a(href="/") Home
-  li.breadcrumb-item
-    | User Panel
+  +navbar-link("/", "Home")
+  +navbar-link("/status", "System Status")
+  +navbar-link("/help", "Knowledge Base")
 
 block content
   .container
-    h1 Welcome! #{user}
+    h1 Welcome! #{user.username}
     p What would you like to do today?
+  .container
+    .card-deck
+      .card
+        h3.card-header Manage VMs
+        .card-block
+          p.card-text Spin up, Spin down, all goes here
+        .card-footer
+          a.btn.btn-primary.btn-block(href="/users/instances") Click
+      .card
+        h3.card-header Manage DNS
+        .card-block
+          p.card-text You won't want to remember a big chunk of numbers.
+        .card-footer
+          a.btn.btn-primary.btn-block(href="/users/dns") Click
+      .card
+        h3.card-header Get Help
+        .card-block
+          p.card-text Read instructions before operate.
+        .card-footer
+          a.btn.btn-primary.btn-block(href="/help") Click
+      .card
+        h3.card-header Security
+        .card-block
+          p.card-text You are advised to change your password regularly.
+        .card-footer
+          a.btn.btn-primary.btn-block(href="/users/profile") Click

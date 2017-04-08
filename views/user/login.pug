@@ -1,17 +1,13 @@
 extends ../layout
 
 block menu
-  li.nav-item
-    a.nav-link(href="/") Home
-  li.nav-item
-    a.nav-link(href="/status") System Status
+  +navbar-link("/", "Home")
+  +navbar-link("/status", "System Status")
+  +navbar-link("/help", "Knowledge Base")
+
 block breadcrumb
-  li.breadcrumb-item
-    a(href="/") Home
-  li.breadcrumb-item
-    | User Panel
-  li.breadcrumb-item
-    | Login
+  +breadcrumb-item-nolink("Operations Hub")
+
 block content
   .container
     h1 #{title}
@@ -22,6 +18,7 @@ block content
       .alert.alert-success !{successMessage}
     .card
       form.card-block(method="post")
+        input(type="hidden" name="_csrf" value=`${csrfToken}`)
         .form-group.row
           label.col-md-2.col-form-label(for="username") Username
           .col-md-10
@@ -29,15 +26,14 @@ block content
         .form-group.row
           label.col-md-2.col-form-label(for="password") Password
           .col-md-10
-            input.form-control(type="password", name="password", id="password" required)
-        input(type="hidden" name="_csrf" value=`${csrfToken}`)
+            input.form-control(type="password", name="password", id="password", required)
         .form-group.row
           .btn-toolbar.offset-md-2.col-md-10
             .btn-group.mr-2
               button.btn.btn-primary(type="submit")
                 | Login
             .btn-group
-              button.btn.btn-success(type="reset")
+              button.btn.btn-secondary(type="reset")
                 | Reset
 
 block additional-libraries

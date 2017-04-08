@@ -10,17 +10,29 @@ const Stylus          = require('stylus');
 const Auth            = require('./helpers/authenticator');
 const Session         = require('express-session');
 const Flash           = require('connect-flash');
+const containerized   = require('containerized');
 
 /* Express Core */
 const app = Express();
 
-// Get key from environment variables
-// Error if Such Key Not Found. Important for Session Security
-// Generate a random key on development environment.
+/**
+ * Get key from environment variables
+ * Error if Such Key Not Found. Important for Session Security
+ * Generate a random key on development environment.
+ */
 if (!process.env.SESS_KEY && app.get('env') !== 'development') {
   throw new Error('Crictical Error: No Crypt Words Defined. This word is important for maintain user security');
 }
 const secret_key = app.get('env') === 'development' ? Auth.SHA256(Math.random()) : process.env.SESS_KEY;
+
+/**
+ * Prevent the application running in container as development mode
+ * for security due to devlopment code are fused in for simplicity
+ */
+if(containerized() && app.get('env') === 'development') {
+  throw new Error('Crictical Error: YOU ARE NOT ALLOWED TO RUN ME IN DEVELOPMENT MODE !!!');
+}
+
 
 /* Load Various Supporting Middleware */
 

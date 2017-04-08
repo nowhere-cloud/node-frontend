@@ -95,11 +95,11 @@ const deSerialize = (uid, cb) => {
  * @return {Null}
  */
 const EnsureUserIsLoggedIn = (req, res, next) => {
-  if (req.user) {
+  if (req.user || req.app.get('env') === 'development') {
     return next();
-  } else {
-    res.redirect('/users/login');
   }
+
+  res.redirect('/users/login');
 };
 
 /**
@@ -111,6 +111,12 @@ const EnsureUserIsLoggedIn = (req, res, next) => {
 const SetGlobalUserInstance = (req, res, next) => {
   if (req.user) {
     res.locals.user = req.user;
+  }
+  if (req.app.get('env') === 'development') {
+    res.locals.user = {
+      id: 9999,
+      username: 'foo'
+    };
   }
   next();
 };

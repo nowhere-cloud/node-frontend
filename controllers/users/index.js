@@ -8,7 +8,7 @@ const Auth      = require('../../helpers/authenticator');
 /* GET users listing. */
 Router.get('/', Auth.UserProtector, (req, res, next) => {
   res.render('user/index', {
-    title: 'Operation Hub',
+    title: 'Operations Hub',
     breadcrumb: true
   });
 });
@@ -35,7 +35,14 @@ Router.get('/logout', Auth.Logout, (req, res, next) => {
 });
 
 Router.get('/profile', Auth.UserProtector, (req, res,next) => {
-
+  // TODO: Fill Frontend Template
+  res.render('user/profile', {
+    breadcrumb: true,
+    csrfToken: req.csrfToken(),
+    title: 'Change Password',
+    errorMessage: req.flash('error'),
+    successMessage: req.flash('success')
+  });
 });
 
 Router.post('/profile', Auth.UserProtector, Auth.ChangePassword, (req, res, next) => {

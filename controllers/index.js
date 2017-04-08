@@ -21,4 +21,11 @@ Router.use('/users', require('./users/'));
 // Admin UX
 Router.use('/admin', require('./admin/'));
 
+Router.use('/help', (req, res, next) => {
+  res.render('help', {
+    title: 'Knowledge Base',
+    breadcrumb: true
+  });
+});
+
 module.exports = Router;

@@ -1,25 +1,20 @@
 extends layout
 
 block menu
-  li.nav-item
-    a.nav-link(href="/") Home
-  li.nav-item.active
-    a.nav-link(href="#") System Status
-block breadcrumb
-  li.breadcrumb-item
-    a(href="/") Home
-  li.breadcrumb-item.active
-    | System Status
+  +navbar-link("/", "Home")
+  +navbar-link-active()
+  +navbar-link("/help", "Knowedge Base")
+
 block content
   .container
     h1 #{title}
     p How's the system going?
     .card
       h3.card-header System Status
-      include includes/status-list-group.pug
+      include includes/status-list-group
       h3.card-header System Health Statistics (Events)
-      include includes/status-syslog-ovv.pug
+      include includes/status-syslog-ovv
     hr
     p Last Updated: #[span#now]
 block additional-libraries
-  script(src="assets/javascripts/status.js")
+  script(src="/assets/javascripts/status.js")

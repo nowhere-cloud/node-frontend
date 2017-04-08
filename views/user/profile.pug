@@ -1,0 +1,64 @@
+extends ../layout
+
+block menu
+  +navbar-link("/", "Home")
+  +navbar-link("/status", "System Status")
+  +navbar-link("/help", "Knowledge Base")
+
+block breadcrumb
+  +breadcrumb-item("/users", "Operations Hub")
+
+block content
+  .container
+    h1= title
+    p For your security, it is suggested to change the password regularly.
+    if errorMessage.length
+      .alert.alert-danger !{errorMessage}
+    if successMessage.length
+      .alert.alert-success !{successMessage}
+    .card
+      form.card-block(method="post")
+        input(type="hidden" name="_csrf" value=`${csrfToken}`)
+        .form-group.row
+          label.col-md-2.col-form-label(for="username") Username
+          .col-md-10
+            p.form-control-static= user.username
+        .form-group.row
+          label.col-md-2.col-form-label(for="password") New Password
+          .col-md-10
+            input.form-control(type="password", name="password", id="password")
+        .form-group.row
+          label.col-md-2.col-form-label(for="password") Confirmation
+          .col-md-10
+            input.form-control(type="password", name="cfm_password", id="cfm_password")
+        .form-group.row
+          .btn-toolbar.offset-md-2.col-md-2.mt-2
+            .btn-group.mr-2
+              button.btn.btn-primary(type="submit")
+                | Submit
+            .btn-group
+              button.btn.btn-secondary(type="reset")
+                | Reset
+          .col-md-4.mt-2
+            button.btn.btn-info#gen-password(type="button")
+              | No Idea? Generate!
+
+  .modal.fade(tabindex="-1", role="dialog")#passwordGenerate
+    .modal-dialog(role="document")
+      .modal-content
+        .modal-header
+          h5.modal-title Password Generator
+          button.close(type="button", data-dismiss="modal", aria-label="Close")
+            span(aria-hidden="true") &times;
+        .modal-body
+          h2.mb-0#generatedPassword
+            | thisisthepassword
+          p 
+            | Double Click and #[kbd Ctrl + C] to copy the password.
+          button.btn.btn-block.btn-primary(type="button")#generatePasswordNow Generate
+        .modal-footer
+          button.btn.btn-primary(type="button")#ApplyGenerated Apply This Password
+          button.btn.btn-secondary(type="button", data-dismiss="modal") Close
+
+block additional-libraries
+  script(src="/assets/javascripts/confirm.js")
