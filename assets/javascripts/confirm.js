@@ -30,7 +30,7 @@
   const GeneratePasswordFunction = () => {
     let stra = Math.random().toString(36).slice(-11);
     let strb = Math.random().toString(36).slice(-11);
-    let concat = String(stra + strb);
+    let concat = String(stra + strb).replace(/\./g,'a');
     return concat.split('').sort(function () {
       return 0.5 - Math.random();
     }).join('');
@@ -44,10 +44,6 @@
   $(document).ready(() => {
     $('#generatePasswordNow').on('click', () => {
       GeneratePassword();
-    });
-
-    $('#gen-password').on('click', () => {
-      modal.modal('show');
     });
 
     $('#ApplyGenerated').on('click', () => {

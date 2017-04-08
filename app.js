@@ -38,11 +38,6 @@ if(containerized() && app.get('env') === 'development') {
 
 app.set('views', Path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-app.use(Stylus.middleware({
-  src: Path.join(__dirname, 'assets'),
-  dest: Path.join(__dirname, 'public/assets'),
-  compress: app.get('env') === 'development' ? false : true
-}));
 app.use(Express.static(Path.join(__dirname, 'public')));
 
 // Post Body Parser

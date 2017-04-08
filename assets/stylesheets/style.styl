@@ -2,17 +2,39 @@ body
   padding-top: 70px
   padding-bottom: 70px
 
-.old-browser-warning
-  font-family: serif
-  font-weight: 800
+.old-browser
+  color: white
+  background: crimson
   text-align: center
-  background: red
+  vertical-align: middle
+  font-weight: 800
   padding: 5px
   margin: -16px 0px 20px 0px
 
-.better-choise
-  color: aqua
+.old-browser.warning
+  font-family: serif
+
+.old-browser.better
+  display: none
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) 
+  //-- Put your IE specific css class here 
+  //-- https://philipnewcomer.net/2014/04/target-internet-explorer-10-11-css/
+  .old-browser.better
+    display: block
+
+a.better
   text-decoration: none !important
+  margin: 0px 5px 0px 5px
+  padding: 0px 2px 0px 2px
+
+a.better.choise
+  background: green
+  color: white
+
+a.better.logout
+  background: yellow
+  color: black
 
 #generatedPassword
   padding-bottom: 15px

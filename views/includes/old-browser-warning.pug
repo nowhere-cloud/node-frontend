@@ -1,5 +1,10 @@
-<!--[if lt IE 9]>
-  .old-browser-warning
-    | This browser does not comply with the system security standard and the modern world. 
-    a.better-choise(href="http://browsehappy.com/") Consider a better choice TODAY!
+<!--[if lte IE 9]>
+  .old-browser.warning
+    | This web browser is crap, outdated, clumsy, dangerous and an evil to modern world. 
+    a.better.choise(href="http://browsehappy.com/") Consider a better choice TODAY!
 <![endif]-->
+.old-browser.better
+  | You deserves a better web browser. Don't be evil. 
+  a.better.choise(href="http://browsehappy.com/") Consider a better choice TODAY! 
+  if (user)
+  a.better.logout(href="/users/logout") Logout.

@@ -9,11 +9,15 @@ block content
   .container
     h1 #{title}
     p How's the system going?
-    .card
-      h3.card-header System Status
-      include includes/status-list-group
-      h3.card-header System Health Statistics (Events)
-      include includes/status-syslog-ovv
+    .row
+      .col-md.mr-md-1.mb-1
+        .card
+          h3.card-header System Status
+          include includes/status-list-group
+      .col-md.ml-md-1
+        .card
+          h3.card-header System Health Statistics (Events)
+          include includes/status-syslog-ovv
     hr
     p Last Updated: #[span#now]
 block additional-libraries
