@@ -22,15 +22,15 @@ block content
         .form-group.row
           label.col-md-2.col-form-label(for="username") Username
           .col-md-10
-            p.form-control-static= user.username
+            p.form-control-static= userdata.username
         .form-group.row
           label.col-md-2.col-form-label(for="password") New Password
           .col-md-10
-            input.form-control(type="password", name="password", id="password")
+            input.form-control(type="password", name="password", id="password", required)
         .form-group.row
           label.col-md-2.col-form-label(for="password") Confirmation
           .col-md-10
-            input.form-control(type="password", name="cfm_password", id="cfm_password")
+            input.form-control(type="password", name="cfm_password", id="cfm_password", required)
         .form-group
           .row
             .btn-toolbar.offset-md-2.col-md-4

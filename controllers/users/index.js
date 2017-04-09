@@ -6,7 +6,7 @@ const Passport  = require('passport');
 const Auth      = require('../../helpers/authenticator');
 
 /* GET users listing. */
-Router.get('/', Auth.UserProtector, (req, res, next) => {
+Router.get('/', Auth.UserProtector, Auth.User.GetProfile, (req, res, next) => {
   res.render('user/index', {
     title: 'Operations Hub',
     breadcrumb: true
@@ -34,8 +34,7 @@ Router.get('/logout', Auth.Logout, (req, res, next) => {
   res.redirect('/');
 });
 
-Router.get('/profile', Auth.UserProtector, (req, res,next) => {
-  // TODO: Fill Frontend Template
+Router.get('/profile', Auth.UserProtector, Auth.User.GetProfile, (req, res,next) => {
   res.render('user/profile', {
     breadcrumb: true,
     csrfToken: req.csrfToken(),
@@ -45,7 +44,7 @@ Router.get('/profile', Auth.UserProtector, (req, res,next) => {
   });
 });
 
-Router.post('/profile', Auth.UserProtector, Auth.ChangePassword, (req, res, next) => {
+Router.post('/profile', Auth.UserProtector, Auth.User.UpdatePassword, (req, res, next) => {
   res.redirect('/user/profile');
 });
 

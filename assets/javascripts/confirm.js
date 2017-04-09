@@ -28,8 +28,8 @@
   // END Validator
 
   const GeneratePasswordFunction = () => {
-    let stra = Math.random().toString(36).slice(-11);
-    let strb = Math.random().toString(36).slice(-11);
+    let stra = Math.random().toString(36).slice(-10);
+    let strb = Math.random().toString(36).slice(-10);
     let concat = String(stra + strb).replace(/\./g,'a');
     return concat.split('').sort(function () {
       return 0.5 - Math.random();
@@ -47,12 +47,11 @@
     });
 
     $('#ApplyGenerated').on('click', () => {
+      password.value = confirm.value = generated;
       modal.modal('hide');
     });
 
-    modal.on('hide.bs.modal', () => {
-      password.value = confirm.value = generated;
-    }).on('show.bs.modal', () => {
+    modal.on('show.bs.modal', () => {
       GeneratePassword();
     });
   });

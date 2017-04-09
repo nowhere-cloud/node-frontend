@@ -88,7 +88,7 @@ const deSerialize = (uid, cb) => {
 };
 
 /**
- * Check if the specified user is authenticated
+ * Private Zone Protection
  * @param  {Object}   req  Express//Connect Request
  * @param  {Object}   res  Express//Connect Response
  * @param  {Function} next Call next middleware
@@ -109,14 +109,8 @@ const EnsureUserIsLoggedIn = (req, res, next) => {
  * @param  {Function} next Call next middleware
  */
 const SetGlobalUserInstance = (req, res, next) => {
-  if (req.user) {
-    res.locals.user = req.user;
-  }
-  if (req.app.get('env') === 'development') {
-    res.locals.user = {
-      id: 9999,
-      username: 'foo'
-    };
+  if (req.user || req.app.get('env') === 'development') {
+    res.locals.user = true;
   }
   next();
 };
@@ -137,7 +131,7 @@ const StoreInstance = new SessionStore({
  * @param  {Function} next Call next middleware
  */
 const Logout = (req, res, next) => {
-  req.session.destroy();
+  req.logout();
   next();
 };
 
@@ -190,20 +184,46 @@ const DeleteUser = (req, res, next) => {
 };
 
 /**
- * Find User by ID
+ * Find User by ID, from requested
  * @param  {Object}   req  Express//Connect Request
  * @param  {Object}   res  Express//Connect Response
  * @param  {Function} next Call next middleware
  */
-const FindUserById = (req, res, next) => {
+const Admin_GetUserProfile = (req, res, next) => {
   User.findById(
     Sanitizer.sanitize(req.body.userid)
   ).then((user) => {
+    delete user.password;
     res.locals.userdata = user;
     next();
   }).catch((err) => {
     return next(err);
   });
+};
+
+/**
+ * Find User by ID, from local passport object
+ * @param  {Object}   req  Express//Connect Request
+ * @param  {Object}   res  Express//Connect Response
+ * @param  {Function} next Call next middleware
+ */
+const User_GetProfile = (req, res, next) => {
+  if (req.app.get('env') !== 'development') {
+    User.findById(req.user)
+      .then((user) => {
+        delete user.password;
+        res.locals.userdata = user;
+        next();
+      }).catch((err) => {
+        return next(err);
+      });
+  } else {
+    res.locals.userdata = {
+      id: 9999,
+      username: 'foo'
+    };
+    return next();
+  }
 };
 
 /**
@@ -216,6 +236,7 @@ const FindUserByUsername = (req, res, next) => {
   User.findOne({
     username: Sanitizer.sanitize(req.body.username)
   }).then((user) => {
+    delete user.password;
     res.locals.userdata = user;
     next();
   }).catch((err) => {
@@ -224,13 +245,32 @@ const FindUserByUsername = (req, res, next) => {
 };
 
 /**
- * Update Password
+ * Update Password, for Users
  * @param  {Object}   req  Express//Connect Request
  * @param  {Object}   res  Express//Connect Response
  * @param  {Function} next Call next middleware
  */
-const UpdatePassword = (req, res, next) => {
-  User.findById(req.user.id).then((user) => {
+const User_UpdatePassword = (req, res, next) => {
+  User.findById(req.user).then((user) => {
+    return user.update({
+      password: GenerateSHA256(req.body.password)
+    });
+  }).then(() => {
+    req.flash('success', 'Password Updated.');
+    return next();
+  }).catch((err) => {
+    return next(err);
+  });
+};
+
+/**
+ * Update Password, for admin form
+ * @param  {Object}   req  Express//Connect Request
+ * @param  {Object}   res  Express//Connect Response
+ * @param  {Function} next Call next middleware
+ */
+const Admin_UpdatePassword = (req, res, next) => {
+  User.findById(Sanitizer.sanitize(req.body.userid)).then((user) => {
     return user.update({
       password: GenerateSHA256(req.body.password)
     });
@@ -252,10 +292,16 @@ module.exports = {
   Passport: Passport,
   SHA256: GenerateSHA256,
   Logout: Logout,
-  NewUser: CreateUser,
-  DeleteUser: DeleteUser,
-  FindUserById: FindUserById,
-  FindUserByUsername: FindUserByUsername,
-  ChangePassword: UpdatePassword,
+  User: {
+    UpdatePassword: User_UpdatePassword,
+    GetProfile: User_GetProfile
+  },
+  Admin: {
+    NewUser: CreateUser,
+    DeleteUser: DeleteUser,
+    FindUserById: Admin_GetUserProfile,
+    FindUserByUsername: FindUserByUsername,
+    UpdatePassword: Admin_UpdatePassword
+  },
   SessionStore: StoreInstance
 };
