@@ -5,12 +5,11 @@ block menu
 
 block content
   .container
-    .card
-      h3.card-header= error.status || 500
-      .card-block
-        p.card-text #{message}
+    .alert.alert-danger
+      h4.alert-heading= error.status
+      p= message
       if error.stack
-        .card-block
+        p
           details
-            summary.card-text StackTrace
+            summary StackTrace
             pre.card-text= error.stack

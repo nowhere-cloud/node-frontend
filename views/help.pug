@@ -10,6 +10,20 @@ block content
     h1 #{title}
     p Need Help?
   .container
-    // TODO!
-    p TODO.
+    div#accordion(role="tablist", aria-multiselectable="true")
+      .card
+        #headingThree.card-header(role="tab")
+          h5.mb-0
+            a.collapsed(data-toggle="collapse", data-parent="#accordion", href="#collapseThree", aria-expanded="false", aria-controls="collapseThree")
+              | How to Connect to my Server?
+        #collapseThree.collapse(role="tabpanel", aria-labelledby="headingThree")
+          include _partials/ssh-fake-vpn
+      .card
+        #headingThree.card-header(role="tab")
+          h5.mb-0
+            a.collapsed(data-toggle="collapse", data-parent="#accordion", href="#collapseThree", aria-expanded="false", aria-controls="collapseThree")
+              | How to Connect to my Server?
+        #collapseThree.collapse(role="tabpanel", aria-labelledby="headingThree")
+          include _partials/ssh-fake-vpn
+
 block additional-libraries

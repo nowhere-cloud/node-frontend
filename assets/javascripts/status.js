@@ -110,7 +110,9 @@ class PrettyDate {
    */
   $(document).ready(() => {
     $('#now').html(DateString.getTodayDate() + ' @ ' + DateString.getCurrentTime());
-    loadStatus();
-    if ($('#status-health-metrics').length > 0) loadStats();
+    if ($('#load-status-please').length > 0) {
+      loadStatus();
+      loadStats();
+    }
   });
 })(jQuery);

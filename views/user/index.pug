@@ -10,36 +10,38 @@ block content
   .container
     .card-deck
       .card
-        h3.card-header Manage VMs
+        h4.card-header Manage VMs
         .card-block
           p.card-text Spin up, Spin down, all goes here
         .card-footer
           a.btn.btn-primary.btn-block(href="/users/instances") Click
       .card
-        h3.card-header Manage DNS
+        h4.card-header Manage DNS
         .card-block
           p.card-text You won't want to remember a big chunk of numbers.
         .card-footer
           a.btn.btn-primary.btn-block(href="/users/dns") Click
       .card
-        h3.card-header Get Help
+        h4.card-header Get Help
         .card-block
           p.card-text Read instructions before operate.
         .card-footer
           a.btn.btn-primary.btn-block(href="/help") Click
       .card
-        h3.card-header Security
+        h4.card-header Security
         .card-block
           p.card-text You are advised to change your password regularly.
         .card-footer
           a.btn.btn-primary.btn-block(href="/users/profile") Click
-    .card-deck.mt-md-2.hidden-md-down
+  .container.mt-md-2.hidden-md-down
+    .card-deck#load-status-please
       .card
-        h3.card-header System Status
+        h4.card-header System Status
         include ../includes/status-list-group
       .card
-        h3.card-header System Health Statistics (Events)
+        h4.card-header System Health Statistics (Events)
         include ../includes/status-syslog-ovv
+    p Last Updated: #[span#now]
 
 block additional-libraries
   script(src="/assets/javascripts/status.js")

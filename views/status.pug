@@ -10,14 +10,14 @@ block content
     h1 #{title}
     p How's the system going?
   .container
-    .card-deck
+    .card-deck#load-status-please
       .card
-        h3.card-header System Status
+        h4.card-header System Status
         include includes/status-list-group
       .card
-        h3.card-header System Health Statistics (Events)
+        h4.card-header System Health Statistics (Events)
         include includes/status-syslog-ovv
-    hr
     p Last Updated: #[span#now]
+
 block additional-libraries
   script(src="/assets/javascripts/status.js")

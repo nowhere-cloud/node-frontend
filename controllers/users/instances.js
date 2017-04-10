@@ -6,7 +6,7 @@ const Auth      = require('../../helpers/authenticator');
 
 Router.get('/', Auth.UserProtector, (req, res, next) => {
   res.render('user/instances', {
-    title: 'Virtual Machine Instances',
+    title: 'Virtual Machines',
     breadcrumb: true
   });
 });
