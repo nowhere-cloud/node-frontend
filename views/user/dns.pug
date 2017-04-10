@@ -1,0 +1,12 @@
+extends ../layout
+
+block menu
+  include common-topbar-user
+
+block breadcrumb
+  +breadcrumb-item("/users", "Operations Hub")
+
+block content
+  .container
+    h1= title
+    p Manage your internal DNS Alias here.

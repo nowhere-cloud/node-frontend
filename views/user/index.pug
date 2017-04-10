@@ -1,9 +1,7 @@
 extends ../layout
 
 block menu
-  +navbar-link("/", "Home")
-  +navbar-link("/status", "System Status")
-  +navbar-link("/help", "Knowledge Base")
+  include common-topbar-user
 
 block content
   .container
@@ -35,3 +33,13 @@ block content
           p.card-text You are advised to change your password regularly.
         .card-footer
           a.btn.btn-primary.btn-block(href="/users/profile") Click
+    .card-deck.mt-md-2.hidden-md-down
+      .card
+        h3.card-header System Status
+        include ../includes/status-list-group
+      .card
+        h3.card-header System Health Statistics (Events)
+        include ../includes/status-syslog-ovv
+
+block additional-libraries
+  script(src="/assets/javascripts/status.js")

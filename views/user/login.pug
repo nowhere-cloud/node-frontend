@@ -1,9 +1,7 @@
 extends ../layout
 
 block menu
-  +navbar-link("/", "Home")
-  +navbar-link("/status", "System Status")
-  +navbar-link("/help", "Knowledge Base")
+  include common-topbar-user
 
 block breadcrumb
   +breadcrumb-item-nolink("Operations Hub")

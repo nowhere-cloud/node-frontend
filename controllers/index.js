@@ -2,7 +2,7 @@
 
 const express = require('express');
 const Proxy   = require('express-http-proxy');
-const Router = express.Router();
+const Router  = express.Router();
 
 /* GET home page. */
 Router.get('/', (req, res, next) => {
@@ -21,11 +21,10 @@ Router.use('/users', require('./users/'));
 // Admin UX
 Router.use('/admin', require('./admin/'));
 
-Router.use('/help', (req, res, next) => {
-  res.render('help', {
-    title: 'Knowledge Base',
-    breadcrumb: true
-  });
-});
+// Knowledge Base
+Router.use('/help', require('./help'));
+
+// API Tunnel for test.
+Router.use('/api', require('./api'));
 
 module.exports = Router;

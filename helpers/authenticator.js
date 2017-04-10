@@ -98,8 +98,7 @@ const EnsureUserIsLoggedIn = (req, res, next) => {
   if (req.user || req.app.get('env') === 'development') {
     return next();
   }
-
-  res.redirect('/users/login');
+  res.redirect('/');
 };
 
 /**
