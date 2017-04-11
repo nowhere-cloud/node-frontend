@@ -145,14 +145,14 @@ const CreateUser = (req, res, next) => {
     username: Sanitizer.sanitize(req.body.username)
   }).then((user) => {
     if (user) {
-      req.flash('error', 'User: ' + req.body.username + ' already occupied.');
+      req.flash('error', `User: ${req.body.username} already occupied.`);
       return next();
     } else {
       User.create({
         username: Sanitizer.sanitize(req.body.username),
         password: GenerateSHA256(req.body.password)
       }).then(function (user) {
-        req.flash('success', 'User: ' + req.body.username + ' created.');
+        req.flash('success', `User: ${req.body.username} created.`);
         return next();
       }).catch((err) => {
         return next(err);
@@ -175,7 +175,7 @@ const DeleteUser = (req, res, next) => {
   }).then((user) => {
     return user.destroy();
   }).then(() => {
-    req.flash('success', 'User: ' + req.body.username + ' deleted.');
+    req.flash('success', `User: ${req.body.username} deleted.`);
     return next();
   }).catch((err) => {
     return next(err);

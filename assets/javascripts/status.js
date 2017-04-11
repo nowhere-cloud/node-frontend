@@ -23,7 +23,7 @@ class PrettyDate {
    * @memberOf PrettyDate
    */
   getTodayDate() {
-    return ((this.now.getDate() < 10) ? '0' : '') + this.now.getDate() + '/' + (((this.now.getMonth() + 1) < 10) ? '0' : '') + (this.now.getMonth() + 1) + '/' + this.now.getFullYear();
+    return `${(this.now.getDate() < 10) ? '0' : ''}${this.now.getDate()}/${((this.now.getMonth() + 1) < 10) ? '0' : ''}${this.now.getMonth() + 1}/${this.now.getFullYear()}`;
   }
 
   /**
@@ -34,7 +34,7 @@ class PrettyDate {
    * @memberOf PrettyDate
    */
   getCurrentTime() {
-    return ((this.now.getHours() < 10) ? '0' : '') + this.now.getHours() + ':' + ((this.now.getMinutes() < 10) ? '0' : '') + this.now.getMinutes() + ':' + ((this.now.getSeconds() < 10) ? '0' : '') + this.now.getSeconds();
+    return `${(this.now.getHours() < 10) ? '0' : ''}${this.now.getHours()}:${(this.now.getMinutes() < 10) ? '0' : ''}${this.now.getMinutes()}:${(this.now.getSeconds() < 10) ? '0' : ''}${this.now.getSeconds()}`;
   }
 
   /**
@@ -71,10 +71,10 @@ class PrettyDate {
    */
   const loadStatus = () => {
     $.each(service_nicknames, (index, el) => {
-      $.get('/status/api/' + el).done(() => {
-        $('#status-' + el).removeClass('badge-default').addClass('badge-success').html('OK');
+      $.get(`/status/api/${el}`).done(() => {
+        $(`#status-${el}`).removeClass('badge-default').addClass('badge-success').html('OK');
       }).fail(() => {
-        $('#status-' + el).removeClass('badge-default').addClass('badge-danger').html('Error');
+        $(`status-${el}`).removeClass('badge-default').addClass('badge-danger').html('Error');
       });
     });
   };
@@ -94,7 +94,7 @@ class PrettyDate {
           if (el._id >= 6) {
             return true;
           } else {
-            _w.addClass('list-group-item-' + severity_DOM[el._id]).html(severity_Human[el._id]);
+            _w.addClass(`list-group-item-${severity_DOM[el._id]}`).html(severity_Human[el._id]);
             $('<span/>').addClass('badge badge-default badge-pill').html(el.count).appendTo(_w);
           }
           _w.appendTo('#status-health-metrics');
@@ -109,7 +109,7 @@ class PrettyDate {
    * Do these on load
    */
   $(document).ready(() => {
-    $('#now').html(DateString.getTodayDate() + ' @ ' + DateString.getCurrentTime());
+    $('#now').html(`${DateString.getTodayDate()} @ ${DateString.getCurrentTime()}`);
     if ($('#load-status-please').length > 0) {
       loadStatus();
       loadStats();

@@ -55,7 +55,7 @@ Gulp.task('Compile CSS and Generate SourceMap', () => {
 });
 
 Gulp.task('clean', () => {
-  return DEL(['public/assets/**/*']);
+  return DEL(['public/assets/javascripts/*', 'public/assets/stylesheets/*']);
 });
 
 Gulp.task('default', ['Transpile and Minify JavaScript', 'Compile and Minify CSS']);

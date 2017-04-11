@@ -60,9 +60,9 @@ function onError(error) {
   // handle specific listen errors with friendly messages
   switch (error.code) {
   case 'EACCES':
-    throw new Error(bind + ' requires elevated privileges');
+    throw new Error(`${bind} requires elevated privileges`);
   case 'EADDRINUSE':
-    throw new Error(bind + ' is already in use');
+    throw new Error(`${bind} is already in use`);
   default:
     throw error;
   }
@@ -77,7 +77,7 @@ function onListening() {
   let bind = typeof addr === 'string' ?
     'pipe ' + addr :
     'port ' + addr.port;
-  console.log('Listening on ' + bind);
+  debug(`Listening on ${bind}`);
 }
 
 /**
