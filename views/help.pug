@@ -12,18 +12,21 @@ block content
   .container
     div#accordion(role="tablist", aria-multiselectable="true")
       .card
-        #headingThree.card-header(role="tab")
+        .card-header(role="tab")
           h5.mb-0
-            a.collapsed(data-toggle="collapse", data-parent="#accordion", href="#collapseThree", aria-expanded="false", aria-controls="collapseThree")
+            a.collapsed(data-toggle="collapse", data-parent="#accordion", href="#collapse-chrome")
               | How to Connect to my Server?
-        #collapseThree.collapse(role="tabpanel", aria-labelledby="headingThree")
-          include _partials/ssh-fake-vpn
+        #collapse-chrome.collapse(role="tabpanel")
+          include _partials/ssh-chrome
       .card
-        #headingThree.card-header(role="tab")
+        .card-header(role="tab")
           h5.mb-0
-            a.collapsed(data-toggle="collapse", data-parent="#accordion", href="#collapseThree", aria-expanded="false", aria-controls="collapseThree")
-              | How to Connect to my Server?
-        #collapseThree.collapse(role="tabpanel", aria-labelledby="headingThree")
-          include _partials/ssh-fake-vpn
-
+            a.collapsed(data-toggle="collapse", data-parent="#accordion", href="#collapse-meep")
+              | License Information
+        #collapse-meep.collapse(role="tabpanel")
+          .card-block
+            p.card-text
+              | This private cloud solution is a open sourced software.
+            p.card-text
+              | Unless explict specified, all codes are licensed under MIT License.
 block additional-libraries

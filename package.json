@@ -5,8 +5,7 @@
   "scripts": {
     "start": "node ./bin/block-for-mysql.js && node ./bin/www.js",
     "build": "gulp clean && gulp",
-    "build-dev": "gulp development",
-    "build-watch": "gulp watch"
+    "build-dev": "gulp clean && gulp development"
   },
   "dependencies": {
     "body-parser": "~1.16.0",
@@ -35,8 +34,8 @@
     "gulp-babel": "^6.1.2",
     "gulp-clean-css": "^3.0.4",
     "gulp-cli": "^1.2.2",
+    "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.5.1",
-    "gulp-stylus": "^2.6.0",
     "gulp-uglify": "^2.1.2",
     "sqlite3": "^3.1.8"
   }

@@ -6,7 +6,6 @@ const Logger          = require('morgan');
 const cookieParser    = require('cookie-parser');
 const bodyParser      = require('body-parser');
 const CSRF            = require('csurf');
-const Stylus          = require('stylus');
 const Auth            = require('./helpers/authenticator');
 const Session         = require('express-session');
 const Flash           = require('connect-flash');
@@ -102,7 +101,7 @@ app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-  
+
   // render the error page
   res.status(err.status || 500).render('error', {
     title: 'Error'

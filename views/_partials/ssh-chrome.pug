@@ -1,0 +1,28 @@
+.card-block
+  p.card-text
+    | 1. There are a various SSH Client available on Chrome Web Store. But most of them does not support Port Forwarding.
+  a.btn.btn-success(href="https://chrome.google.com/webstore/detail/termius-ssh-client/fjcdjmmkgnkgihjnlbgcdamkadlkbmam")
+    | #[strong Download] Terminus - SSH Client
+  p.card-text.pt-2
+    | 2. Lauch the Client from your Chrome Applications Panel
+  p.card-text
+    | 3.1. You need #[strong TWO] SSH Sessions. Connect to Gateway First.
+    img.img-fluid(src="/assets/images/chrome-s03.png")
+  p.card-text
+    | 3.2. Fill the connection information.
+    img.img-fluid(src="/assets/images/chrome-s05.png")
+  p.card-text
+    | 4. Double Click to connect.
+    | Usually there will be a question regarding the Key Authentication. Click #[strong YES] to continue.
+    img.img-fluid(src="/assets/images/chrome-s04.png")
+  p.card-text
+    | 5.1. Click #[strong Port Forwarding] On the left to create a Port Forwarding Session.
+    img.img-fluid(src="/assets/images/chrome-s06.png")
+  p.card-text
+    | 5.2. Select #[strong Saved Gateway Connection] as #[strong Host From]. Fill any number between 1025 and 65534 as #[strong Port From]
+    | Fill your VMs #[strong IP Address] into #[strong Host to], Port #[strong 22] into #[strong Port to]. Click #[strong Save].
+    img.img-fluid(src="/assets/images/chrome-s07.png")
+  p.card-text
+    | 6. Click the newly created Forwarding Entry to Activate the Tunnel. Repeat Step 3.1 - 4 to access the shell of your server.
+  p.card-text
+    | 7. Repeat Step 5 to 6 if you need to access services on your VM.
