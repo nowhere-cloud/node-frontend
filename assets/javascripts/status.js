@@ -74,7 +74,7 @@ class PrettyDate {
       $.get(`/status/api/${el}`).done(() => {
         $(`#status-${el}`).removeClass('badge-default').addClass('badge-success').html('OK');
       }).fail(() => {
-        $(`status-${el}`).removeClass('badge-default').addClass('badge-danger').html('Error');
+        $(`#status-${el}`).removeClass('badge-default').addClass('badge-danger').html('Error');
       });
     });
   };
@@ -101,7 +101,7 @@ class PrettyDate {
         });
       }
     }).fail((error) => {
-      $('#status-health-metrics').html(error);
+      $('#status-health-metrics').html(error_stats);
     });
   };
 

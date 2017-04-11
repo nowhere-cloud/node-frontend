@@ -7,7 +7,7 @@ block content
   .container
     h1 Welcome! #{userdata.username}
     p What would you like to do today?
-  .container
+  .container.mb-md-1.hidden-md-down
     .card-deck
       .card
         h4.card-header Manage VMs
@@ -21,6 +21,8 @@ block content
           p.card-text You won't want to remember a big chunk of numbers.
         .card-footer
           a.btn.btn-primary.btn-block(href="/users/dns") Click
+  .container.mt-md-1.mb-md-1
+    .card-deck
       .card
         h4.card-header Get Help
         .card-block
@@ -33,7 +35,7 @@ block content
           p.card-text You are advised to change your password regularly.
         .card-footer
           a.btn.btn-primary.btn-block(href="/users/profile") Click
-  .container.mt-md-2.hidden-md-down
+  .container.mt-md-1.hidden-md-down
     .card-deck#load-status-please
       .card
         h4.card-header System Status
