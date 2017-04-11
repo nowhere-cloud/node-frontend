@@ -12,14 +12,14 @@
  * 3. ES6 Optimized.
  */
 
-const DBConnection = require('../models').sequelize;
-const User = require('../models').User;
-const Passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const debug = require('debug')('authenticator');
-const Session = require('express-session');
-const SessionStore = require('connect-session-sequelize')(Session.Store);
-const Sanitizer = require('sanitizer');
+const DBConnection    = require('../models').sequelize;
+const User            = require('../models').User;
+const Passport        = require('passport');
+const LocalStrategy   = require('passport-local').Strategy;
+const debug           = require('debug')('authenticator');
+const Session         = require('express-session');
+const SessionStore    = require('connect-session-sequelize')(Session.Store);
+const Sanitizer       = require('sanitizer');
 let SHA256;
 let Native = true;
 
@@ -98,7 +98,7 @@ const EnsureUserIsLoggedIn = (req, res, next) => {
   if (req.user || req.app.get('env') === 'development') {
     return next();
   }
-  res.redirect('/');
+  res.redirect('/users/auth/login');
 };
 
 /**
