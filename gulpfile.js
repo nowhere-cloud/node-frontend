@@ -7,12 +7,6 @@ const DEL       = require('del');
 const CleanCSS  = require('gulp-clean-css');
 const SourceMaps = require('gulp-sourcemaps');
 
-const Buble_options = {
-  'presets': [
-    'env'
-  ]
-};
-
 const CleanCSS_options = {
   'compress': true
 };
@@ -31,7 +25,7 @@ const sass_path = 'assets/stylesheets/*.s+(a|c)ss';
 
 Gulp.task('Transpile and Minify JavaScript', () => {
   return Gulp.src(js_path)
-    .pipe(Buble(Buble_options))
+    .pipe(Buble())
     .pipe(Uglify(Uglify_options))
     .pipe(Gulp.dest('public/assets/javascripts'));
 });
