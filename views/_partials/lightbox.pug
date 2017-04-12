@@ -1,0 +1,13 @@
+.modal.fade#lightbox
+  .modal-dialog.modal-lg(role='document')
+    .modal-content
+      .modal-header
+        h5.modal-title View Photo
+        button.close(type='button', data-dismiss='modal', aria-label='Close')
+          span(aria-hidden='true') &times;
+      .modal-body
+        img.img-fluid#lightboximage(src="")
+        a.btn.btn-block.btn-primary#lightboxlink.mt-2(href="", target='_blank')
+          | Open in new Window
+      .modal-footer
+        button.btn.btn-secondary(type='button', data-dismiss='modal') Close

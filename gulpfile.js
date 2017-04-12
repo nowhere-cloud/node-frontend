@@ -1,11 +1,15 @@
 'use strict';
 const Gulp      = require('gulp');
-const Buble     = require('gulp-buble')
+const Babel     = require('gulp-babel');
 const Sass      = require('gulp-sass');
 const Uglify    = require('gulp-uglify');
 const DEL       = require('del');
 const CleanCSS  = require('gulp-clean-css');
 const SourceMaps = require('gulp-sourcemaps');
+
+const Babel_options = {
+  'presets': ['env']
+};
 
 const CleanCSS_options = {
   'compress': true
@@ -25,7 +29,7 @@ const sass_path = 'assets/stylesheets/*.s+(a|c)ss';
 
 Gulp.task('Transpile and Minify JavaScript', () => {
   return Gulp.src(js_path)
-    .pipe(Buble())
+    .pipe(Babel(Babel_options))
     .pipe(Uglify(Uglify_options))
     .pipe(Gulp.dest('public/assets/javascripts'));
 });
@@ -40,7 +44,7 @@ Gulp.task('Compile and Minify CSS', () => {
 Gulp.task('Transpile JavaScript and Generate SourceMap', () => {
   return Gulp.src(js_path)
     .pipe(SourceMaps.init())
-    .pipe(Buble())
+    .pipe(Babel(Babel_options))
     .pipe(SourceMaps.write('.'))
     .pipe(Gulp.dest('public/assets/javascripts'));
 });
