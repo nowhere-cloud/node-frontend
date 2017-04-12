@@ -24,6 +24,7 @@ const Sass_options = {
   indentedSyntax: true
 };
 
+const pjs_path = 'assets/_javascripts/*.j+(s|sx|sm)';
 const js_path = 'assets/javascripts/*.j+(s|sx|sm)';
 const sass_path = 'assets/stylesheets/*.s+(a|c)ss';
 
@@ -32,6 +33,13 @@ Gulp.task('Transpile and Minify JavaScript', () => {
     .pipe(Babel(Babel_options))
     .pipe(Uglify(Uglify_options))
     .pipe(Gulp.dest('public/assets/javascripts'));
+});
+
+Gulp.task('Transpile and Minify Protected JavaScript', () => {
+  return Gulp.src(pjs_path)
+    .pipe(Babel(Babel_options))
+    .pipe(Uglify(Uglify_options))
+    .pipe(Gulp.dest('private/assets/javascripts'));
 });
 
 Gulp.task('Compile and Minify CSS', () => {
@@ -49,6 +57,14 @@ Gulp.task('Transpile JavaScript and Generate SourceMap', () => {
     .pipe(Gulp.dest('public/assets/javascripts'));
 });
 
+Gulp.task('Transpile Protected JavaScript and Generate SourceMap', () => {
+  return Gulp.src(pjs_path)
+    .pipe(SourceMaps.init())
+    .pipe(Babel(Babel_options))
+    .pipe(SourceMaps.write('.'))
+    .pipe(Gulp.dest('private/assets/javascripts'));
+});
+
 Gulp.task('Compile CSS and Generate SourceMap', () => {
   return Gulp.src(sass_path)
     .pipe(SourceMaps.init())
@@ -58,9 +74,9 @@ Gulp.task('Compile CSS and Generate SourceMap', () => {
 });
 
 Gulp.task('clean', () => {
-  return DEL(['public/assets/javascripts/*', 'public/assets/stylesheets/*']);
+  return DEL(['private/assets/javascripts/*', 'public/assets/javascripts/*', 'public/assets/stylesheets/*']);
 });
 
-Gulp.task('default', ['Transpile and Minify JavaScript', 'Compile and Minify CSS']);
+Gulp.task('default', ['Transpile and Minify JavaScript', 'Transpile and Minify Protected JavaScript', 'Compile and Minify CSS']);
 
-Gulp.task('development', ['Transpile JavaScript and Generate SourceMap', 'Compile CSS and Generate SourceMap']);
+Gulp.task('development', ['Transpile JavaScript and Generate SourceMap', 'Transpile Protected JavaScript and Generate SourceMap', 'Compile CSS and Generate SourceMap']);

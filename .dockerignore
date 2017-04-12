@@ -6,8 +6,7 @@ node_modules
 .gitignore
 .pug-lintrc
 .tern-project
-.babelrc
 gulpfile.js
-assets/javascripts
+assets/
 LICENSE
 nodemon.json
