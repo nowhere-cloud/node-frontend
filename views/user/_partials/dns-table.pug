@@ -1,25 +1,16 @@
-table.table.table-responsive
-  thead
+if payload.length
+  each value, index in payload
     tr
-      th Type
-      th Name
-      th IPv4 Address
-      th IPv6 Address
-      th Value
-      th Action
-  tbody
-    if payload.length
-      each value in payload
-        tr
-          td= value.type
-          td= value.name
-          td= value.ipv4address
-          td= value.ipv6address
-          td= value.cname
-          td.clearfix
-            .btn-group.float-right.ml-0.mr-0
-              button.btn.btn-sm.btn-primary.dns-edit(data-entryid=`value.id`) Edit
-              button.btn.btn-sm.btn-danger.dns-delete(data-entryid=`value.id`) Delete
-    else
-      tr.table-info
-        td(rowspan="6") No Records
+      td= index
+      td= value.type
+      td= value.name
+      td= value.ipv4address
+      td= value.ipv6address
+      td= value.cname
+      td.clearfix
+        .btn-group.float-right.ml-0.mr-0
+          button.btn.btn-sm.btn-primary.dns-edit(data-entryid=`value.id`) Edit
+          button.btn.btn-sm.btn-danger.dns-delete(data-entryid=`value.id`) Delete
+else
+  tr.table-info
+    td(colspan="7") No Records

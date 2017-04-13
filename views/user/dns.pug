@@ -12,10 +12,21 @@ block content
     p Manage your internal DNS Alias here.
   .container.hidden-md-down
     .card
-      .card-block#dns-loadhere
-        p.card-text Loading...
       .card-block
-        button.mb-0.btn.btn-block.btn-primary#dns-new New Entry
+        button.mb-0.btn.btn-block.btn-primary.dns-new New Entry
+      table.table
+        thead
+          tr
+            th #
+            th Type
+            th Name
+            th IPv4 Address
+            th IPv6 Address
+            th Value
+            th Action
+        tbody#dns-loadhere
+      .card-block
+        button.mb-0.btn.btn-block.btn-primary.dns-new New Entry
   .container.hidden-lg-up
     .card
       .card-block
