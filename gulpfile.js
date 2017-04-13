@@ -1,11 +1,11 @@
 'use strict';
-const Gulp      = require('gulp');
-const Babel     = require('gulp-babel');
-const Sass      = require('gulp-sass');
-const Uglify    = require('gulp-uglify');
-const DEL       = require('del');
-const CleanCSS  = require('gulp-clean-css');
-const SourceMaps = require('gulp-sourcemaps');
+const Gulp        = require('gulp');
+const Babel       = require('gulp-babel');
+const Sass        = require('gulp-sass');
+const Uglify      = require('gulp-uglify');
+const DEL         = require('del');
+const CleanCSS    = require('gulp-clean-css');
+const SourceMaps  = require('gulp-sourcemaps');
 
 const Babel_options = {
   'presets': ['env']
@@ -39,7 +39,7 @@ Gulp.task('Transpile and Minify Protected JavaScript', () => {
   return Gulp.src(pjs_path)
     .pipe(Babel(Babel_options))
     .pipe(Uglify(Uglify_options))
-    .pipe(Gulp.dest('private/assets/javascripts'));
+    .pipe(Gulp.dest('private/assets'));
 });
 
 Gulp.task('Compile and Minify CSS', () => {
@@ -62,7 +62,7 @@ Gulp.task('Transpile Protected JavaScript and Generate SourceMap', () => {
     .pipe(SourceMaps.init())
     .pipe(Babel(Babel_options))
     .pipe(SourceMaps.write('.'))
-    .pipe(Gulp.dest('private/assets/javascripts'));
+    .pipe(Gulp.dest('private/assets'));
 });
 
 Gulp.task('Compile CSS and Generate SourceMap', () => {
@@ -74,7 +74,7 @@ Gulp.task('Compile CSS and Generate SourceMap', () => {
 });
 
 Gulp.task('clean', () => {
-  return DEL(['private/assets/javascripts/*', 'public/assets/javascripts/*', 'public/assets/stylesheets/*']);
+  return DEL(['private/assets/**/*', 'public/assets/javascripts/*', 'public/assets/stylesheets/*']);
 });
 
 Gulp.task('default', ['Transpile and Minify JavaScript', 'Transpile and Minify Protected JavaScript', 'Compile and Minify CSS']);

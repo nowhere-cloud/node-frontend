@@ -20,4 +20,6 @@ Router.use('/dns', require('./dns'));
 
 Router.use('/instances', require('./instances'));
 
+Router.use('/assets', require('./assets'));
+
 module.exports = Router;

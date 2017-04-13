@@ -1,0 +1,1 @@
+"use strict";!function(t){var s=t("<div/>").addClass("alert alert-danger mb-0"),a=function(){t("#dns-loadhere").load("/users/dns/partials/list",function(a,e,r){"error"===e&&(s.html(r.status+" "+r.statusText),t("#dns-loadhere").html(s))})};t(document).ready(function(){a()})}(jQuery);

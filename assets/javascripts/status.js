@@ -55,7 +55,7 @@ class PrettyDate {
    * Generate two list-group-item for stats
    */
   const empty_stats = $('<div/>').addClass('list-group-item list-group-item-info').html('Not Available');
-  const error_stats = $('<div/>').addClass('list-group-item list-group-item-danger').html('Error While Retreving System Statistics');
+  const error_stats = $('<div/>').addClass('list-group-item list-group-item-danger');
 
   // Static List of endpoint nicknames
   const service_nicknames = ['umeda', 'tonda', 'ikeda', 'suita', 'yamada', 'sonoda'];
@@ -101,6 +101,7 @@ class PrettyDate {
         });
       }
     }).fail((error) => {
+      error_stats.html(`${error.status} ${error.statusText}`);
       $('#status-health-metrics').html(error_stats);
     });
   };

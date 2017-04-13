@@ -1,2 +1,3 @@
 **/*{.,-}min.js
-public/javascripts
+public/assets/**/*.js
+private/assets/**/*.js
