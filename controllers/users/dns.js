@@ -15,10 +15,18 @@ Router.get('/', (req, res, next) => {
 });
 
 Router.get('/partials/list', (req, res, next) => {
-  HTTP.JSON(`http://api-gate:3000/dns/search/byuser/${req.user}`).then((data) => {
+  HTTP.GetJSON(`http://api-gate:3000/dns/search/byuser/${req.user}`).then((data) => {
     res.render('user/_partials/dns/dns-table', {
       payload: data
     });
+  }).catch((err) => {
+    return next(err);
+  });
+});
+
+Router.post('/', (req, res, next) => {
+  HTTP.PostJSON('http://api-gate:3000/dns/create', {}).then((data) => {
+    res.json(data);
   }).catch((err) => {
     return next(err);
   });
