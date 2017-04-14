@@ -14,24 +14,15 @@ block content
     .card
       .card-block
         button.mb-0.btn.btn-block.btn-primary.dns-new New Entry
-      table.table
-        thead
+      table.table#dns-loadhere
+        tbody
           tr
-            th #
-            th Type
-            th Name
-            th IPv4 Address
-            th IPv6 Address
-            th Value
-            th Action
-        tbody#dns-loadhere
-      .card-block
-        button.mb-0.btn.btn-block.btn-primary.dns-new New Entry
-  .container.hidden-lg-up
-    .card
-      .card-block
-        p.card-text We're sorry, but this function is not supported on mobile devices.
-        p.card-text If you are using tablets, please rotate your device to a landscape position.
-
+            td(colspan="7")
+              .progress
+                .progress-bar.progress-bar-striped.progress-bar-animated(style="width: 100%")
+      .card-block.pt-0
+        button.mb-0.btn.btn-block.btn-primary(type="button", data-toggle="modal" data-target="#NewDNS") New Entry
+  include ../includes/mobile_not_supported.pug
+  include _partials/dns-form.pug
 block additional-libraries
   script(src='/users/assets/kalafina.js')

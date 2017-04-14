@@ -15,6 +15,17 @@
   };
 
   $(document).ready(() => {
-    load();
+    setTimeout(() => {
+      load();
+    }, 2000);
+  });
+
+  // Reset Form
+  $('#new-reset').on('click', (e) => {
+    $('#new-dns')[0].reset();
+  });
+
+  $('#NewDNS').on('show.bs.modal', () => {
+    $('#new-dns')[0].reset();
   });
 })(jQuery);

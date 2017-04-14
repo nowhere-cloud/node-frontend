@@ -12,10 +12,10 @@ block content
     p Manage your Virtual Machines here.
   .container.hidden-md-down
     .card
-      .card-block#loading
-        p.card-text Loading...
-  .container.hidden-lg-up
-    .card
-      .card-block
-        p.card-text We're sorry, but this function is not supported on mobile devices.
-        p.card-text If you are using tablets, please rotate your device to a landscape position.
+      table.table#VM-loadhere
+        tbody
+          tr
+            td(colspan="7")
+              .progress
+                .progress-bar.progress-bar-striped.progress-bar-animated(style="width: 100%")
+  include ../includes/mobile_not_supported.pug

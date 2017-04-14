@@ -16,3 +16,8 @@ Front-End of the Nowhere Private Cloud Solution
 * Node.js >= v6.10
 * npm is installed
 
+## Views Terminology
+- ___partials __
+  - This Template is intended for loaded as over AJAX or shown directly
+- __includes__
+  - Contains reusable components (Lightbox, breadcrumbs, etc.)

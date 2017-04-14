@@ -2,6 +2,7 @@
 
 const Express   = require('express');
 const Router    = Express.Router();
+const Sanitizer = require('sanitizer');
 const Auth      = require('../../helpers/authenticator');
 const HTTP      = require('../../helpers/promise-http');
 
@@ -25,7 +26,14 @@ Router.get('/partials/list', (req, res, next) => {
 });
 
 Router.post('/', (req, res, next) => {
-  HTTP.PostJSON('http://api-gate:3000/dns/create', {}).then((data) => {
+  HTTP.PostJSON('http://api-gate:3000/dns/create', {
+    type: Sanitizer.sanitize(req.body.type),
+    name: Sanitizer.sanitize(req.body.name),
+    ipv4address: Sanitizer.sanitize(req.body.ip4),
+    ipv6address: Sanitizer.sanitize(req.body.ip6),
+    cname: Sanitizer.sanitize(req.body.opt),
+    UserId: req.user
+  }).then((data) => {
     res.json(data);
   }).catch((err) => {
     return next(err);

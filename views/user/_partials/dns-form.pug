@@ -1,0 +1,32 @@
+#NewDNS.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5#exampleModalLabel.modal-title New DNS Record
+        button.close(type='button', data-dismiss='modal', aria-label='Close')
+          span(aria-hidden='true') &times;
+      form.modal-body#new-dns
+        input(type="hidden" name="_csrf" value=`${csrfToken}`)
+        .form-group
+          label(for='dns-type-new') Record Type
+          select#dns-type-new.form-control(name='type', required)
+            option(value="A") A / AAAA
+            option(value="CNAME") CNAME
+        .form-group
+          label(for='dns-name-new') Name (Domain)
+          input#dns-name-new.form-control(type='text', name='name', required)
+        .form-group
+          label(for='ipv4-new') IPv4 Address
+          input#ipv4-new.form-control(type='text', name='ip4')
+        .form-control
+          label(for='ipv6-new') IPv6 Address
+          input#ipv6-new.form-control(type='text', name='ip6')
+        .form-control
+          label(for='cname-new') Value
+          input#optval-new.form-control(type='text', name='opt')
+          p.form-text.text-muted.
+            For #[b CNAME] Records Only.
+      .modal-footer
+        button.btn.btn-primary#new-submit(type='button') Submit
+        button.btn.btn-secondary#new-reset(type='button') Reset
+        button.btn.btn-secondary(type='button', data-dismiss='modal') Close
