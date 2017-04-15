@@ -12,17 +12,21 @@ block content
     p Manage your internal DNS Alias here.
   .container.hidden-md-down
     .card
-      .card-block
-        button.mb-0.btn.btn-block.btn-primary.dns-new New Entry
+      if errorMessage.length
+        .card-block
+          .alert.alert-danger !{errorMessage}
+      if successMessage.length
+        .card-block
+          .alert.alert-success !{successMessage}
       table.table#dns-loadhere
         tbody
           tr
             td(colspan="7")
-              .progress
-                .progress-bar.progress-bar-striped.progress-bar-animated(style="width: 100%")
-      .card-block.pt-0
+              include ../includes/loading-bar.pug
+      .card-footer
         button.mb-0.btn.btn-block.btn-primary(type="button", data-toggle="modal" data-target="#NewDNS") New Entry
   include ../includes/mobile_not_supported.pug
   include _partials/dns-form.pug
+  include _partials/dns-edit.pug
 block additional-libraries
   script(src='/users/assets/kalafina.js')

@@ -5,7 +5,7 @@
         h5#exampleModalLabel.modal-title New DNS Record
         button.close(type='button', data-dismiss='modal', aria-label='Close')
           span(aria-hidden='true') &times;
-      form.modal-body#new-dns
+      form.modal-body(method="POST", action="./")#new-dns
         input(type="hidden" name="_csrf" value=`${csrfToken}`)
         .form-group
           label(for='dns-type-new') Record Type
@@ -18,15 +18,22 @@
         .form-group
           label(for='ipv4-new') IPv4 Address
           input#ipv4-new.form-control(type='text', name='ip4')
-        .form-control
+          .form-control-feedback#ip4-feedback Invalid IPv4
+        .form-group
           label(for='ipv6-new') IPv6 Address
           input#ipv6-new.form-control(type='text', name='ip6')
-        .form-control
+          p.form-text.text-muted.
+            Leave blank if you don't have IPv6 Address
+        .form-group
           label(for='cname-new') Value
           input#optval-new.form-control(type='text', name='opt')
           p.form-text.text-muted.
             For #[b CNAME] Records Only.
+        .form-group
+          .btn-toolbar
+            .btn-group.mr-1
+              button.btn.btn-primary#new-submit(type='submit') Submit
+            .btn-group.ml-1
+              button.btn.btn-secondary#new-reset(type='reset') Reset
       .modal-footer
-        button.btn.btn-primary#new-submit(type='button') Submit
-        button.btn.btn-secondary#new-reset(type='button') Reset
         button.btn.btn-secondary(type='button', data-dismiss='modal') Close

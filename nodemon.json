@@ -1,4 +1,4 @@
 {
   "verbose": true,
-  "ignore": ["assets/javascripts/*", "public/javascripts/*", "*.pug", "gulpfile.js"]
+  "ignore": ["assets/**/*", "public/**/*", "private/**/*", "gulpfile.js"]
 }

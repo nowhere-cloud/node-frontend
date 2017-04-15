@@ -107,7 +107,59 @@ const HTTPPostJSONClient = (endpoint, postData) => {
   return promise;
 };
 
+/**
+ * Patch
+ * @param {[type]} endpoint Post Endpoint
+ * @param {*} postData Post Data
+ */
+const HTTPPatchJSONClient = (endpoint, postData) => {
+  let url = URL.parse(endpoint);
+  let promise = new Promise((fulfill, reject) => {
+    let request = HTTP.request({
+      hostname: url.hostname,
+      port: url.port,
+      method: 'PATCH',
+      path: url.path,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }, (res) => {
+      const {statusCode} = res;
+
+      let error;
+      if (statusCode !== 200) {
+        error = new Error(`Request Failed. Status Code: ${statusCode}`);
+      }
+      if (error) {
+        reject(error);
+        // consume response data to free up memory
+        res.resume();
+        return;
+      }
+
+      res.setEncoding('utf8');
+      let rawData = '';
+      res.on('data', (chunk) => {
+        rawData += chunk;
+      });
+      res.on('end', () => {
+        try {
+          fulfill(JSON.parse(rawData));
+        } catch (e) {
+          reject(e);
+        }
+      });
+    }).on('error', (e) => {
+      reject(e);
+    });
+    request.write(JSON.stringify(postData));
+    request.end();
+  });
+  return promise;
+};
+
 module.exports = {
   GetJSON: HTTPGetJSONClient,
-  PostJSON: HTTPPostJSONClient
+  PostJSON: HTTPPostJSONClient,
+  PatchJSON: HTTPPatchJSONClient
 };
