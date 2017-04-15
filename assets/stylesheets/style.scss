@@ -1,0 +1,62 @@
+body {
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+
+.old-browser {
+  color: white;
+  background: crimson;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: 800;
+  padding: 5px;
+  margin: -16px 0 20px;
+
+  &.warning {
+    font-family: serif;
+  }
+
+  &.better {
+    display: none;
+  }
+}
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  //-- Put your IE specific css class here
+  //-- https://philipnewcomer.net/2014/04/target-internet-explorer-10-11-css/
+  //-- This show suggestions for user using IE10 + 11
+  .old-browser.better {
+    display: block;
+  }
+}
+
+a.better {
+  text-decoration: none !important;
+  margin: 0 5px;
+  padding: 0 2px;
+
+  &.choise {
+    background: green;
+    color: white;
+  }
+
+  &.logout {
+    background: yellow;
+    color: black;
+  }
+}
+
+#generatedPassword {
+  padding-bottom: 15px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.overflow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.form-control-feedback {
+  display: hidden;
+}

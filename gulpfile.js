@@ -21,7 +21,7 @@ const Uglify_options = {
 };
 
 const Sass_options = {
-  indentedSyntax: true
+
 };
 
 const pjs_path = 'assets/_javascripts/*.j+(s|sx|sm)';

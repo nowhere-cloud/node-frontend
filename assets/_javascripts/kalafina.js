@@ -79,12 +79,24 @@
     e.preventDefault();
     if(CheckIP4($('#ipv4-new').value())) {
       $('#ipv4-new').addClass('form-control-danger');
-      $('.form-control-feedback#ip4-feedback').show();
+      $('#ip4-feedback').show();
       return false;
     }
     if($('#ipv6-new').value() === '') {
       $('#ipv6-new').value(GenerateIP6($('#ipv4-new').value()));
+    }
+    this.submit();
+  });
+
+  $('#edit-dns').on('submit', '.dns-edit-form', function (e) {
+    e.preventDefault();
+    if(CheckIP4($('#ipv4-edit').value())) {
+      $('#ipv4-edit').addClass('form-control-danger');
+      $('#ip4-edit-feedback').show();
       return false;
+    }
+    if($('#ipv6-edit').value() === '') {
+      $('#ipv6-edit').value(GenerateIP6($('#ipv4-new').value()));
     }
     this.submit();
   });

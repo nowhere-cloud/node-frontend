@@ -1,10 +1,10 @@
 'use strict';
 
-const Express   = require('express');
-const Router    = Express.Router();
+const Express = require('express');
+const Router = Express.Router();
 const Sanitizer = require('sanitizer');
-const Auth      = require('../../helpers/authenticator');
-const HTTP      = require('../../helpers/promise-http');
+const Auth = require('../../helpers/authenticator');
+const HTTP = require('../../helpers/promise-http');
 
 let MockData = [
   {
@@ -14,8 +14,7 @@ let MockData = [
     ipv4address: '128.56.0.1',
     ipv6address: '::FFFF:8038:1',
     cname: ''
-  },
-  {
+  }, {
     id: 1,
     type: 'CNAME',
     name: 'testdomain2',
@@ -38,27 +37,30 @@ Router.get('/', (req, res, next) => {
 });
 
 Router.get('/partials/list', (req, res, next) => {
-  // HTTP.GetJSON(`http://api-gate:3000/dns/search/byuser/${req.user}`).then((data) => {
-  //   res.render('user/_partials/dns-table', {
-  //     payload: data
-  //   });
-  // }).catch((err) => {
-  //   return next(err);
-  // });
-  res.render('user/_partials/dns-table', {
-    payload: MockData
+  HTTP.GetJSON(`http://api-gate:3000/dns/search/byuser/${req.user}`).then((data) => {
+    res.render('user/_partials/dns-table', {
+      payload: data
+    });
+  }).catch((err) => {
+    return next(err);
   });
+  res.render('user/_partials/dns-table', {payload: MockData});
 });
 
-Router.get('/partials/form/:entryID', (req, res, next) => {
-  // HTTP.GetJSON(`http://api-gate:3000/dns/${req.params.entryID}`).then((data) => {
-  //   res.render('user/_partials/dns-edit-form', {
-  //     csrfToken: req.csrfToken(),
-  //     payload: data
-  //   });
-  // }).catch((err) => {
-  //   return next(err);
-  // });
+Router.get('/partials/form/:entryID((\\d+))', (req, res, next) => {
+  HTTP.GetJSON(`http://api-gate:3000/dns/${req.params.entryID}`).then((data) => {
+    if (data !== {}) {
+      res.render('user/_partials/dns-edit-form', {
+        csrfToken: req.csrfToken(),
+        payload: data
+      });
+    } else {
+      req.flash('error', `DNS Entry ID: ${req.params.entryID} Not Found.`);
+      res.redirect('/users/dns');
+    }
+  }).catch((err) => {
+    return next(err);
+  });
   res.render('user/_partials/dns-edit-form', {
     csrfToken: req.csrfToken(),
     payload: MockData[req.params.entryID]
@@ -81,15 +83,53 @@ Router.post('/', (req, res, next) => {
   });
 });
 
-Router.post('/patch/:id', (req, res, next) => {
-  HTTP.PatchJSON(`http://api-gate:3000/dns/${Sanitizer.sanitize(req.params.id)}`, {
-    type: Sanitizer.sanitize(req.body.type),
-    name: Sanitizer.sanitize(req.body.name),
-    ipv4address: Sanitizer.sanitize(req.body.ip4),
-    ipv6address: Sanitizer.sanitize(req.body.ip6),
-    cname: Sanitizer.sanitize(req.body.opt)
+Router.post('/patch', (req, res, next) => {
+  // Get and Patch is designated for security in mind. Make Sure the target item is alive.
+  HTTP.GetJSON(`http://api-gate:3000/dns/${Sanitizer.sanitize(req.body.woot)}`).then((data) => {
+    if (data !== {} && data.UserId === req.user) {
+      return HTTP.PatchJSON(`http://api-gate:3000/dns/${data.id}`, {
+        type: data.type,
+        name: Sanitizer.sanitize(req.body.name),
+        ipv4address: Sanitizer.sanitize(req.body.ip4),
+        ipv6address: Sanitizer.sanitize(req.body.ip6),
+        cname: Sanitizer.sanitize(req.body.opt)
+      });
+    } else {
+      return {};
+    }
   }).then((data) => {
-    res.json(data);
+    if (data !== {}) {
+      req.flash('success', `DNS Entry ${data.type} - ${data.name} Updated.`);
+    } else {
+      req.flash('error', `DNS Entry ID: ${req.params.entryID} Not Found.`);
+    }
+    res.redirect('/users/dns');
+  }).catch((err) => {
+    return next(err);
+  });
+});
+
+Router.get('/delete/:entryID((\\d+))', (req, res, next) => {
+  HTTP.GetJSON(`http://api-gate:3000/dns/${req.params.entryID}`).then((data) => {
+    if (data !== {} && data.UserId === req.user) {
+      return HTTP.DeleteJSON(`http://api-gate:3000/dns/${data.id}`);
+    } else if (data.UserId !== req.user) {
+      return 403;
+    } else {
+      return 404;
+    }
+  }).then((data) => {
+    switch (data) {
+    case 403:
+      req.flash('error', 'Action Not Authorized');
+      break;
+    case 404:
+      req.flash('error', `DNS Entry ID: ${req.params.entryID} Not Found.`);
+      break;
+    default:
+      req.flash('success', `DNS Entry ${data.type} - ${data.name} Updated.`);
+    }
+    res.redirect('/users/dns');
   }).catch((err) => {
     return next(err);
   });
