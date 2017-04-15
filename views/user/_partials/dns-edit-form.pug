@@ -1,0 +1,26 @@
+form
+  input(type="hidden" name="_csrf" value=`${csrfToken}`)
+  input(type="hidden", data-item=`${payload.id}`)
+  .form-group
+    label(for='type') Record Type
+    input.form-control(type='text', name='type', value=`${payload.type}`, readonly)
+  .form-group
+    label(for='dns-name-edit') Name (Domain)
+    input#dns-name-edit.form-control(type='text', name='name', required, value=`${payload.name}`)
+  if (payload.type === 'A')
+    .form-group
+      label(for='ipv4-edit') IPv4 Address
+      input#ipv4-edit.form-control(type='text', name='ipv4address', required, value=`${payload.ipv4address}`)
+    .form-group
+      label(for='ipv6address-edit') IPv6 Address
+      input#ipv6-edit.form-control(type='text', name='ipv6address', required, value=`${payload.ipv6address}`)
+  if (payload.type === 'CNAME')
+    .form-group
+      label(for='cname-new') Value
+      input#cname-edit.form-control(type='text', name='cname', required, value=`${payload.cname}`)
+  .form-group
+    .btn-toolbar
+      .btn-group.mr-2
+        button.btn.btn-primary#edit-submit(type="submit") Submit
+      .btn-group
+        button.btn.btn-secondary(type="reset") Reset
