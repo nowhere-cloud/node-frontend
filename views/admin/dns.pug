@@ -1,0 +1,32 @@
+extends ../layout
+
+block menu
+  include common-topbar-user
+
+block breadcrumb
+  +breadcrumb-item("/admin", "Operations Hub")
+
+block content
+  .container
+    h1= title
+    p Manage your internal DNS Alias here.
+  .container.hidden-md-down
+    .card
+      if errorMessage.length
+        .card-block
+          .alert.alert-danger !{errorMessage}
+      if successMessage.length
+        .card-block
+          .alert.alert-success !{successMessage}
+      table.table#dns-loadhere
+        tbody
+          tr
+            td(colspan="7")
+              include ../includes/loading-bar.pug
+      .card-footer
+        button.mb-0.btn.btn-block.btn-primary(type="button", data-toggle="modal" data-target="#NewDNS") New Entry
+  include ../includes/mobile_not_supported.pug
+  include ../users/_partials/dns-form.pug
+  include ../_partials/dns-edit.pug
+block additional-libraries
+  script(src='/admin/assets/kalafina.js')
