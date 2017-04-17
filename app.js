@@ -15,7 +15,15 @@ const containerized   = require('containerized');
 const app = Express();
 
 /**
- * Get key from environment variables
+ * Prevent the application running in container as development mode
+ * for security due to devlopment code are fused in for simplicity
+ */
+if(containerized() && app.get('env') === 'development') {
+  throw new Error('Crictical Error: YOU ARE NOT ALLOWED TO RUN ME IN DEVELOPMENT MODE !!!');
+}
+
+/**
+ * Get session key from environment variables
  * Error if Such Key Not Found. Important for Session Security
  * Generate a random key on development environment.
  */
@@ -25,13 +33,14 @@ if (!process.env.SESS_KEY && app.get('env') !== 'development') {
 const secret_key = app.get('env') === 'development' ? Auth.SHA256(Math.random()) : process.env.SESS_KEY;
 
 /**
- * Prevent the application running in container as development mode
- * for security due to devlopment code are fused in for simplicity
+ * Get key from environment variables
+ * Error if Such Key Not Found. Important for Session Security
+ * Generate a random key on development environment.
  */
-if(containerized() && app.get('env') === 'development') {
-  throw new Error('Crictical Error: YOU ARE NOT ALLOWED TO RUN ME IN DEVELOPMENT MODE !!!');
+if (!process.env.BOOT_KEY && app.get('env') !== 'development') {
+  throw new Error('Crictical Error: No Initial Admin Password Defined.');
 }
-
+const boot_key = app.get('env') === 'development' ? Auth.SHA256('secret') : Auth.SHA256(process.env.BOOT_KEY);
 
 /* Load Various Supporting Middleware */
 
@@ -65,9 +74,15 @@ app.use(CSRF());
 app.use(Flash());
 
 /* Authentication Stuffs */
+const mash_key = Auth.SHA256(Math.random());
+app.set('mash_key', mash_key);
+app.set('admn_key', Auth.SHA256(`${mash_key}${boot_key}${mash_key}`));
 
 // Create Authenticator
-Auth.Passport.use(Auth.Strategy);
+Auth.Passport.use('local-user', Auth.User.Strategy);
+
+// Create Admin Site Protection
+Auth.Passport.use('local-admin', Auth.Admin.Strategy);
 
 // Connect Authenticator to User Model
 Auth.Passport.serializeUser(Auth.Serialize);

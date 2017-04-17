@@ -11,7 +11,6 @@
  * 2. Extracted into a seperate file and called as CommonJS Module.
  * 3. ES6 Optimized.
  */
-
 const DBConnection    = require('../models').sequelize;
 const User            = require('../models').User;
 const Passport        = require('passport');
@@ -47,7 +46,7 @@ const GenerateSHA256 = (source) => {
 /**
  * Passport Strategy
  */
-const Strategy = new LocalStrategy((username, password, callback) => {
+const User_Strategy = new LocalStrategy((username, password, callback) => {
   User.findOne({
     where: {
       username: username
@@ -64,6 +63,22 @@ const Strategy = new LocalStrategy((username, password, callback) => {
     return callback(err);
   });
 });
+
+/**
+ * Passport Strategy
+ */
+const Admin_Strategy = new LocalStrategy((username, password, callback) => {
+  let mash = global.mash_key;
+  let admn = global.admn_key;
+  if (SHA256(`${mash}${SHA256(password)}${mash}`) !== admn) {
+    return callback(null, false);
+  }
+  return callback(null, {
+    id: 0,
+    username: 'Administrator'
+  });
+});
+
 
 /**
  * Passport Serialize
@@ -268,7 +283,7 @@ const User_UpdatePassword = (req, res, next) => {
  * @param  {Object}   res  Express//Connect Response
  * @param  {Function} next Call next middleware
  */
-const Admin_UpdatePassword = (req, res, next) => {
+const Admin_UpdateUserPassword = (req, res, next) => {
   User.findById(Sanitizer.sanitize(req.body.userid)).then((user) => {
     return user.update({
       password: GenerateSHA256(req.body.password)
@@ -281,9 +296,22 @@ const Admin_UpdatePassword = (req, res, next) => {
   });
 };
 
+/**
+ * Update Personal Password, for admin
+ * @param  {Object}   req  Express//Connect Request
+ * @param  {Object}   res  Express//Connect Response
+ * @param  {Function} next Call next middleware
+ */
+const Admin_UpdateOwnPassword = (req, res, next) => {
+  const mash = global.mash_key;
+  const pass = SHA256(Sanitizer.sanitize(req.body.password));
+  global.admn_key = SHA256(`${mash}${pass}${mash}`);
+  req.flash('success', 'Password Updated.');
+  return next();
+};
+
 module.exports = {
   Connection: DBConnection,
-  Strategy: Strategy,
   Serialize: Serialize,
   deSerialize: deSerialize,
   UserProtector: EnsureUserIsLoggedIn,
@@ -292,6 +320,7 @@ module.exports = {
   SHA256: GenerateSHA256,
   Logout: Logout,
   User: {
+    Strategy: User_Strategy,
     UpdatePassword: User_UpdatePassword,
     GetProfile: User_GetProfile
   },
@@ -300,7 +329,8 @@ module.exports = {
     DeleteUser: DeleteUser,
     FindUserById: Admin_GetUserProfile,
     FindUserByUsername: FindUserByUsername,
-    UpdatePassword: Admin_UpdatePassword
+    UpdateUserPassword: Admin_UpdateUserPassword,
+    UpdateOwnPassword: Admin_UpdateOwnPassword
   },
   SessionStore: StoreInstance
 };

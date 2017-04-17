@@ -5,12 +5,12 @@ const Router = Express.Router();
 const Auth = require('../../helpers/authenticator');
 
 Router.get('/', (req, res, next) => {
-  res.redirect('../');
+  res.redirect('/');
 });
 
 Router.route('/login')
   .get((req, res, next) => {
-    res.render('user/login', {
+    res.render('admin/login', {
       breadcrumb: true,
       csrfToken: req.csrfToken(),
       title: 'Login',
@@ -19,7 +19,7 @@ Router.route('/login')
       hideNavLoginButton: true
     });
   })
-  .post(Auth.Passport.authenticate('local-user', {
+  .post(Auth.Passport.authenticate('local-admin', {
     successRedirect: '../',
     failureRedirect: './',
     failureFlash: true
