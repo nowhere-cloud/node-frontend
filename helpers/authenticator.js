@@ -75,7 +75,9 @@ const Admin_Strategy = new LocalStrategy((username, password, callback) => {
   }
   return callback(null, {
     id: 0,
-    username: 'Administrator'
+    username: 'Administrator',
+    password: 'youwontseemeinthewildasthiswouldbediscardedduringserialization',
+    admin: true
   });
 });
 
@@ -86,7 +88,8 @@ const Admin_Strategy = new LocalStrategy((username, password, callback) => {
  * @param {*} cb   Callback
  */
 const Serialize = (user, cb) => {
-  cb(null, user.id);
+  delete user.password;
+  cb(null, user);
 };
 
 /**
@@ -124,7 +127,7 @@ const EnsureUserIsLoggedIn = (req, res, next) => {
  */
 const SetGlobalUserInstance = (req, res, next) => {
   if (req.user || req.app.get('env') === 'development') {
-    res.locals.user = true;
+    res.locals.userdata = req.user;
   }
   next();
 };
@@ -216,31 +219,6 @@ const Admin_GetUserProfile = (req, res, next) => {
 };
 
 /**
- * Find User by ID, from local passport object
- * @param  {Object}   req  Express//Connect Request
- * @param  {Object}   res  Express//Connect Response
- * @param  {Function} next Call next middleware
- */
-const User_GetProfile = (req, res, next) => {
-  if (req.app.get('env') !== 'development') {
-    User.findById(req.user)
-      .then((user) => {
-        delete user.password;
-        res.locals.userdata = user;
-        next();
-      }).catch((err) => {
-        return next(err);
-      });
-  } else {
-    res.locals.userdata = {
-      id: 9999,
-      username: 'foo'
-    };
-    return next();
-  }
-};
-
-/**
  * Find User by Username
  * @param  {Object}   req  Express//Connect Request
  * @param  {Object}   res  Express//Connect Response
@@ -265,7 +243,7 @@ const FindUserByUsername = (req, res, next) => {
  * @param  {Function} next Call next middleware
  */
 const User_UpdatePassword = (req, res, next) => {
-  User.findById(req.user).then((user) => {
+  User.findById(req.user.id).then((user) => {
     return user.update({
       password: GenerateSHA256(req.body.password)
     });
@@ -310,6 +288,21 @@ const Admin_UpdateOwnPassword = (req, res, next) => {
   return next();
 };
 
+/**
+ * Admin Zone Protection
+ * @param  {Object}   req  Express//Connect Request
+ * @param  {Object}   res  Express//Connect Response
+ * @param  {Function} next Call next middleware
+ * @return {Null}
+ */
+const AdminProtection = (req, res, next) => {
+  if (req.user.admin || req.app.get('env') === 'development') {
+    return next();
+  }
+  res.redirect('/users/auth/login');
+};
+
+
 module.exports = {
   Connection: DBConnection,
   Serialize: Serialize,
@@ -321,8 +314,7 @@ module.exports = {
   Logout: Logout,
   User: {
     Strategy: User_Strategy,
-    UpdatePassword: User_UpdatePassword,
-    GetProfile: User_GetProfile
+    UpdatePassword: User_UpdatePassword
   },
   Admin: {
     NewUser: CreateUser,
@@ -330,7 +322,8 @@ module.exports = {
     FindUserById: Admin_GetUserProfile,
     FindUserByUsername: FindUserByUsername,
     UpdateUserPassword: Admin_UpdateUserPassword,
-    UpdateOwnPassword: Admin_UpdateOwnPassword
+    UpdateOwnPassword: Admin_UpdateOwnPassword,
+    Protection: AdminProtection
   },
   SessionStore: StoreInstance
 };

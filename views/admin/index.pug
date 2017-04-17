@@ -1,0 +1,49 @@
+extends ../layout
+
+block menu
+  include ../user/common-topbar-user.pug
+
+block content
+  .container
+    h1 Welcome! Administrator
+    p What would you like to do today?
+  .container.mb-md-1.hidden-md-down
+    .card-deck
+      .card
+        h4.card-header Manage VMs
+        .card-block
+          p.card-text Spin up, Spin down, all goes here
+        .card-footer
+          a.btn.btn-primary.btn-block(href="/users/instances") Click
+      .card
+        h4.card-header Manage DNS
+        .card-block
+          p.card-text You won't want to remember a big chunk of numbers.
+        .card-footer
+          a.btn.btn-primary.btn-block(href="/users/dns") Click
+  .container.mt-md-1.mb-md-1
+    .card-deck
+      .card
+        h4.card-header Get Help
+        .card-block
+          p.card-text Read instructions before operate.
+        .card-footer
+          a.btn.btn-primary.btn-block(href="/help") Click
+      .card
+        h4.card-header Security
+        .card-block
+          p.card-text You are advised to change your password regularly.
+        .card-footer
+          a.btn.btn-primary.btn-block(href="/admin/profile") Click
+  .container.mt-md-1.hidden-md-down
+    .card-deck#load-status-please
+      .card
+        h4.card-header System Status
+        include ../includes/status-list-group
+      .card
+        h4.card-header System Health Statistics (Events)
+        include ../includes/status-syslog-ovv
+    p Last Updated: #[span#now]
+
+block additional-libraries
+  script(src="/assets/javascripts/status.js")

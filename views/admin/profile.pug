@@ -1,0 +1,60 @@
+extends ../layout
+
+block menu
+  include ../user/common-topbar-user.pug
+
+block breadcrumb
+  +breadcrumb-item("/admin", "Operations Hub")
+
+block content
+  .container
+    h1= title
+    p.
+      For your security, it is suggested to change the password regularly.
+      In case of forgotten password, #[b restart this Docker Container and check #[em BOOT_KEY] variable].
+    if successMessage.length
+      .alert.alert-success !{successMessage}
+    .card
+      form.card-block(method="post")
+        input(type="hidden" name="_csrf" value=`${csrfToken}`)
+        .form-group.row
+          label.col-md-2.col-form-label(for="password") New Password
+          .col-md-10
+            input.form-control(type="password", name="password", id="password", required)
+        .form-group.row
+          label.col-md-2.col-form-label(for="password") Confirmation
+          .col-md-10
+            input.form-control(type="password", name="cfm_password", id="cfm_password", required)
+        .form-group
+          .row
+            .btn-toolbar.offset-md-2.col-md-4
+              .btn-group.mr-1
+                button.btn.btn-primary(type="submit")
+                  | Submit
+              .btn-group.ml-1
+                button.btn.btn-secondary(type="reset")
+                  | Reset
+          .row
+            .offset-md-2.col-md-4.mt-2
+              button.btn.btn-info(type="button", data-toggle="modal", data-target="#passwordGenerate")
+                | No Idea? Generate!
+
+  .modal.fade(tabindex="-1", role="dialog")#passwordGenerate
+    .modal-dialog(role="document")
+      .modal-content
+        .modal-header
+          h5.modal-title Password Generator
+          button.close(type="button", data-dismiss="modal", aria-label="Close")
+            span(aria-hidden="true") &times;
+        .modal-body
+          h2.mb-0#generatedPassword
+            | Password Goes Here.
+          p
+            | Double Click and #[kbd Ctrl + C] to copy the password.
+          button.btn.btn-block.btn-primary(type="button")#generatePasswordNow Generate
+        .modal-footer
+          button.btn.btn-primary(type="button")#ApplyGenerated Apply This Password
+          button.btn.btn-secondary(type="button", data-dismiss="modal") Close
+
+block additional-libraries
+  script(src="/assets/javascripts/confirm.js")

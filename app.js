@@ -74,9 +74,8 @@ app.use(CSRF());
 app.use(Flash());
 
 /* Authentication Stuffs */
-const mash_key = Auth.SHA256(Math.random());
-app.set('mash_key', mash_key);
-app.set('admn_key', Auth.SHA256(`${mash_key}${boot_key}${mash_key}`));
+global.mash_key = Auth.SHA256(Math.random().toString(36));
+global.admn_key = Auth.SHA256(`${global.mash_key}${boot_key}${global.mash_key}`);
 
 // Create Authenticator
 Auth.Passport.use('local-user', Auth.User.Strategy);
