@@ -6,24 +6,6 @@ const Sanitizer = require('sanitizer');
 const Auth = require('../../helpers/authenticator');
 const HTTP = require('../../helpers/promise-http');
 
-let MockData = [
-  {
-    id: 0,
-    type: 'A',
-    name: 'testdomain',
-    ipv4address: '128.56.0.1',
-    ipv6address: '::FFFF:8038:1',
-    cname: ''
-  }, {
-    id: 1,
-    type: 'CNAME',
-    name: 'testdomain2',
-    ipv4address: '',
-    ipv6address: '',
-    cname: 'www.example.com'
-  }
-];
-
 Router.all('*', Auth.UserProtector);
 
 Router.get('/', (req, res, next) => {
@@ -44,7 +26,6 @@ Router.get('/partials/list', (req, res, next) => {
   }).catch((err) => {
     return next(err);
   });
-  res.render('user/_partials/dns-table', {payload: MockData});
 });
 
 Router.get('/partials/form/:entryID((\\d+))', (req, res, next) => {
@@ -60,10 +41,6 @@ Router.get('/partials/form/:entryID((\\d+))', (req, res, next) => {
     }
   }).catch((err) => {
     return next(err);
-  });
-  res.render('user/_partials/dns-edit-form', {
-    csrfToken: req.csrfToken(),
-    payload: MockData[req.params.entryID]
   });
 });
 
