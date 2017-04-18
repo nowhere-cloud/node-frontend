@@ -1,7 +1,7 @@
 extends ../layout
 
 block menu
-  include common-topbar-user
+  include ../user/common-topbar-user.pug
 
 block breadcrumb
   +breadcrumb-item("/admin", "Operations Hub")
@@ -9,7 +9,7 @@ block breadcrumb
 block content
   .container
     h1= title
-    p Manage your internal DNS Alias here.
+    p Manage all DNS Alias here.
   .container.hidden-md-down
     .card
       if errorMessage.length
@@ -26,7 +26,7 @@ block content
       .card-footer
         button.mb-0.btn.btn-block.btn-primary(type="button", data-toggle="modal" data-target="#NewDNS") New Entry
   include ../includes/mobile_not_supported.pug
-  include ../users/_partials/dns-form.pug
-  include ../_partials/dns-edit.pug
+  include ../user/_partials/dns-form.pug
+  include ../user/_partials/dns-edit.pug
 block additional-libraries
   script(src='/admin/assets/kalafina.js')
