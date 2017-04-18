@@ -19,19 +19,8 @@ const debug           = require('debug')('authenticator');
 const Session         = require('express-session');
 const SessionStore    = require('connect-session-sequelize')(Session.Store);
 const Sanitizer       = require('sanitizer');
-let SHA256;
-let Native = true;
-
-// Fall Back to plain-ol-JavaScript Crypto if Native Crypto is not available
-/* eslint-disable global-require */
-try {
-  SHA256 = require('crypto').createHash('sha256');
-} catch (err) {
-  debug(err);
-  SHA256 = require('crypto-js/sha256');
-  Native = false;
-}
-/* eslint-enable global-require */
+const env             = process.env.NODE_ENV || 'development';
+let SHA256            = require('crypto').createHash('sha256');
 
 /**
  * Calculate SHA256 of a specified String
@@ -40,7 +29,7 @@ try {
  */
 const GenerateSHA256 = (source) => {
   let cleanString = Sanitizer.sanitize(source);
-  return Native ? SHA256.update(Buffer.from(cleanString)).digest('hex') : SHA256(cleanString).toString();
+  return SHA256.update(Buffer.from(cleanString)).digest('hex');
 };
 
 /**
@@ -112,7 +101,7 @@ const deSerialize = (uid, cb) => {
  * @param  {Function} next Call next middleware
  * @return {Null}
  */
-const EnsureUserIsLoggedIn = (req, res, next) => {
+const User_Protection = (req, res, next) => {
   if (req.user || req.app.get('env') === 'development') {
     return next();
   }
@@ -135,7 +124,7 @@ const SetGlobalUserInstance = (req, res, next) => {
 /**
  * Express.js SQL-Based Session Storage
  */
-const StoreInstance = new SessionStore({
+const Session_StoreInstance = new SessionStore({
   db: DBConnection,
   checkExpirationInterval: 15 * 60 * 1000, // The interval at which to cleanup expired sessions in milliseconds. (15 min)
   expiration: 24 * 60 * 60 * 1000 // The maximum age (in milliseconds) of a valid session. (24 hrs)
@@ -158,7 +147,7 @@ const Logout = (req, res, next) => {
  * @param  {Object}   res  Express//Connect Response
  * @param  {Function} next Call next middleware
  */
-const CreateUser = (req, res, next) => {
+const Admin_CreateUser = (req, res, next) => {
   User.findOne({
     username: Sanitizer.sanitize(req.body.username)
   }).then((user) => {
@@ -187,7 +176,7 @@ const CreateUser = (req, res, next) => {
  * @param  {Object}   res  Express//Connect Response
  * @param  {Function} next Call next middleware
  */
-const DeleteUser = (req, res, next) => {
+const Admin_DeleteUser = (req, res, next) => {
   User.findOne({
     username: Sanitizer.sanitize(req.body.username)
   }).then((user) => {
@@ -224,7 +213,7 @@ const Admin_GetUserProfile = (req, res, next) => {
  * @param  {Object}   res  Express//Connect Response
  * @param  {Function} next Call next middleware
  */
-const FindUserByUsername = (req, res, next) => {
+const Admin_FindUserByUsername = (req, res, next) => {
   User.findOne({
     username: Sanitizer.sanitize(req.body.username)
   }).then((user) => {
@@ -295,7 +284,7 @@ const Admin_UpdateOwnPassword = (req, res, next) => {
  * @param  {Function} next Call next middleware
  * @return {Null}
  */
-const AdminProtection = (req, res, next) => {
+const Admin_Protection = (req, res, next) => {
   if (req.user.admin || req.app.get('env') === 'development') {
     return next();
   }
@@ -307,23 +296,25 @@ module.exports = {
   Connection: DBConnection,
   Serialize: Serialize,
   deSerialize: deSerialize,
-  UserProtector: EnsureUserIsLoggedIn,
   GlobalUser: SetGlobalUserInstance,
   Passport: Passport,
   SHA256: GenerateSHA256,
   Logout: Logout,
   User: {
     Strategy: User_Strategy,
-    UpdatePassword: User_UpdatePassword
+    UpdatePassword: User_UpdatePassword,
+    Protection: User_Protection
   },
   Admin: {
-    NewUser: CreateUser,
-    DeleteUser: DeleteUser,
+    NewUser: Admin_CreateUser,
+    DeleteUser: Admin_DeleteUser,
     FindUserById: Admin_GetUserProfile,
-    FindUserByUsername: FindUserByUsername,
+    FindUserByUsername: Admin_FindUserByUsername,
     UpdateUserPassword: Admin_UpdateUserPassword,
     UpdateOwnPassword: Admin_UpdateOwnPassword,
-    Protection: AdminProtection
+    Protection: Admin_Protection
   },
-  SessionStore: StoreInstance
+  Session: {
+    Store: Session_StoreInstance
+  }
 };

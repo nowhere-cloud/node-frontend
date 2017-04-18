@@ -5,7 +5,7 @@ const Router    = Express.Router();
 const Auth      = require('../../helpers/authenticator');
 
 /* GET users listing. */
-Router.get('/', Auth.UserProtector, (req, res, next) => {
+Router.get('/', Auth.User.Protection, (req, res, next) => {
   res.render('user/index', {
     title: 'Operations Hub',
     breadcrumb: true

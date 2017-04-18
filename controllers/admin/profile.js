@@ -4,7 +4,7 @@ const Express   = require('express');
 const Router    = Express.Router();
 const Auth      = require('../../helpers/authenticator');
 
-Router.all('*', Auth.Admin.Protector);
+Router.all('*', Auth.Admin.Protection);
 
 Router.route('/')
   .get((req, res,next) => {

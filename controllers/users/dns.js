@@ -6,7 +6,7 @@ const Sanitizer = require('sanitizer');
 const Auth = require('../../helpers/authenticator');
 const HTTP = require('../../helpers/promise-http');
 
-Router.all('*', Auth.UserProtector);
+Router.all('*', Auth.User.Protection);
 
 Router.get('/', (req, res, next) => {
   res.render('user/dns', {

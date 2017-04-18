@@ -5,7 +5,7 @@ const Router    = Express.Router();
 const Auth      = require('../../helpers/authenticator');
 const Path      = require('path');
 
-Router.all('*', Auth.UserProtector);
+Router.all('*', Auth.User.Protection);
 
 // Protected Assets
 Router.get('/:filename', (req, res, next) => {
