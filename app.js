@@ -66,7 +66,7 @@ app.use(cookieParser(secret_key));
 /* Session */
 
 // 1. Build Session Table
-Auth.SessionStore.sync();
+Auth.Session.Store.sync();
 
 // 2. Configure Session Storage
 app.use(Session({

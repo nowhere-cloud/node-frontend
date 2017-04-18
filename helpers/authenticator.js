@@ -20,7 +20,7 @@ const Session         = require('express-session');
 const SessionStore    = require('connect-session-sequelize')(Session.Store);
 const Sanitizer       = require('sanitizer');
 const env             = process.env.NODE_ENV || 'development';
-let SHA256            = require('crypto').createHash('sha256');
+const Crypto          = require('crypto');
 
 /**
  * Calculate SHA256 of a specified String
@@ -29,7 +29,7 @@ let SHA256            = require('crypto').createHash('sha256');
  */
 const GenerateSHA256 = (source) => {
   let cleanString = Sanitizer.sanitize(source);
-  return SHA256.update(Buffer.from(cleanString)).digest('hex');
+  return Crypto.createHash('sha256').update(cleanString).digest('hex');
 };
 
 /**
@@ -59,7 +59,7 @@ const User_Strategy = new LocalStrategy((username, password, callback) => {
 const Admin_Strategy = new LocalStrategy((username, password, callback) => {
   let mash = global.mash_key;
   let admn = global.admn_key;
-  if (SHA256(`${mash}${SHA256(password)}${mash}`) !== admn) {
+  if (GenerateSHA256(`${mash}${GenerateSHA256(password)}${mash}`) !== admn) {
     return callback(null, false);
   }
   return callback(null, {
@@ -306,6 +306,7 @@ module.exports = {
     Protection: User_Protection
   },
   Admin: {
+    Strategy: Admin_Strategy,
     NewUser: Admin_CreateUser,
     DeleteUser: Admin_DeleteUser,
     FindUserById: Admin_GetUserProfile,

@@ -7,7 +7,7 @@ const Auth      = require('../../helpers/authenticator');
 Router.all('*', Auth.User.Protection);
 
 Router.route('/')
-  .get(Auth.User.GetProfile, (req, res,next) => {
+  .get((req, res,next) => {
     res.render('user/profile', {
       breadcrumb: true,
       csrfToken: req.csrfToken(),
