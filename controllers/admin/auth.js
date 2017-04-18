@@ -20,10 +20,11 @@ Router.route('/login')
     });
   })
   .post(Auth.Passport.authenticate('local-admin', {
-    successRedirect: '/admin',
-    failureRedirect: './',
+    failureRedirect: '/admin/auth/login',
     failureFlash: true
-  }));
+  }), (req, res, next) => {
+    res.redirect('/admin');
+  });
 
 Router.get('/logout', Auth.Logout, (req, res, next) => {
   res.redirect('/');
