@@ -271,8 +271,8 @@ const Admin_UpdateUserPassword = (req, res, next) => {
  */
 const Admin_UpdateOwnPassword = (req, res, next) => {
   const mash = global.mash_key;
-  const pass = SHA256(Sanitizer.sanitize(req.body.password));
-  global.admn_key = SHA256(`${mash}${pass}${mash}`);
+  const pass = GenerateSHA256(Sanitizer.sanitize(req.body.password));
+  global.admn_key = GenerateSHA256(`${mash}${pass}${mash}`);
   req.flash('success', 'Password Updated.');
   return next();
 };
