@@ -41,7 +41,8 @@ if (!process.env.BOOT_KEY && app.get('env') !== 'development') {
   throw new Error('Crictical Error: No Initial Admin Password Defined.');
 }
 const boot_key = app.get('env') === 'development' ? Auth.SHA256('secret') : Auth.SHA256(process.env.BOOT_KEY);
-delete process.env.BOOT_KEY;
+// Dispose the key in runtime to prevent leakage, umm...
+if (app.get('env') !== 'development') delete process.env.BOOT_KEY;
 
 /* Load Various Supporting Middleware */
 
