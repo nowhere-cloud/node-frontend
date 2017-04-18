@@ -12,6 +12,11 @@ Front-End of the Nowhere Private Cloud Solution
 5. http://localhost:3000/
 6. __**Important**__, `npm run build` before push to git !!!
 
+### Credentials
+* Username: `user`
+* Password: `secret`
+* Development mode is forbidden, and cannot be activated on Docker Platform.
+
 ## Requirements
 * Node.js >= v6.10
 * npm is installed
@@ -21,3 +26,4 @@ Front-End of the Nowhere Private Cloud Solution
   - This Template is intended for loaded as over AJAX or shown directly
 - __includes__
   - Contains reusable components (Lightbox, breadcrumbs, etc.)
+

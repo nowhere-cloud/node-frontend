@@ -20,7 +20,7 @@ Router.route('/login')
     });
   })
   .post(Auth.Passport.authenticate('local-admin', {
-    successRedirect: '../',
+    successRedirect: '/admin',
     failureRedirect: './',
     failureFlash: true
   }));

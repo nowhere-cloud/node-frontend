@@ -20,7 +20,7 @@ Router.route('/login')
     });
   })
   .post(Auth.Passport.authenticate('local-user', {
-    successRedirect: '../',
+    successRedirect: '/users',
     failureRedirect: './',
     failureFlash: true
   }));

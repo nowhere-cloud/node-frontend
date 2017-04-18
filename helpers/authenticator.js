@@ -11,16 +11,16 @@
  * 2. Extracted into a seperate file and called as CommonJS Module.
  * 3. ES6 Optimized.
  */
-const DBConnection    = require('../models').sequelize;
-const User            = require('../models').User;
-const Passport        = require('passport');
-const LocalStrategy   = require('passport-local').Strategy;
-const debug           = require('debug')('authenticator');
-const Session         = require('express-session');
-const SessionStore    = require('connect-session-sequelize')(Session.Store);
-const Sanitizer       = require('sanitizer');
-const env             = process.env.NODE_ENV || 'development';
-const Crypto          = require('crypto');
+const DBConnection  = require('../models').sequelize;
+const User          = require('../models').User;
+const Passport      = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const debug         = require('debug')('authenticator');
+const Session       = require('express-session');
+const SessionStore  = require('connect-session-sequelize')(Session.Store);
+const Sanitizer     = require('sanitizer');
+const env           = process.env.NODE_ENV || 'development';
+const Crypto        = require('crypto');
 
 /**
  * Calculate SHA256 of a specified String
@@ -36,21 +36,33 @@ const GenerateSHA256 = (source) => {
  * Passport Strategy
  */
 const User_Strategy = new LocalStrategy((username, password, callback) => {
-  User.findOne({
-    where: {
-      username: username
-    }
-  }).then((user) => {
-    if (!user) {
+  if (env !== 'development') {
+    User.findOne({
+      where: {
+        username: username
+      }
+    }).then((user) => {
+      if (!user) {
+        return callback(null, false);
+      }
+      if (GenerateSHA256(password) !== user.password) {
+        return callback(null, false);
+      }
+      return callback(null, user);
+    }).catch((err) => {
+      return callback(err);
+    });
+  } else {
+    if (username !== 'user' || password !== 'secret') {
       return callback(null, false);
+    } else {
+      return callback(null, {
+        id: 1,
+        username: 'foo'
+      });
     }
-    if (GenerateSHA256(password) !== user.password) {
-      return callback(null, false);
-    }
-    return callback(null, user);
-  }).catch((err) => {
-    return callback(err);
-  });
+  }
+
 });
 
 /**
@@ -77,8 +89,7 @@ const Admin_Strategy = new LocalStrategy((username, password, callback) => {
  * @param {*} cb   Callback
  */
 const Serialize = (user, cb) => {
-  delete user.password;
-  cb(null, user);
+  cb(null, user.id);
 };
 
 /**
@@ -87,11 +98,25 @@ const Serialize = (user, cb) => {
  * @param {*} cb  Callback
  */
 const deSerialize = (uid, cb) => {
-  User.findById(uid).then(function (user) {
-    cb(null, user);
-  }).catch((err) => {
-    cb(err);
-  });
+  if (uid === 0) {
+    return cb(null, {
+      id: 0,
+      username: 'Administrator',
+      admin: true
+    });
+  } else if (env === 'development') {
+    return cb(null, {
+      id: 1,
+      username: 'foo'
+    });
+  } else {
+    User.findById(uid).then(function (user) {
+      delete user.password;
+      cb(null, user);
+    }).catch((err) => {
+      cb(err);
+    });
+  }
 };
 
 /**
@@ -102,7 +127,7 @@ const deSerialize = (uid, cb) => {
  * @return {Null}
  */
 const User_Protection = (req, res, next) => {
-  if (req.user || req.app.get('env') === 'development') {
+  if (req.user) {
     return next();
   }
   res.redirect('/users/auth/login');
@@ -115,7 +140,7 @@ const User_Protection = (req, res, next) => {
  * @param  {Function} next Call next middleware
  */
 const SetGlobalUserInstance = (req, res, next) => {
-  if (req.user || req.app.get('env') === 'development') {
+  if (req.user) {
     res.locals.userdata = req.user;
   }
   next();
@@ -285,10 +310,10 @@ const Admin_UpdateOwnPassword = (req, res, next) => {
  * @return {Null}
  */
 const Admin_Protection = (req, res, next) => {
-  if (req.user.admin || req.app.get('env') === 'development') {
+  if (req.user && req.user.hasOwnProperty('admin')) {
     return next();
   }
-  res.redirect('/users/auth/login');
+  res.redirect('/admin/auth/login');
 };
 
 

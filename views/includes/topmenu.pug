@@ -11,19 +11,24 @@ nav.navbar.fixed-top.navbar-toggleable-md.navbar-inverse.bg-inverse
   button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
     span.navbar-toggler-icon
   #navbarSupportedContent.collapse.navbar-collapse
-    if userdata
-      ul.navbar-nav.mr-auto
-        block menu
-        block menu-user
+    ul.navbar-nav.mr-auto
+      block menu
+      block menu-user
+    if userdata && !userdata.hasOwnProperty('admin')
       .form-inline.my-2.my-lg-0
         .btn-toolbar
-          .btn-group.mr-2
+          .btn-group.mr-1
             a.btn.btn-outline-primary.my-2.my-sm-0(href="/users") Control Panel
-          .btn-group
+          .btn-group.ml-1
             a.btn.btn-outline-success.my-2.my-sm-0(href="/users/auth/logout") Logout
+    else if userdata && userdata.hasOwnProperty('admin')
+      .form-inline.my-2.my-lg-0
+        .btn-toolbar
+          .btn-group.mr-1
+            a.btn.btn-outline-primary.my-2.my-sm-0(href="/admin") Admin Panel
+          .btn-group.ml-1
+            a.btn.btn-outline-success.my-2.my-sm-0(href="/admin/auth/logout") Logout
     else
-      ul.navbar-nav.mr-auto
-        block menu
       if !hideNavLoginButton
         .form-inline.my-2.my-lg-0
           a.btn.btn-outline-primary.my-2.my-sm-0(href="/users") Login

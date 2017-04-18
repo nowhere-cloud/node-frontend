@@ -30,11 +30,8 @@ if(containerized() && app.get('env') === 'development') {
 if (!process.env.SESS_KEY && app.get('env') !== 'development') {
   throw new Error('Crictical Error: No Crypt Words Defined. This word is important for maintain user security');
 }
-const secret_key = () => {
-  let key = process.env.SESS_KEY || 0;
-  if (process.env.SESS_KEY) delete process.env.SESS_KEY;
-  return app.get('env') === 'development' ? Auth.SHA256(Math.random()) : key;
-};
+const secret_key = app.get('env') === 'development' ? Auth.SHA256(Math.random()) : process.env.SESS_KEY;
+
 
 /**
  * Get key from environment variables
@@ -44,11 +41,7 @@ const secret_key = () => {
 if (!process.env.BOOT_KEY && app.get('env') !== 'development') {
   throw new Error('Crictical Error: No Initial Admin Password Defined.');
 }
-const boot_key = () => {
-  let key = Auth.SHA256(process.env.BOOT_KEY) || 0;
-  if (process.env.BOOT_KEY) delete process.env.BOOT_KEY;
-  return app.get('env') === 'development' ? Auth.SHA256('secret') : key;
-};
+const boot_key = app.get('env') === 'development' ? Auth.SHA256('secret') : Auth.SHA256(process.env.BOOT_KEY);
 
 /* Load Various Supporting Middleware */
 
