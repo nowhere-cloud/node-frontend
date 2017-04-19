@@ -1,0 +1,25 @@
+extends ../layout.pug
+
+block menu
+  include common-topbar-user.pug
+
+block content
+  .container
+    h1 #{title}
+    p How's the system going?
+  .container#load-status-please
+    .card
+      .card-header(role="tab")
+        a.collapsed(data-toggle="collapse", data-parent="#accordion", href="#collapse-chrome")
+          h5.mb-0 System Event Summary (Click to toggle)
+      #collapse-chrome.collapse(role="tabpanel")
+        include ../includes/status-syslog-ovv.pug
+        .card-block.pt-0.pb-0
+          p.card-text Last Updated: #[span#now]
+  .container.mt-1
+    .card
+      h5.card-header System Event Logs
+    table.table#load-event-list-here
+
+block additional-libraries
+  script(src="/admin/assets/status.js")

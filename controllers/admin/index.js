@@ -15,6 +15,8 @@ Router.use('/dns', require('./dns'));
 
 Router.use('/auth', require('./auth'));
 
+Router.use('/log', require('./status'));
+
 Router.use('/profile', require('./profile'));
 
 Router.use('/assets', require('./assets'));
