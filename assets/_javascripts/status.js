@@ -11,7 +11,7 @@
   // Human Readable Syslog Severity, also copied from source code
   const severity_Human = 'Emergency Alert Critical Error Warning Notice Informational'.split(' ');
   // Severity Coloring for DOM
-  const severity_DOM = ['danger', 'danger', 'danger', 'danger', 'warning', 'info', 'info'];
+  const severity_DOM = ['danger', 'danger', 'danger', 'danger', 'warning', 'primary', 'info'];
   // Date String
   const DateString = new PrettyDate(); // eslint-disable-line no-undef
 

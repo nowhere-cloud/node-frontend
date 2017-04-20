@@ -130,6 +130,9 @@ const User_Protection = (req, res, next) => {
   if (req.user) {
     return next();
   }
+  if (req.user && req.user.hasOwnProperty('admin')) {
+    res.redirect('/admin');
+  }
   res.redirect('/users/auth/login');
 };
 
@@ -313,7 +316,7 @@ const Admin_Protection = (req, res, next) => {
   if (req.user && req.user.hasOwnProperty('admin')) {
     return next();
   }
-  res.redirect('/admin/auth/login');
+  res.redirect('/');
 };
 
 

@@ -24,9 +24,10 @@ const Sass_options = {
 
 };
 
-const pjs_path = 'assets/_javascripts/*.j+(s|sx|sm)';
-const js_path = 'assets/javascripts/*.j+(s|sx|sm)';
+const js_path   = 'assets/javascripts/*.j+(s|sx|sm)';
 const sass_path = 'assets/stylesheets/*.s+(a|c)ss';
+const pjs_path  = 'assets/_javascripts/*.j+(s|sx|sm)';
+const pcss_path = 'assets/_stylesheets/*.s+(a|c)ss';
 
 Gulp.task('Transpile and Minify JavaScript', () => {
   return Gulp.src(js_path)
@@ -37,6 +38,13 @@ Gulp.task('Transpile and Minify JavaScript', () => {
 
 Gulp.task('Transpile and Minify Protected JavaScript', () => {
   return Gulp.src(pjs_path)
+    .pipe(Babel(Babel_options))
+    .pipe(Uglify(Uglify_options))
+    .pipe(Gulp.dest('private/assets'));
+});
+
+Gulp.task('Transpile and Minify Protected CSS', () => {
+  return Gulp.src(pcss_path)
     .pipe(Babel(Babel_options))
     .pipe(Uglify(Uglify_options))
     .pipe(Gulp.dest('private/assets'));

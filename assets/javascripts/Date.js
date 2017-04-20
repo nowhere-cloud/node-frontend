@@ -48,3 +48,5 @@ class PrettyDate {
     return this.now;
   }
 }
+
+module.exports = PrettyDate;

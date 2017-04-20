@@ -16,10 +16,23 @@ block content
         include ../includes/status-syslog-ovv.pug
         .card-block.pt-0.pb-0
           p.card-text Last Updated: #[span#now]
-  .container.mt-1
+  .container.mt-1.hidden-lg-down
     .card
       h5.card-header System Event Logs
-    table.table#load-event-list-here
+      .card-block.pb-1
+        a.btn.btn-secondary(href="/admin/log/all") Get a list of recent events on record.
+      .card-block
+        h6 Severity
+        .btn-group
+          a.btn.btn-danger(href="/admin/log/severity/emergency") Emergency
+          a.btn.btn-danger(href="/admin/log/severity/alert") Alert
+          a.btn.btn-danger(href="/admin/log/severity/critical") Crictical
+          a.btn.btn-danger(href="/admin/log/severity/error") Error
+          a.btn.btn-warning(href="/admin/log/severity/error") Warning
+          a.btn.btn-primary(href="/admin/log/severity/error") Notice
+          a.btn.btn-info(href="/admin/log/severity/informational") Informational
+          a.btn.btn-info(href="/admin/log/severity/debug") Debug
+          
 
 block additional-libraries
   script(src="/admin/assets/status.js")
