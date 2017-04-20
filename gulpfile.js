@@ -45,8 +45,8 @@ Gulp.task('Transpile and Minify Protected JavaScript', () => {
 
 Gulp.task('Transpile and Minify Protected CSS', () => {
   return Gulp.src(pcss_path)
-    .pipe(Babel(Babel_options))
-    .pipe(Uglify(Uglify_options))
+    .pipe(Sass(Sass_options).on('error', Sass.logError))
+    .pipe(CleanCSS(CleanCSS_options))
     .pipe(Gulp.dest('private/assets'));
 });
 
@@ -81,10 +81,18 @@ Gulp.task('Compile CSS and Generate SourceMap', () => {
     .pipe(Gulp.dest('public/assets/stylesheets'));
 });
 
+Gulp.task('Compile Protected CSS and Generate SourceMap', () => {
+  return Gulp.src(pcss_path)
+    .pipe(SourceMaps.init())
+    .pipe(Sass(Sass_options).on('error', Sass.logError))
+    .pipe(SourceMaps.write('.'))
+    .pipe(Gulp.dest('private/assets'));
+});
+
 Gulp.task('clean', () => {
   return DEL(['private/assets/**/*', 'public/assets/javascripts/*', 'public/assets/stylesheets/*']);
 });
 
-Gulp.task('default', ['Transpile and Minify JavaScript', 'Transpile and Minify Protected JavaScript', 'Compile and Minify CSS']);
+Gulp.task('default', ['Transpile and Minify JavaScript', 'Transpile and Minify Protected JavaScript', 'Compile and Minify CSS', 'Transpile and Minify Protected CSS']);
 
-Gulp.task('development', ['Transpile JavaScript and Generate SourceMap', 'Transpile Protected JavaScript and Generate SourceMap', 'Compile CSS and Generate SourceMap']);
+Gulp.task('development', ['Transpile JavaScript and Generate SourceMap', 'Transpile Protected JavaScript and Generate SourceMap', 'Compile CSS and Generate SourceMap', 'Compile Protected CSS and Generate SourceMap']);
