@@ -3,7 +3,7 @@
 const express = require('express');
 const Router  = express.Router();
 const HTTP    = require('../../helpers/promise-http');
-const StrDate = require('../../assets/javascripts/Date');
+const StrDate = require('../../helpers/date');
 
 /**
  * Capitalize First Letter of the given string
