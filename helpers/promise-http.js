@@ -54,7 +54,8 @@ const HTTPGetJSONClient = (endpoint) => {
       });
       res.on('end', () => {
         try {
-          fulfill(JSON.parse(rawData));
+          let result = JSON.parse(rawData);
+          fulfill(result);
         } catch (e) {
           reject(e);
         }
@@ -103,7 +104,8 @@ const HTTPPostJSONClient = (endpoint, postData) => {
       });
       res.on('end', () => {
         try {
-          fulfill(JSON.parse(rawData));
+          let result = JSON.parse(rawData);
+          fulfill(result);
         } catch (e) {
           reject(e);
         }
@@ -154,7 +156,8 @@ const HTTPPatchJSONClient = (endpoint, postData) => {
       });
       res.on('end', () => {
         try {
-          fulfill(JSON.parse(rawData));
+          let result = JSON.parse(rawData);
+          fulfill(result);
         } catch (e) {
           reject(e);
         }
@@ -208,7 +211,8 @@ const HTTPDeleteJSONClient = (endpoint) => {
       });
       res.on('end', () => {
         try {
-          fulfill(JSON.parse(rawData));
+          let result = JSON.parse(rawData);
+          fulfill(result);
         } catch (e) {
           reject(e);
         }
