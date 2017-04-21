@@ -1,6 +1,7 @@
 'use strict';
 
 const HTTP = require('http');
+const Request = require('request');
 const URL = require('url');
 const Promise = require('bluebird');
 
@@ -13,7 +14,6 @@ const check_good_HTTP_Code = (statusCode) => {
   return statusCode !== 200 || statusCode !== 201 || statusCode !== 204;
 };
 
-
 /**
  * Simple HTTP GET Client, wrapped in Promise
  * @param {String} url The URL.
@@ -22,46 +22,14 @@ const check_good_HTTP_Code = (statusCode) => {
 const HTTPGetJSONClient = (endpoint) => {
   let url = URL.parse(endpoint);
   let promise = new Promise((fulfill, reject) => {
-    HTTP.request({
-      hostname: url.hostname,
-      port: url.port,
-      method: 'GET',
-      path: url.path,
-      headers: {
-        'Content-Type': 'application/json'
+    Request.get(URL.parse(endpoint), (err, response, body) => {
+      if (err) {
+        reject(err);
       }
-    }, (res) => {
-      const {statusCode} = res;
-      const contentType = res.headers['content-type'];
-
-      let error;
-      if (check_good_HTTP_Code(statusCode)) {
-        error = new Error(`Request Failed. Status Code: ${statusCode}`);
-      } else if (!/^application\/json/.test(contentType)) {
-        error = new Error(`Invalid content-type. Expected application/json but received ${contentType}`);
+      if (check_good_HTTP_Code(response.statusCode)) {
+        reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
       }
-      if (error) {
-        reject(error);
-        // consume response data to free up memory
-        res.resume();
-        return;
-      }
-
-      res.setEncoding('utf8');
-      let rawData = '';
-      res.on('data', (chunk) => {
-        rawData += chunk;
-      });
-      res.on('end', () => {
-        try {
-          let result = JSON.parse(rawData);
-          fulfill(result);
-        } catch (e) {
-          reject(e);
-        }
-      });
-    }).on('error', (e) => {
-      reject(e);
+      fulfill(JSON.parse(body));
     });
   });
   return promise;
@@ -75,46 +43,19 @@ const HTTPGetJSONClient = (endpoint) => {
 const HTTPPostJSONClient = (endpoint, postData) => {
   let url = URL.parse(endpoint);
   let promise = new Promise((fulfill, reject) => {
-    let request = HTTP.request({
-      hostname: url.hostname,
-      port: url.port,
-      method: 'POST',
-      path: url.path,
-      headers: {
-        'Content-Type': 'application/json'
+    Request.post({
+      uri: url,
+      json: true,
+      body: postData
+    }, (err, response, body) => {
+      if (err) {
+        reject(err);
       }
-    }, (res) => {
-      const {statusCode} = res;
-
-      let error;
-      if (check_good_HTTP_Code(statusCode)) {
-        error = new Error(`Request Failed. Status Code: ${statusCode}`);
+      if (check_good_HTTP_Code(response.statusCode)) {
+        reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
       }
-      if (error) {
-        reject(error);
-        // consume response data to free up memory
-        res.resume();
-        return;
-      }
-
-      res.setEncoding('utf8');
-      let rawData = '';
-      res.on('data', (chunk) => {
-        rawData += chunk;
-      });
-      res.on('end', () => {
-        try {
-          let result = JSON.parse(rawData);
-          fulfill(result);
-        } catch (e) {
-          reject(e);
-        }
-      });
-    }).on('error', (e) => {
-      reject(e);
+      fulfill(JSON.parse(body));
     });
-    request.write(JSON.stringify(postData));
-    request.end();
   });
   return promise;
 };
@@ -127,46 +68,19 @@ const HTTPPostJSONClient = (endpoint, postData) => {
 const HTTPPatchJSONClient = (endpoint, postData) => {
   let url = URL.parse(endpoint);
   let promise = new Promise((fulfill, reject) => {
-    let request = HTTP.request({
-      hostname: url.hostname,
-      port: url.port,
-      method: 'PATCH',
-      path: url.path,
-      headers: {
-        'Content-Type': 'application/json'
+    Request.patch({
+      uri: url,
+      json: true,
+      body: postData
+    }, (err, response, body) => {
+      if (err) {
+        reject(err);
       }
-    }, (res) => {
-      const {statusCode} = res;
-
-      let error;
-      if (check_good_HTTP_Code(statusCode)) {
-        error = new Error(`Request Failed. Status Code: ${statusCode}`);
+      if (check_good_HTTP_Code(response.statusCode)) {
+        reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
       }
-      if (error) {
-        reject(error);
-        // consume response data to free up memory
-        res.resume();
-        return;
-      }
-
-      res.setEncoding('utf8');
-      let rawData = '';
-      res.on('data', (chunk) => {
-        rawData += chunk;
-      });
-      res.on('end', () => {
-        try {
-          let result = JSON.parse(rawData);
-          fulfill(result);
-        } catch (e) {
-          reject(e);
-        }
-      });
-    }).on('error', (e) => {
-      reject(e);
+      fulfill(JSON.parse(body));
     });
-    request.write(JSON.stringify(postData));
-    request.end();
   });
   return promise;
 };
@@ -179,46 +93,17 @@ const HTTPPatchJSONClient = (endpoint, postData) => {
 const HTTPDeleteJSONClient = (endpoint) => {
   let url = URL.parse(endpoint);
   let promise = new Promise((fulfill, reject) => {
-    HTTP.request({
-      hostname: url.hostname,
-      port: url.port,
-      method: 'DELETE',
-      path: url.path,
-      headers: {
-        'Content-Type': 'application/json'
+    Request.delete({
+      uri: url,
+      json: true
+    }, (err, response, body) => {
+      if (err) {
+        reject(err);
       }
-    }, (res) => {
-      const {statusCode} = res;
-      const contentType = res.headers['content-type'];
-
-      let error;
-      if (check_good_HTTP_Code(statusCode)) {
-        error = new Error(`Request Failed. Status Code: ${statusCode}`);
-      } else if (!/^application\/json/.test(contentType)) {
-        error = new Error(`Invalid content-type. Expected application/json but received ${contentType}`);
+      if (check_good_HTTP_Code(response.statusCode)) {
+        reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
       }
-      if (error) {
-        reject(error);
-        // consume response data to free up memory
-        res.resume();
-        return;
-      }
-
-      res.setEncoding('utf8');
-      let rawData = '';
-      res.on('data', (chunk) => {
-        rawData += chunk;
-      });
-      res.on('end', () => {
-        try {
-          let result = JSON.parse(rawData);
-          fulfill(result);
-        } catch (e) {
-          reject(e);
-        }
-      });
-    }).on('error', (e) => {
-      reject(e);
+      fulfill(JSON.parse(body));
     });
   });
   return promise;
