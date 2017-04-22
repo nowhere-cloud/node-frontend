@@ -38,7 +38,8 @@ const GenerateSHA256 = (source) => {
  * @return {String} Encrypted Password
  */
 const PasswordHashFunction = (raw) => {
-  return GenerateSHA256(`${GenerateSHA256(raw.split('').reverse().join(''))}${raw}${raw.split('').reverse().join('')}`);
+  let reverse = raw.split('').reverse().join('');
+  return GenerateSHA256(`${GenerateSHA256(reverse)}${GenerateSHA256(raw)}${reverse}`);
 };
 
 /**
