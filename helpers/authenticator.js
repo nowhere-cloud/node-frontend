@@ -25,11 +25,30 @@ const Crypto        = require('crypto');
 /**
  * Calculate SHA256 of a specified String
  * @param {String} source Clear text
- * @return {String}       Ciphertext
+ * @return {String}       Cipher text
  */
 const GenerateSHA256 = (source) => {
   let cleanString = Sanitizer.sanitize(source);
   return Crypto.createHash('sha256').update(cleanString).digest('hex');
+};
+
+/**
+ * Hash Function of User Password
+ * @param {String} raw Clear Text
+ * @return {String} Encrypted Password
+ */
+const PasswordHashFunction = (raw) => {
+  return GenerateSHA256(`${GenerateSHA256(raw.split('').reverse().join(''))}${raw}${raw.split('').reverse().join('')}`);
+};
+
+/**
+ * Hash Function of Admin Password
+ * @param {String} raw Clear Text
+ * @return {String} Encrypted Password
+ */
+const AltPasswordHashFunction = (raw) => {
+  let mash = global.mash_key;
+  return GenerateSHA256(`${mash}${GenerateSHA256(raw)}${mash}`);
 };
 
 /**
@@ -45,7 +64,7 @@ const User_Strategy = new LocalStrategy((username, password, callback) => {
       if (!user) {
         return callback(null, false);
       }
-      if (GenerateSHA256(password) !== user.password) {
+      if (PasswordHashFunction(password) !== user.password) {
         return callback(null, false);
       }
       return callback(null, user);
@@ -69,9 +88,8 @@ const User_Strategy = new LocalStrategy((username, password, callback) => {
  * Passport Strategy
  */
 const Admin_Strategy = new LocalStrategy((username, password, callback) => {
-  let mash = global.mash_key;
   let admn = global.admn_key;
-  if (GenerateSHA256(`${mash}${GenerateSHA256(password)}${mash}`) !== admn) {
+  if (AltPasswordHashFunction(password) !== admn) {
     return callback(null, false);
   }
   return callback(null, {
@@ -185,7 +203,7 @@ const Admin_CreateUser = (req, res, next) => {
     } else {
       User.create({
         username: Sanitizer.sanitize(req.body.username),
-        password: GenerateSHA256(req.body.password)
+        password: PasswordHashFunction(req.body.password)
       }).then(function (user) {
         req.flash('success', `User: ${req.body.username} created.`);
         return next();
@@ -262,7 +280,7 @@ const Admin_FindUserByUsername = (req, res, next) => {
 const User_UpdatePassword = (req, res, next) => {
   User.findById(req.user.id).then((user) => {
     return user.update({
-      password: GenerateSHA256(req.body.password)
+      password: PasswordHashFunction(req.body.password)
     });
   }).then(() => {
     req.flash('success', 'Password Updated.');
@@ -281,7 +299,7 @@ const User_UpdatePassword = (req, res, next) => {
 const Admin_UpdateUserPassword = (req, res, next) => {
   User.findById(Sanitizer.sanitize(req.body.userid)).then((user) => {
     return user.update({
-      password: GenerateSHA256(req.body.password)
+      password: PasswordHashFunction(req.body.password)
     });
   }).then(() => {
     req.flash('success', 'Password Updated.');
@@ -298,9 +316,7 @@ const Admin_UpdateUserPassword = (req, res, next) => {
  * @param  {Function} next Call next middleware
  */
 const Admin_UpdateOwnPassword = (req, res, next) => {
-  const mash = global.mash_key;
-  const pass = GenerateSHA256(Sanitizer.sanitize(req.body.password));
-  global.admn_key = GenerateSHA256(`${mash}${pass}${mash}`);
+  global.admn_key = AltPasswordHashFunction(Sanitizer.sanitize(req.body.password));
   req.flash('success', 'Password Updated.');
   return next();
 };
