@@ -7,13 +7,14 @@ html
     meta(name="viewport", content="width=device-width, initial-scale=1, shrink-to-fit=no")
     link(href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ", crossorigin="anonymous")
     link(rel="stylesheet", href="/admin/assets/report.css")
+    script(src="/admin/assets/report.js")
   body
     //- Main Body
     .container-fluid
       .card
         .card-block
           h4.card-title Private Cloud System Report on #{ReportTitle}
-          h6.crad-subtitle Generated On #{date}
+          h6.crad-subtitle Generated On #[span#now]
         if withLegend === true
           include _partials/legend.pug
         table.table
@@ -34,5 +35,4 @@ html
                 if withLegend === true
                   td= entry.severity
                 td.split= entry.msg
-    //- Footer Area for Javascript Libraries
-    include ../includes/footer-js
+

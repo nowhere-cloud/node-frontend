@@ -1,0 +1,1 @@
+"use strict";!function(t){var e=new PrettyDate;t(document).ready(function(){t("#now").html(e.getTodayDate()+" @ "+e.getCurrentTime())})}(jQuery);

@@ -29,8 +29,7 @@ Router.get('/all', (req, res, next) => {
       title: 'Report',
       ReportTitle: 'All System Events',
       withLegend: true,
-      data: rsvp,
-      date: `${DateString.getTodayDate()} @ ${DateString.getCurrentTime()}`
+      data: rsvp
     });
   }).catch((err) => {
     return next(err);
@@ -44,8 +43,7 @@ Router.get('/severity/:severity', (req, res, next) => {
       title: 'Report',
       ReportTitle: `All System Events Labelled ${CapitalizeFirstLetter(req.params.severity)}`,
       withLegend: false,
-      data: rsvp,
-      date: `${DateString.getTodayDate()} @ ${DateString.getCurrentTime()}`
+      data: rsvp
     });
   }).catch((err) => {
     return next(err);
