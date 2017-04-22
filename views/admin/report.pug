@@ -10,29 +10,27 @@ html
     include ../includes/footer-js.pug
     script(src="/admin/assets/report.js")
   body
-    //- Main Body
-    .container-fluid
-      .card
-        .card-block
-          h4.card-title Private Cloud System Report on #{ReportTitle}
-          h6.crad-subtitle Generated On #[span#now]
-        if withLegend === true
-          include _partials/legend.pug
-        table.table
-          thead
-            tr
-              th Time
-              th Hostname
-              th Tag
-              if withLegend === true
-                th Severity
-              th Message
-          tbody
-            each entry in data
-              tr
-                td.nosplit= entry.time
-                td= entry.hostname
-                td= entry.tag
-                if withLegend === true
-                  td= entry.severity
-                td.split= entry.msg
+    if withLegend === true
+      include _partials/legend.pug
+    table.table
+      thead
+        tr
+          th
+            h4.card-title Private Cloud System Report on #{ReportTitle}
+            h6.crad-subtitle Generated On #[span#now]
+        tr
+          th Time
+          th Hostname
+          th Tag
+          if withLegend === true
+            th Severity
+          th Message
+      tbody
+        each entry in data
+          tr
+            td.nosplit= entry.time
+            td= entry.hostname
+            td= entry.tag
+            if withLegend === true
+              td= entry.severity
+            td.split= entry.msg
