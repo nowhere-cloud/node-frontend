@@ -43,7 +43,7 @@ Router.get('/severity/:severity', (req, res, next) => {
     res.render('admin/report', {
       title: 'Report',
       ReportTitle: `All System Events Labelled ${CapitalizeFirstLetter(req.params.severity)}`,
-      withLegend: true,
+      withLegend: false,
       data: rsvp,
       date: `${DateString.getTodayDate()} @ ${DateString.getCurrentTime()}`
     });
