@@ -20,9 +20,8 @@ const check_good_HTTP_Code = (statusCode) => {
  * https://nodejs.org/api/http.html#http_http_get_options_callback
  */
 const HTTPGetJSONClient = (endpoint) => {
-  let url = URL.parse(endpoint);
   let promise = new Promise((fulfill, reject) => {
-    Request.get(URL.parse(endpoint), (err, response, body) => {
+    Request.get(endpoint, (err, response, body) => {
       if (err) {
         reject(err);
       }
