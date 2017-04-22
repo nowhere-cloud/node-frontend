@@ -8,3 +8,7 @@ td.split {
   -ms-hyphens: auto;
   hyphens: auto;
 }
+
+td.nosplit {
+  white-space: nowrap;
+}

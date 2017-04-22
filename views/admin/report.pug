@@ -30,10 +30,9 @@ html
           tbody
             each entry in data
               tr
-                td= entry.time
-                td= entry.Hostname
+                td.nosplit= entry.time
+                td= entry.hostname
                 td= entry.tag
                 if withLegend === true
                   td= entry.severity
                 td.split= entry.msg
-
