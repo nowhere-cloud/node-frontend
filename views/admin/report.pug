@@ -30,7 +30,7 @@ html
         each entry in data
           tr
             td.nosplit= entry.time
-            td= entry.hostname
+            td.nosplit= entry.hostname
             td= entry.tag
             if withLegend === true
               td= entry.severity

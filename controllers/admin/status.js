@@ -3,6 +3,7 @@
 const express = require('express');
 const Router  = express.Router();
 const HTTP    = require('../../helpers/promise-http');
+const Auth      = require('../../helpers/authenticator');
 
 /**
  * Capitalize First Letter of the given string
@@ -12,6 +13,8 @@ const HTTP    = require('../../helpers/promise-http');
 const CapitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
+
+Router.all('*', Auth.Admin.Protection);
 
 /* GET home page. */
 Router.get('/', (req, res, next) => {

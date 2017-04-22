@@ -3,6 +3,9 @@ extends ../layout.pug
 block menu
   include common-topbar-user.pug
 
+block breadcrumb
+  +breadcrumb-item("/admin", "Operations Hub")
+    
 block content
   .container
     h1 #{title}
