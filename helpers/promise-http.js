@@ -11,7 +11,7 @@ const Promise = require('bluebird');
  * @return {Boolean}
  */
 const check_good_HTTP_Code = (statusCode) => {
-  return statusCode !== 200 || statusCode !== 201 || statusCode !== 204;
+  return !(statusCode !== 200 || statusCode !== 201 || statusCode !== 204);
 };
 
 /**
