@@ -3,7 +3,6 @@
 const express = require('express');
 const Router  = express.Router();
 const HTTP    = require('../../helpers/promise-http');
-const StrDate = require('../../helpers/date');
 
 /**
  * Capitalize First Letter of the given string
@@ -23,7 +22,6 @@ Router.get('/', (req, res, next) => {
 });
 
 Router.get('/all', (req, res, next) => {
-  let DateString = new StrDate();
   HTTP.GetJSON('http://api:3000/log/').then((rsvp) => {
     res.render('admin/report', {
       title: 'Report',
@@ -37,7 +35,6 @@ Router.get('/all', (req, res, next) => {
 });
 
 Router.get('/severity/:severity', (req, res, next) => {
-  let DateString = new StrDate();
   HTTP.GetJSON(`http://api:3000/log/severity/${req.params.severity}`).then((rsvp) => {
     res.render('admin/report', {
       title: 'Report',
