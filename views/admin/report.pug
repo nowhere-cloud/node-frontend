@@ -10,14 +10,15 @@ html
     include ../includes/footer-js.pug
     script(src="/admin/assets/report.js")
   body
-    if withLegend === true
-      include _partials/legend.pug
+
     table.table
       thead
         tr
-          th
+          th(colspan="8")
             h4.card-title Private Cloud System Report on #{ReportTitle}
             h6.crad-subtitle Generated On #[span#now]
+        if withLegend === true
+          include _partials/legend.pug
         tr
           th Time
           th Hostname
