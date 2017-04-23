@@ -45,7 +45,6 @@ Router.get('/partials/form/:entryID((\\d+))', (req, res, next) => {
 });
 
 Router.post('/', (req, res, next) => {
-  console.log(req.body);
   HTTP.PostJSON('http://api-gate:3000/dns/create', {
     type: Sanitizer.sanitize(req.body.type),
     name: Sanitizer.sanitize(req.body.name),
@@ -54,8 +53,7 @@ Router.post('/', (req, res, next) => {
     cname: Sanitizer.sanitize(req.body.opt),
     userid: 1
   }).then((data) => {
-
-    req.flash('success', `DNS Entry ${req.body.type} - ${req.body.name} Created. ${data}`);
+    req.flash('success', `DNS Entry ${req.body.type} - ${req.body.name} Created.`);
     res.redirect('/users/dns');
   }).catch((err) => {
     return next(err);

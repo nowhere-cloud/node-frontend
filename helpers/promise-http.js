@@ -11,7 +11,7 @@ const Promise = require('bluebird');
  * @return {Boolean}
  */
 const check_good_HTTP_Code = (statusCode) => {
-  return !(statusCode !== 200 || statusCode !== 201 || statusCode !== 204);
+  return statusCode !== 200 || statusCode !== 201 || statusCode !== 204;
 };
 
 /**
@@ -25,7 +25,7 @@ const HTTPGetJSONClient = (endpoint) => {
       if (err) {
         reject(err);
       }
-      if (response && check_good_HTTP_Code(response.statusCode)) {
+      if (check_good_HTTP_Code(response.statusCode)) {
         reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
       }
       try {
@@ -54,9 +54,7 @@ const HTTPPostJSONClient = (endpoint, postData) => {
       if (err) {
         reject(err);
       }
-      console.log(response);
-      console.log(body);
-      if (response && check_good_HTTP_Code(response.statusCode)) {
+      if (check_good_HTTP_Code(response.statusCode)) {
         reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
       }
       try {
@@ -85,7 +83,7 @@ const HTTPPatchJSONClient = (endpoint, postData) => {
       if (err) {
         reject(err);
       }
-      if (response && check_good_HTTP_Code(response.statusCode)) {
+      if (check_good_HTTP_Code(response.statusCode)) {
         reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
       }
       try {
@@ -113,7 +111,7 @@ const HTTPDeleteJSONClient = (endpoint) => {
       if (err) {
         reject(err);
       }
-      if (response && check_good_HTTP_Code(response.statusCode)) {
+      if (check_good_HTTP_Code(response.statusCode)) {
         reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
       }
       try {
