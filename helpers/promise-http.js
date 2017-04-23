@@ -58,9 +58,9 @@ const HTTPPostJSONClient = (endpoint, postData) => {
         reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
       }
       try {
-        fulfill(JSON.parse(body));
+        fulfill(body);
       } catch (e) {
-        reject(new Error(`Error Occurred while parsing response JSON: ${body}`));
+        reject(e);
       }
     });
   });
@@ -87,9 +87,9 @@ const HTTPPatchJSONClient = (endpoint, postData) => {
         reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
       }
       try {
-        fulfill(JSON.parse(body));
+        fulfill(body);
       } catch (e) {
-        reject(new Error(`Error Occurred while parsing response JSON: ${body}`));
+        reject(e);
       }
     });
   });
@@ -115,9 +115,9 @@ const HTTPDeleteJSONClient = (endpoint) => {
         reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
       }
       try {
-        fulfill(JSON.parse(body));
+        fulfill(body);
       } catch (e) {
-        reject(new Error(`Error Occurred while parsing response JSON: ${body}`));
+        reject(e);
       }
     });
   });
