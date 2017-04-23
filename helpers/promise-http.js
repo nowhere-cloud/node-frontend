@@ -31,7 +31,7 @@ const HTTPGetJSONClient = (endpoint) => {
       try {
         fulfill(JSON.parse(body));
       } catch (e) {
-        reject(new Error('Error Occurred while parsing response JSON'));
+        reject(new Error(`Error Occurred while parsing response JSON: ${body}`));
       }
     });
   });
@@ -60,7 +60,7 @@ const HTTPPostJSONClient = (endpoint, postData) => {
       try {
         fulfill(JSON.parse(body));
       } catch (e) {
-        reject(new Error('Error Occurred while parsing response JSON'));
+        reject(new Error(`Error Occurred while parsing response JSON: ${body}`));
       }
     });
   });
@@ -89,7 +89,7 @@ const HTTPPatchJSONClient = (endpoint, postData) => {
       try {
         fulfill(JSON.parse(body));
       } catch (e) {
-        reject(new Error('Error Occurred while parsing response JSON'));
+        reject(new Error(`Error Occurred while parsing response JSON: ${body}`));
       }
     });
   });
@@ -117,7 +117,7 @@ const HTTPDeleteJSONClient = (endpoint) => {
       try {
         fulfill(JSON.parse(body));
       } catch (e) {
-        reject(new Error('Error Occurred while parsing response JSON'));
+        reject(new Error(`Error Occurred while parsing response JSON: ${body}`));
       }
     });
   });
