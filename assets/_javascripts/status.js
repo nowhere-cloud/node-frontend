@@ -15,7 +15,7 @@
     $.get('/admin/log/severity').done((data) => {
       $('#severity').html('');
       $.each(data, (index, el) => {
-        let _w = $('<a/>').addClass(`btn btn-${severity_DOM[el._id]} mr-1`);
+        let _w = $('<a/>').addClass(`btn btn-${severity_DOM[el._id]} mr-1 mb-1`);
         _w.attr('href',`/admin/log/severity/${severity_Human[el._id].toLowerCase()}`).html(severity_Human[el._id]);
         _w.appendTo('#severity');
       });
