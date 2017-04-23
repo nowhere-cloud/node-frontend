@@ -31,6 +31,10 @@
    * @param {[type]} DEC [description]
    */
   const DEC2HEX = (DEC) => {
+    return parseInt(DEC, 10).toString(16);
+  };
+
+  const DEC2HEXp = (DEC) => {
     let result = parseInt(DEC, 10).toString(16);
     return result.length === 1 ? '0' + result : result;
   };
@@ -41,7 +45,7 @@
    */
   const GenerateIP6 = (IP4) => {
     let splitted = IP4.trim().split('.');
-    return `::FFFF:${DEC2HEX(splitted[0])}${DEC2HEX(splitted[1])}:${DEC2HEX(splitted[2])}${DEC2HEX(splitted[3])}`;
+    return `::FFFF:${DEC2HEX(splitted[0])}${DEC2HEXp(splitted[1])}:${DEC2HEX(splitted[2])}${DEC2HEXp(splitted[3])}`;
   };
 
   $(document).ready(() => {
@@ -73,8 +77,6 @@
       $('#ipv6-new').val(GenerateIP6($('#ipv4-new').val()));
     }
     $(this)[0].submit();
-    $('#NewDNS').modal('hide');
-    loadTable();
   });
 
   $('#edit-dns').on('submit', '.dns-edit-form', function (e) {
@@ -83,8 +85,6 @@
       $('#ipv6-edit').val(GenerateIP6($('#ipv4-new').val()));
     }
     $(this)[0].submit();
-    $('#EditDNS').modal('hide');
-    loadTable();
   });
 
   // Lazy Load Form (Server Side Render for security)
