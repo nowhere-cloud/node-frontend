@@ -32,7 +32,8 @@
    * @param {[type]} DEC [description]
    */
   const DEC2HEX = (DEC) => {
-    return parseInt(DEC, 10).toString(16);
+    let result = parseInt(DEC, 10).toString(16);
+    return result.length === 1 ? '0' + result : result;
   };
 
   /**
