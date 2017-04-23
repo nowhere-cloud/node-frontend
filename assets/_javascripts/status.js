@@ -2,7 +2,7 @@
 
 (($) => {
   // Human Readable Syslog Severity, also copied from source code
-  const severity_Human = 'Emergency Alert Critical Error Warning Notice Informational, Debug'.split(' ');
+  const severity_Human = 'Emergency Alert Critical Error Warning Notice Informational Debug'.split(' ');
   // Severity Coloring for DOM
   const severity_DOM = ['danger', 'danger', 'danger', 'danger', 'warning', 'primary', 'info', 'secondary'];
   // Date String
@@ -15,8 +15,8 @@
     $.get('/admin/log/severity').done((data) => {
       $('#severity').html('');
       $.each(data, (index, el) => {
-        let _w = $('<a/>').addClass('btn');
-        _w.addClass(`btn-${severity_DOM[el._id]}`).attr('href',`/admin/log/severity/${severity_Human[el._id].toLowerCase()}`).html(severity_Human[el._id]);
+        let _w = $('<a/>').addClass(`btn btn-${severity_DOM[el._id]} mr-1`);
+        _w.attr('href',`/admin/log/severity/${severity_Human[el._id].toLowerCase()}`).html(severity_Human[el._id]);
         _w.appendTo('#severity');
       });
     }).fail((error) => {
@@ -28,8 +28,8 @@
     $.get('/admin/log/tag').done((data) => {
       $('#tags').html('');
       $.each(data, (index, el) => {
-        let _w = $('<a/>').addClass('btn');
-        _w.addClass('btn-secondary').attr('href',`/admin/log/tag/${el._id}`).html(el._id);
+        let _w = $('<a/>').addClass('btn btn-secondary mr-1');
+        _w.attr('href',`/admin/log/tag/${el._id}`).html(el._id);
         _w.appendTo('#tags');
       });
     }).fail((error) => {
@@ -41,8 +41,8 @@
     $.get('/admin/log/hostname').done((data) => {
       $('#hostname').html('');
       $.each(data, (index, el) => {
-        let _w = $('<a/>').addClass('btn');
-        _w.addClass('btn-secondary').attr('href',`/admin/log/hostname/${el._id}`).html(el._id);
+        let _w = $('<a/>').addClass('btn btn-secondary mr-1');
+        _w.attr('href',`/admin/log/hostname/${el._id}`).html(el._id);
         _w.appendTo('#hostname');
       });
     }).fail((error) => {
