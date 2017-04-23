@@ -37,7 +37,7 @@ Router.get('/partials/form/:entryID((\\d+))', (req, res, next) => {
       });
     } else {
       req.flash('error', `DNS Entry ID: ${req.params.entryID} Not Found.`);
-      res.redirect('/users/dns');
+      res.redirect('/admin/dns');
     }
   }).catch((err) => {
     return next(err);
@@ -54,7 +54,7 @@ Router.post('/', (req, res, next) => {
     userid: 1
   }).then((data) => {
     req.flash('success', `DNS Entry ${req.body.type} - ${req.body.name} Created.`);
-    res.redirect('/users/dns');
+    res.redirect('/admin/dns');
   }).catch((err) => {
     return next(err);
   });
@@ -80,7 +80,7 @@ Router.post('/patch', (req, res, next) => {
     } else {
       req.flash('error', `DNS Entry ID: ${req.params.entryID} Not Found.`);
     }
-    res.redirect('/users/dns');
+    res.redirect('/admin/dns');
   }).catch((err) => {
     return next(err);
   });
@@ -101,7 +101,7 @@ Router.get('/delete/:entryID((\\d+))', (req, res, next) => {
     default:
       req.flash('success', `DNS Entry ${data.type} - ${data.name} Updated.`);
     }
-    res.redirect('/users/dns');
+    res.redirect('/admin/dns');
   }).catch((err) => {
     return next(err);
   });
