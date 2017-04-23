@@ -69,20 +69,20 @@
 
   $('#new-dns').on('submit', function (e) {
     e.preventDefault();
-    if($('#ipv6-new').val() === '') {
+    if ($('#ipv6-new').val() === '') {
       $('#ipv6-new').val(GenerateIP6($('#ipv4-new').val()));
     }
-    $(this).submit();
+    $(this)[0].submit();
     $('#NewDNS').modal('hide');
     loadTable();
   });
 
   $('#edit-dns').on('submit', '.dns-edit-form', function (e) {
     e.preventDefault();
-    if($('#ipv6-edit').val() === '') {
+    if ($('#ipv6-edit').val() === '') {
       $('#ipv6-edit').val(GenerateIP6($('#ipv4-new').val()));
     }
-    $(this).submit();
+    $(this)[0].submit();
     $('#EditDNS').modal('hide');
     loadTable();
   });
