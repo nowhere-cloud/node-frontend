@@ -46,10 +46,7 @@
 
   $(document).ready(() => {
     // Lazy Load DNS Table
-    setTimeout(() => {
-      $('#ip4-feedback').hide();
-      loadTable();
-    }, 2000);
+    loadTable();
   });
 
   // Reset Form
@@ -58,6 +55,7 @@
   });
 
   $('#NewDNS').on('show.bs.modal', () => {
+    $('#ip4-feedback').hide();
     $('#new-dns')[0].reset();
   });
 
