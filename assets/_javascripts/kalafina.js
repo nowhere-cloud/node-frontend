@@ -25,14 +25,7 @@
       }
     });
   };
-  /**
-   * Check if an IPv4 is valid using regex
-   * @param {String} IP Raw IPv4
-   */
-  const CheckIP4 = (IP) => {
-    // http://www.regextester.com/22
-    return /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/g.test(IP);
-  };
+
 
   /**
    * Denary to Hexadecimal Number
@@ -78,28 +71,20 @@
 
   $('#new-dns').on('submit', function (e) {
     e.preventDefault();
-    if(!CheckIP4($('#ipv4-new').val())) {
-      $('#ipv4-new').addClass('form-control-danger');
-      $('#ip4-feedback').show();
-      return false;
-    }
     if($('#ipv6-new').val() === '') {
       $('#ipv6-new').val(GenerateIP6($('#ipv4-new').val()));
     }
     this.submit();
+    $('#NewDNS').modal('hide');
   });
 
   $('#edit-dns').on('submit', '.dns-edit-form', function (e) {
     e.preventDefault();
-    if(!CheckIP4($('#ipv4-edit').val())) {
-      $('#ipv4-edit').addClass('form-control-danger');
-      $('#ip4-edit-feedback').show();
-      return false;
-    }
     if($('#ipv6-edit').val() === '') {
       $('#ipv6-edit').val(GenerateIP6($('#ipv4-new').val()));
     }
     this.submit();
+    $('#EditDNS').modal('hide');
   });
 
   // Lazy Load Form (Server Side Render for security)
