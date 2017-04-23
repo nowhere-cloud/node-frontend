@@ -15,8 +15,9 @@
     $.get('/admin/log/severity').done((data) => {
       $('#severity').html('');
       $.each(data, (index, el) => {
-        let _w = $('a').addClass('btn').addClass(`btn-${severity_DOM[el._id]}`);
-        _w.attr('href',`/admin/log/severity/${severity_Human[el._id].toString().toLowerCase()}`).html(severity_Human[el._id]).appendTo('#severity');
+        let _w = $('<a/>').addClass('btn');
+        _w.addClass(`btn-${severity_DOM[el._id]}`).attr('href',`/admin/log/severity/${severity_Human[el._id].toLowerCase()}`).html(severity_Human[el._id]);
+        _w.appendTo('#severity');
       });
     }).fail((error) => {
       $('#severity').html(`${error.status} ${error.statusText}`);
@@ -27,8 +28,9 @@
     $.get('/admin/log/tag').done((data) => {
       $('#tags').html('');
       $.each(data, (index, el) => {
-        let _w = $('a').addClass('btn').addClass('btn-secondary');
-        _w.attr('href',`/admin/log/tag/${el._id}`).html(el._id).appendTo('#tags');
+        let _w = $('<a/>').addClass('btn');
+        _w.addClass('btn-secondary').attr('href',`/admin/log/tag/${el._id}`).html(el._id);
+        _w.appendTo('#tags');
       });
     }).fail((error) => {
       $('#tags').html(`${error.status} ${error.statusText}`);
@@ -39,8 +41,9 @@
     $.get('/admin/log/hostname').done((data) => {
       $('#hostname').html('');
       $.each(data, (index, el) => {
-        let _w = $('a').addClass('btn').addClass('btn-secondary');
-        _w.attr('href',`/admin/log/hostname/${el._id}`).html(el._id).appendTo('#hostname');
+        let _w = $('<a/>').addClass('btn');
+        _w.addClass('btn-secondary').attr('href',`/admin/log/hostname/${el._id}`).html(el._id);
+        _w.appendTo('#hostname');
       });
     }).fail((error) => {
       $('#hostname').html(`${error.status} ${error.statusText}`);
