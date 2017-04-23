@@ -54,6 +54,7 @@
   $(document).ready(() => {
     // Lazy Load DNS Table
     setTimeout(() => {
+      $('#ip4-feedback').hide();
       loadTable();
     }, 2000);
   });
@@ -77,7 +78,7 @@
 
   $('#new-dns').on('submit', function (e) {
     e.preventDefault();
-    if(CheckIP4($('#ipv4-new').val())) {
+    if(!CheckIP4($('#ipv4-new').val())) {
       $('#ipv4-new').addClass('form-control-danger');
       $('#ip4-feedback').show();
       return false;
@@ -90,7 +91,7 @@
 
   $('#edit-dns').on('submit', '.dns-edit-form', function (e) {
     e.preventDefault();
-    if(CheckIP4($('#ipv4-edit').val())) {
+    if(!CheckIP4($('#ipv4-edit').val())) {
       $('#ipv4-edit').addClass('form-control-danger');
       $('#ip4-edit-feedback').show();
       return false;
