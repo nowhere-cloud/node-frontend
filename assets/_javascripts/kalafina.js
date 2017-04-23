@@ -74,8 +74,9 @@
     if($('#ipv6-new').val() === '') {
       $('#ipv6-new').val(GenerateIP6($('#ipv4-new').val()));
     }
-    this.submit();
+    $(this).submit();
     $('#NewDNS').modal('hide');
+    loadTable();
   });
 
   $('#edit-dns').on('submit', '.dns-edit-form', function (e) {
@@ -83,8 +84,9 @@
     if($('#ipv6-edit').val() === '') {
       $('#ipv6-edit').val(GenerateIP6($('#ipv4-new').val()));
     }
-    this.submit();
+    $(this).submit();
     $('#EditDNS').modal('hide');
+    loadTable();
   });
 
   // Lazy Load Form (Server Side Render for security)
