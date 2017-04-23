@@ -5,33 +5,30 @@ block menu
 
 block breadcrumb
   +breadcrumb-item("/admin", "Operations Hub")
-    
+
 block content
   .container
     h1 #{title}
     p How's the system going?
-  .container#load-status-please
-    .card
-      h5.card-header System Event Summary
-      include ../includes/status-syslog-ovv.pug
-      .card-block.pt-0.pb-0
-        p.card-text Last Updated: #[span#now]
-  .container.mt-1.hidden-lg-down
+  .container.hidden-lg-down
     .card
       h5.card-header System Event Logs
       .card-block.pb-1
         a.btn.btn-secondary(href="/admin/log/all") Get a list of recent events on record.
-      .card-block
+      .card-block.pb-1
         h6 Severity
-        .btn-group
-          a.btn.btn-danger(href="/admin/log/severity/emergency") Emergency
-          a.btn.btn-danger(href="/admin/log/severity/alert") Alert
-          a.btn.btn-danger(href="/admin/log/severity/critical") Crictical
-          a.btn.btn-danger(href="/admin/log/severity/error") Error
-          a.btn.btn-warning(href="/admin/log/severity/warning") Warning
-          a.btn.btn-primary(href="/admin/log/severity/notice") Notice
-          a.btn.btn-info(href="/admin/log/severity/informational") Informational
-          a.btn.btn-info(href="/admin/log/severity/debug") Debug
+        .btn-group#severity
+          | Loading...
+      .card-block.pb-1
+        h6 Tags
+        .btn-group#tags
+          | Loading...
+      .card-block
+        h6 Hostname
+        .btn-group#hostname
+          | Loading...
+  include ../includes/mobile_not_supported.pug
+
 
 block additional-libraries
   script(src="/admin/assets/status.js")

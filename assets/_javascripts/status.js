@@ -1,44 +1,52 @@
 'use strict';
 
 (($) => {
-
-  /**
-   * Generate two list-group-item for stats
-   */
-  const empty_stats = $('<div/>').addClass('list-group-item list-group-item-info').html('Not Available');
-  const error_stats = $('<div/>').addClass('list-group-item list-group-item-danger');
-
   // Human Readable Syslog Severity, also copied from source code
-  const severity_Human = 'Emergency Alert Critical Error Warning Notice Informational'.split(' ');
+  const severity_Human = 'Emergency Alert Critical Error Warning Notice Informational, Debug'.split(' ');
   // Severity Coloring for DOM
-  const severity_DOM = ['danger', 'danger', 'danger', 'danger', 'warning', 'primary', 'info'];
+  const severity_DOM = ['danger', 'danger', 'danger', 'danger', 'warning', 'primary', 'info', 'secondary'];
   // Date String
   const DateString = new PrettyDate(); // eslint-disable-line no-undef
 
   /**
    * Load Syslog Stats (on severity)
    */
-  const loadStats = () => {
-    $.get('/status/api/ikoma').done((data) => {
-      if (data.length === 0) {
-        $('#status-health-metrics').html(empty_stats);
-      } else {
-        $('#status-health-metrics').html('');
-        $.each(data, (index, el) => {
-          let _w = $('<div/>').addClass('list-group-item justify-content-between');
-          // Debug Messages are meant noting to System Health, so we filter them
-          if (el._id >= 7) {
-            return true;
-          } else {
-            _w.addClass(`list-group-item-${severity_DOM[el._id]}`).html(severity_Human[el._id]);
-            $('<span/>').addClass('badge badge-default badge-pill').html(el.count).appendTo(_w);
-          }
-          _w.appendTo('#status-health-metrics');
-        });
-      }
+  const loadSeverity = () => {
+    $.get('/admin/log/severity').done((data) => {
+      $('#severity').html('');
+      $.each(data, (index, el) => {
+        let _w = $('a').addClass('btn');
+        _w.addClass(`btn-${severity_DOM[el._id]}`).attr('href',`/admin/log/severity/${severity_Human[el._id].toLowerCase()}`).html(severity_Human[el._id]);
+        _w.appendTo('#severity');
+      });
     }).fail((error) => {
-      error_stats.html(`${error.status} ${error.statusText}`);
-      $('#status-health-metrics').html(error_stats);
+      $('#severity').html(`${error.status} ${error.statusText}`);
+    });
+  };
+
+  const loadTag = () => {
+    $.get('/admin/log/tag').done((data) => {
+      $('#tags').html('');
+      $.each(data, (index, el) => {
+        let _w = $('a').addClass('btn');
+        _w.addClass('btn-secondary').attr('href',`/admin/log/tag/${el._id}`).html(el._id);
+        _w.appendTo('#tags');
+      });
+    }).fail((error) => {
+      $('#tags').html(`${error.status} ${error.statusText}`);
+    });
+  };
+
+  const loadHostname = () => {
+    $.get('/admin/log/hostname').done((data) => {
+      $('#hostname').html('');
+      $.each(data, (index, el) => {
+        let _w = $('a').addClass('btn');
+        _w.addClass('btn-secondary').attr('href',`/admin/log/tag/${el._id}`).html(el._id);
+        _w.appendTo('#tags');
+      });
+    }).fail((error) => {
+      $('#hostname').html(`${error.status} ${error.statusText}`);
     });
   };
 
@@ -48,8 +56,9 @@
   $(document).ready(() => {
     let CheckMobile = new Mobile(); // eslint-disable-line no-undef
     if (!CheckMobile.check()) {
-      $('#now').html(`${DateString.getTodayDate()} @ ${DateString.getCurrentTime()}`);
-      loadStats();
+      loadHostname();
+      loadSeverity();
+      loadTag();
     }
   });
 })(jQuery);

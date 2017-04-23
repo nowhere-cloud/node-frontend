@@ -3,7 +3,8 @@
 const express = require('express');
 const Router  = express.Router();
 const HTTP    = require('../../helpers/promise-http');
-const Auth      = require('../../helpers/authenticator');
+const Auth    = require('../../helpers/authenticator');
+const Proxy   = require('express-http-proxy');
 
 /**
  * Capitalize First Letter of the given string
@@ -20,7 +21,7 @@ Router.all('*', Auth.Admin.Protection);
 Router.get('/', (req, res, next) => {
   res.render('admin/status', {
     breadcrumb: true,
-    title: 'Syslog Dashboard'
+    title: 'System Event Dashboard'
   });
 });
 
@@ -37,12 +38,20 @@ Router.get('/all', (req, res, next) => {
   });
 });
 
-Router.get('/severity/:severity', (req, res, next) => {
-  HTTP.GetJSON(`http://api:3000/log/severity/${req.params.severity}`).then((rsvp) => {
+Router.get('/:type', (req, res, next) => {
+  HTTP.GetJSON(`http://api:3000/log/${req.params.type}`).then((rsvp) => {
+    res.json(rsvp);
+  }).catch((err) => {
+    return next(err);
+  });
+});
+
+Router.get('/:type/:value', (req, res, next) => {
+  HTTP.GetJSON(`http://api:3000/log/${req.params.type}/${req.params.value}`).then((rsvp) => {
     res.render('admin/report', {
       title: 'Report',
-      ReportTitle: `All System Events Labelled ${CapitalizeFirstLetter(req.params.severity)}`,
-      withLegend: false,
+      ReportTitle: `System Events Labelled "${CapitalizeFirstLetter(req.params.value)}" at "${CapitalizeFirstLetter(req.params.type)}"`,
+      withLegend: !(req.params.type === 'severity'),
       data: rsvp
     });
   }).catch((err) => {

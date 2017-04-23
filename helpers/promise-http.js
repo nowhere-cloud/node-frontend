@@ -25,10 +25,14 @@ const HTTPGetJSONClient = (endpoint) => {
       if (err) {
         reject(err);
       }
-      if (check_good_HTTP_Code(response.statusCode)) {
+      if (response && check_good_HTTP_Code(response.statusCode)) {
         reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
       }
-      fulfill(JSON.parse(body));
+      try {
+        fulfill(JSON.parse(body));
+      } catch (e) {
+        reject(new Error('Error Occurred while parsing response JSON'));
+      }
     });
   });
   return promise;
@@ -50,10 +54,14 @@ const HTTPPostJSONClient = (endpoint, postData) => {
       if (err) {
         reject(err);
       }
-      if (check_good_HTTP_Code(response.statusCode)) {
+      if (response && check_good_HTTP_Code(response.statusCode)) {
         reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
       }
-      fulfill(JSON.parse(body));
+      try {
+        fulfill(JSON.parse(body));
+      } catch (e) {
+        reject(new Error('Error Occurred while parsing response JSON'));
+      }
     });
   });
   return promise;
@@ -75,10 +83,14 @@ const HTTPPatchJSONClient = (endpoint, postData) => {
       if (err) {
         reject(err);
       }
-      if (check_good_HTTP_Code(response.statusCode)) {
+      if (response && check_good_HTTP_Code(response.statusCode)) {
         reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
       }
-      fulfill(JSON.parse(body));
+      try {
+        fulfill(JSON.parse(body));
+      } catch (e) {
+        reject(new Error('Error Occurred while parsing response JSON'));
+      }
     });
   });
   return promise;
@@ -99,10 +111,14 @@ const HTTPDeleteJSONClient = (endpoint) => {
       if (err) {
         reject(err);
       }
-      if (check_good_HTTP_Code(response.statusCode)) {
+      if (response && check_good_HTTP_Code(response.statusCode)) {
         reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
       }
-      fulfill(JSON.parse(body));
+      try {
+        fulfill(JSON.parse(body));
+      } catch (e) {
+        reject(new Error('Error Occurred while parsing response JSON'));
+      }
     });
   });
   return promise;
