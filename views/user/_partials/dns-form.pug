@@ -5,7 +5,7 @@
         h5#exampleModalLabel.modal-title New DNS Record
         button.close(type='button', data-dismiss='modal', aria-label='Close')
           span(aria-hidden='true') &times;
-      form.modal-body(method="POST", action="./")#new-dns
+      form.modal-body(method="POST")#new-dns
         input(type="hidden" name="_csrf" value=`${csrfToken}`)
         .form-group
           label(for='dns-type-new') Record Type
