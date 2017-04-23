@@ -54,7 +54,7 @@ Router.post('/', (req, res, next) => {
     userid: 1
   }).then((data) => {
 
-    req.flash('success', `DNS Entry ${data.type} - ${data.name} Created. ${data}`);
+    req.flash('success', `DNS Entry ${req.body.type} - ${req.body.name} Created. ${data}`);
     res.redirect('/users/dns');
   }).catch((err) => {
     return next(err);
