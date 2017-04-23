@@ -28,7 +28,7 @@
     $.get('/admin/log/tag').done((data) => {
       $('#tags').html('');
       $.each(data, (index, el) => {
-        let _w = $('<a/>').addClass('btn btn-secondary mr-1');
+        let _w = $('<a/>').addClass('btn btn-secondary mr-1 mb-1');
         _w.attr('href',`/admin/log/tag/${el._id}`).html(el._id);
         _w.appendTo('#tags');
       });
@@ -41,7 +41,7 @@
     $.get('/admin/log/hostname').done((data) => {
       $('#hostname').html('');
       $.each(data, (index, el) => {
-        let _w = $('<a/>').addClass('btn btn-secondary mr-1');
+        let _w = $('<a/>').addClass('btn btn-secondary mr-1 mb-1');
         _w.attr('href',`/admin/log/hostname/${el._id}`).html(el._id);
         _w.appendTo('#hostname');
       });
