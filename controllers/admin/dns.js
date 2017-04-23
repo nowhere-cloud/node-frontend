@@ -53,7 +53,8 @@ Router.post('/', (req, res, next) => {
     cname: Sanitizer.sanitize(req.body.opt),
     userid: 1
   }).then((data) => {
-    req.flash('success', `DNS Entry ${data.type} - ${data.name} Created.`);
+
+    req.flash('success', `DNS Entry ${data.type} - ${data.name} Created. ${data}`);
     res.redirect('/users/dns');
   }).catch((err) => {
     return next(err);
