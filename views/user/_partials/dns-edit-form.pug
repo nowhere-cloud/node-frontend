@@ -9,16 +9,15 @@ form(method="POST", action="/users/dns/patch")
     input#dns-name-edit.form-control(type='text', name='name', required, value=`${payload.name}`)
   if (payload.type === 'A')
     .form-group
-      label(for='ipv4-edit') IPv4 Address
-      input#ipv4-edit.form-control(type='text', name='ipv4address', required, value=`${payload.ipv4address}`)
-      .form-control-feedback#ip4-edit-feedback Invalid IPv4
+      label(for='ip4-edit') IPv4 Address
+      input#ip4-edit.form-control(type='text', name='ip4', required, value=`${payload.ipv4address}`)
     .form-group
-      label(for='ipv6address-edit') IPv6 Address
-      input#ipv6-edit.form-control(type='text', name='ipv6address', required, value=`${payload.ipv6address}`)
+      label(for='ip6-edit') IPv6 Address
+      input#ip6-edit.form-control(type='text', name='ip6', required, value=`${payload.ipv6address}`)
   if (payload.type === 'CNAME')
     .form-group
-      label(for='cname-new') Value
-      input#cname-edit.form-control(type='text', name='cname', required, value=`${payload.cname}`)
+      label(for='opt') Value
+      input#opt-edit.form-control(type='text', name='opt', required, value=`${payload.cname}`)
   .form-group
     .btn-toolbar
       .btn-group.mr-2

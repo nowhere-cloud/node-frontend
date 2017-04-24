@@ -49,7 +49,6 @@
     return `::FFFF:${DEC2HEX(splitted[0])}${DEC2HEXp(splitted[1])}:${DEC2HEX(splitted[2])}${DEC2HEXp(splitted[3])}`;
   };
 
-
   $(document).ready(() => {
     // Lazy Load DNS Table
     loadTable();
@@ -75,10 +74,24 @@
 
   $('#new-dns').on('submit', function (e) {
     e.preventDefault();
+    if ($('#ipv4-new').val() === '') {
+      $('#ipv4-new').addClass('form-control-danger');
+      return false;
+    }
     if ($('#dns-type-new').val() === 'A' && $('#ipv6-new').val() === '') {
       $('#ipv6-new').val(GenerateIP6($('#ipv4-new').val()));
     }
+    if ($('#dns-type-new').val() === 'CNAME' && $('#optval-new').val() === '') {
+      $('#optval-new').addClass('form-control-danger');
+      return false;
+    }
     $(this)[0].submit();
+  });
+
+  $('#edit-dns').on('change', '#ip4-edit', function (e) {
+    if ($(this).val().split('.').length === 4) {
+      $('#ipv6-edit').val(GenerateIP6($('#ipv4-new').val()));
+    }
   });
 
   $('#edit-dns').on('submit', '.dns-edit-form', function (e) {
@@ -90,7 +103,7 @@
   });
 
   // Lazy Load Form (Server Side Render for security)
-  $('#dns-loadhere').on('click', '.dns-edit', function() {
+  $('#dns-loadhere').on('click', '.dns-edit', function () {
     loadForm($(this).data('entryid'));
     $('#EditDNS').modal('show');
   });
