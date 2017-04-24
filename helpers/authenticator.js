@@ -7,7 +7,7 @@
  *
  * The Code derivated from the above repo are publicized in Public Domain.
  * The main derivations are:
- * 1. using Native Crypto Library (selectively based on System Environment) instead of BCrypt.
+ * 1. using Native Crypto Library instead of BCrypt.
  * 2. Extracted into a seperate file and called as CommonJS Module.
  * 3. ES6 Optimized.
  */
@@ -146,11 +146,11 @@ const deSerialize = (uid, cb) => {
  * @return {Null}
  */
 const User_Protection = (req, res, next) => {
-  if (req.user) {
-    return next();
-  }
   if (req.user && req.user.hasOwnProperty('admin')) {
     res.redirect('/admin');
+  }
+  if (req.user) {
+    return next();
   }
   res.redirect('/users/auth/login');
 };
