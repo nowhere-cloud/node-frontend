@@ -21,18 +21,17 @@ const check_good_HTTP_Code = (statusCode) => {
  */
 const HTTPGetJSONClient = (endpoint) => {
   let promise = new Promise((fulfill, reject) => {
-    Request.get(endpoint, (err, response, body) => {
+    Request.get({
+      uri: endpoint,
+      json: true
+    }, (err, response, body) => {
       if (err) {
         reject(err);
       }
       if (check_good_HTTP_Code(response.statusCode)) {
         reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
       }
-      try {
-        fulfill(JSON.parse(body));
-      } catch (e) {
-        reject(new Error(`Error Occurred while parsing response JSON: ${body}`));
-      }
+      fulfill(body);
     });
   });
   return promise;
@@ -55,13 +54,9 @@ const HTTPPostJSONClient = (endpoint, postData) => {
         reject(err);
       }
       if (check_good_HTTP_Code(response.statusCode)) {
-        reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
+        reject(new Error(`Request Failed. Status Code: ${response.statusCode}, ${body}`));
       }
-      try {
-        fulfill(body);
-      } catch (e) {
-        reject(e);
-      }
+      fulfill(body);
     });
   });
   return promise;
@@ -84,13 +79,9 @@ const HTTPPatchJSONClient = (endpoint, postData) => {
         reject(err);
       }
       if (check_good_HTTP_Code(response.statusCode)) {
-        reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
+        reject(new Error(`Request Failed. Status Code: ${response.statusCode}, ${body}`));
       }
-      try {
-        fulfill(body);
-      } catch (e) {
-        reject(e);
-      }
+      fulfill(body);
     });
   });
   return promise;
@@ -114,11 +105,7 @@ const HTTPDeleteJSONClient = (endpoint) => {
       if (check_good_HTTP_Code(response.statusCode)) {
         reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
       }
-      try {
-        fulfill(body);
-      } catch (e) {
-        reject(e);
-      }
+      fulfill(body);
     });
   });
   return promise;
