@@ -75,7 +75,7 @@
 
   $('#new-dns').on('submit', function (e) {
     e.preventDefault();
-    if ($('#ipv6-new').val() === '' && $('#dns-type-new') === 'A') {
+    if ($('#dns-type-new').val() === 'A' && $('#ipv6-new').val() === '') {
       $('#ipv6-new').val(GenerateIP6($('#ipv4-new').val()));
     }
     $(this)[0].submit();
