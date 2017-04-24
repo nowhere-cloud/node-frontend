@@ -54,7 +54,7 @@ const HTTPPostJSONClient = (endpoint, postData) => {
         reject(err);
       }
       if (check_good_HTTP_Code(response.statusCode)) {
-        reject(new Error(`Request Failed. Status Code: ${response.statusCode}, ${body}`));
+        reject(new Error(`Request Failed. Status Code: ${response.statusCode}, ${JSON.stringify(body)}`));
       }
       fulfill(body);
     });
@@ -79,7 +79,7 @@ const HTTPPatchJSONClient = (endpoint, postData) => {
         reject(err);
       }
       if (check_good_HTTP_Code(response.statusCode)) {
-        reject(new Error(`Request Failed. Status Code: ${response.statusCode}, ${body}`));
+        reject(new Error(`Request Failed. Status Code: ${response.statusCode}, ${JSON.stringify(body)}`));
       }
       fulfill(body);
     });
