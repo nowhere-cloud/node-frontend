@@ -26,7 +26,6 @@
     });
   };
 
-
   /**
    * Denary to Hexadecimal Number
    * @param {[type]} DEC [description]
@@ -37,7 +36,9 @@
 
   const DEC2HEXp = (DEC) => {
     let result = parseInt(DEC, 10).toString(16);
-    return result.length === 1 ? '0' + result : result;
+    return result.length === 1
+      ? '0' + result
+      : result;
   };
 
   /**
@@ -72,7 +73,7 @@
     $('#edit-loading-bar').show();
   });
 
-  $('#new-dns').on('submit', function (e) {
+  $('#new-dns').on('submit', function(e) {
     e.preventDefault();
     if ($('#ipv4-new').val() === '') {
       $('#ipv4-new').addClass('form-control-danger');
@@ -88,13 +89,13 @@
     $(this)[0].submit();
   });
 
-  $('#edit-dns').on('change', '#ip4-edit', function (e) {
+  $('#edit-dns').on('change', '#ip4-edit', function(e) {
     if ($(this).val().split('.').length === 4) {
       $('#ipv6-edit').val(GenerateIP6($('#ipv4-new').val()));
     }
   });
 
-  $('#edit-dns').on('submit', '.dns-edit-form', function (e) {
+  $('#edit-dns').on('submit', '.dns-edit-form', function(e) {
     e.preventDefault();
     if ($('#ipv6-edit').val() === '') {
       $('#ipv6-edit').val(GenerateIP6($('#ipv4-new').val()));
@@ -103,7 +104,7 @@
   });
 
   // Lazy Load Form (Server Side Render for security)
-  $('#dns-loadhere').on('click', '.dns-edit', function () {
+  $('#dns-loadhere').on('click', '.dns-edit', function() {
     loadForm($(this).data('entryid'));
     $('#EditDNS').modal('show');
   });
