@@ -21,4 +21,6 @@ Router.use('/profile', require('./profile'));
 
 Router.use('/assets', require('./assets'));
 
+Router.use('/users', require('./user'));
+
 module.exports = Router;

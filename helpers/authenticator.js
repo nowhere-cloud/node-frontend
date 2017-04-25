@@ -11,16 +11,16 @@
  * 2. Extracted into a seperate file and called as CommonJS Module.
  * 3. ES6 Optimized.
  */
-const DBConnection  = require('../models').sequelize;
-const User          = require('../models').User;
-const Passport      = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const debug         = require('debug')('authenticator');
-const Session       = require('express-session');
-const SessionStore  = require('connect-session-sequelize')(Session.Store);
-const Sanitizer     = require('sanitizer');
-const env           = process.env.NODE_ENV || 'development';
-const Crypto        = require('crypto');
+const DBConnection    = require('../models').sequelize;
+const User            = require('../models').User;
+const Passport        = require('passport');
+const LocalStrategy   = require('passport-local').Strategy;
+const debug           = require('debug')('authenticator');
+const Session         = require('express-session');
+const SessionStore    = require('connect-session-sequelize')(Session.Store);
+const Sanitizer       = require('sanitizer');
+const env             = process.env.NODE_ENV || 'development';
+const Crypto          = require('crypto');
 
 /**
  * Calculate SHA256 of a specified String
@@ -93,14 +93,9 @@ const Admin_Strategy = new LocalStrategy((username, password, callback) => {
   if (AltPasswordHashFunction(password) !== admn) {
     return callback(null, false);
   }
-  return callback(null, {
-    id: 0,
-    username: 'Administrator',
-    password: 'youwontseemeinthewildasthiswouldbediscardedduringserialization',
-    admin: true
-  });
+  // In Database, Administrator ID is 1 with dummy credentials
+  return callback(null, {id: 1});
 });
-
 
 /**
  * Passport Serialize
@@ -117,19 +112,21 @@ const Serialize = (user, cb) => {
  * @param {*} cb  Callback
  */
 const deSerialize = (uid, cb) => {
-  if (uid === 0) {
+  if (uid === 1) {
+    // Administrator
     return cb(null, {
-      id: 0,
+      id: 1,
       username: 'Administrator',
       admin: true
     });
   } else if (env === 'development') {
+    // User
     return cb(null, {
-      id: 1,
+      id: 2,
       username: 'foo'
     });
   } else {
-    User.findById(uid).then(function (user) {
+    User.findById(uid).then(function(user) {
       delete user.password;
       cb(null, user);
     }).catch((err) => {
@@ -205,7 +202,7 @@ const Admin_CreateUser = (req, res, next) => {
       User.create({
         username: Sanitizer.sanitize(req.body.username),
         password: PasswordHashFunction(req.body.password)
-      }).then(function (user) {
+      }).then(function(user) {
         req.flash('success', `User: ${req.body.username} created.`);
         return next();
       }).catch((err) => {
@@ -243,9 +240,7 @@ const Admin_DeleteUser = (req, res, next) => {
  * @param  {Function} next Call next middleware
  */
 const Admin_GetUserProfile = (req, res, next) => {
-  User.findById(
-    Sanitizer.sanitize(req.body.userid)
-  ).then((user) => {
+  User.findById(Sanitizer.sanitize(req.body.userid)).then((user) => {
     delete user.password;
     res.locals.userdata = user;
     next();
@@ -335,7 +330,6 @@ const Admin_Protection = (req, res, next) => {
   }
   res.redirect('/');
 };
-
 
 module.exports = {
   Connection: DBConnection,

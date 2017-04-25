@@ -1,0 +1,30 @@
+extends ../layout
+
+block menu
+  include ../user/common-topbar-user.pug
+
+block breadcrumb
+  +breadcrumb-item("/admin", "Operations Hub")
+
+block content
+  .container
+    h1= title
+    p Manage User Accounts.
+  .container.hidden-md-down
+    .card
+      if errorMessage.length
+        .card-block
+          .alert.alert-danger !{errorMessage}
+      if successMessage.length
+        .card-block
+          .alert.alert-success !{successMessage}
+      table.table#user-loadhere
+        tbody
+          tr
+            td(colspan="3")
+              include ../includes/loading-bar.pug
+      .card-footer
+        button.mb-0.btn.btn-block.btn-primary(type="button", data-toggle="modal" data-target="#NewUser") New User
+  include ../includes/mobile_not_supported.pug
+    
+block additional-libraries
