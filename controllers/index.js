@@ -24,7 +24,4 @@ Router.use('/admin', require('./admin/'));
 // Knowledge Base
 Router.use('/help', require('./help'));
 
-// API Tunnel for test.
-Router.use('/api', require('./api'));
-
 module.exports = Router;

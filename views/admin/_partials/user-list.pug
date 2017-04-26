@@ -1,0 +1,20 @@
+thead
+  tr
+    th #
+    th Username
+    th Created
+    th Action
+tbody
+  if data.length
+    each value, index in data
+      tr
+        td= value.id
+        td= value.username
+        td= value.createdAt
+        td.clearfix
+          .btn-group.ml-0.mr-0
+            button.btn.btn-sm.btn-primary.user-edit(data-entryid=`${value.id}`) Reset Password
+            a.btn.btn-sm.btn-danger.user-delete(href=`/admin/users/delete/${value.id}`) Delete User
+  else
+    tr.table-info
+      td(colspan="4") No Records

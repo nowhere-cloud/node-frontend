@@ -43,6 +43,14 @@ const PasswordHashFunction = (raw) => {
 };
 
 /**
+ * Forbidden Usernames
+ * @return {Array} Array of forbidden usernames
+ */
+const ForbiddenUserName = () => {
+  return ['admin', 'root', 'administrator', 'master'];
+};
+
+/**
  * Hash Function of Admin Password
  * @param {String} raw Clear Text
  * @return {String} Encrypted Password
@@ -57,11 +65,7 @@ const AltPasswordHashFunction = (raw) => {
  */
 const User_Strategy = new LocalStrategy((username, password, callback) => {
   if (env !== 'development') {
-    User.findOne({
-      where: {
-        username: username
-      }
-    }).then((user) => {
+    User.findOne({ where: { username: username } }).then((user) => {
       if (!user) {
         return callback(null, false);
       }
@@ -192,10 +196,10 @@ const Logout = (req, res, next) => {
  * @param  {Function} next Call next middleware
  */
 const Admin_CreateUser = (req, res, next) => {
-  User.findOne({
+  User.findOne({ where: {
     username: Sanitizer.sanitize(req.body.username)
-  }).then((user) => {
-    if (user) {
+  }}).then((user) => {
+    if (user !== null) {
       req.flash('error', `User: ${req.body.username} already occupied.`);
       return next();
     } else {
@@ -203,7 +207,7 @@ const Admin_CreateUser = (req, res, next) => {
         username: Sanitizer.sanitize(req.body.username),
         password: PasswordHashFunction(req.body.password)
       }).then(function(user) {
-        req.flash('success', `User: ${req.body.username} created.`);
+        req.flash('success', `User: ${user.username} (UID: ${user.id}) created.`);
         return next();
       }).catch((err) => {
         return next(err);
@@ -221,12 +225,10 @@ const Admin_CreateUser = (req, res, next) => {
  * @param  {Function} next Call next middleware
  */
 const Admin_DeleteUser = (req, res, next) => {
-  User.findOne({
-    username: Sanitizer.sanitize(req.body.username)
-  }).then((user) => {
+  User.findById(Sanitizer.sanitize(req.params.userid)).then((user) => {
     return user.destroy();
   }).then(() => {
-    req.flash('success', `User: ${req.body.username} deleted.`);
+    req.flash('success', `UID: ${req.params.userid} deleted.`);
     return next();
   }).catch((err) => {
     return next(err);
@@ -293,7 +295,7 @@ const User_UpdatePassword = (req, res, next) => {
  * @param  {Function} next Call next middleware
  */
 const Admin_UpdateUserPassword = (req, res, next) => {
-  User.findById(Sanitizer.sanitize(req.body.userid)).then((user) => {
+  User.findById(Sanitizer.sanitize(req.body.woot)).then((user) => {
     return user.update({
       password: PasswordHashFunction(req.body.password)
     });
@@ -352,7 +354,8 @@ module.exports = {
     FindUserByUsername: Admin_FindUserByUsername,
     UpdateUserPassword: Admin_UpdateUserPassword,
     UpdateOwnPassword: Admin_UpdateOwnPassword,
-    Protection: Admin_Protection
+    Protection: Admin_Protection,
+    ForbiddenUserName: ForbiddenUserName
   },
   Session: {
     Store: Session_StoreInstance

@@ -17,7 +17,7 @@ Router.route('/')
     });
   })
   .post(Auth.User.UpdatePassword, (req, res, next) => {
-    res.redirect('/user/');
+    res.redirect('/users/profile');
   });
 
 module.exports = Router;

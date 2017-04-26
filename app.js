@@ -57,6 +57,10 @@ app.use(bodyParser.urlencoded({extended: false}));
 // Cookie Parser
 app.use(cookieParser(secret_key));
 
+// API Tunnel for test.
+// TODO: Remove before deployment.
+app.use('/api', require('./controllers/api'));
+
 /* Session */
 
 // 1. Build Session Table

@@ -28,7 +28,10 @@ const HTTPGetJSONClient = (endpoint) => {
       if (err) {
         reject(err);
       }
-      if (check_good_HTTP_Code(response.statusCode)) {
+      if (!response) {
+        reject(new Error('Request Failed. Communication Error'));
+      }
+      if (response && check_good_HTTP_Code(response.statusCode)) {
         reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
       }
       fulfill(body);
@@ -53,8 +56,11 @@ const HTTPPostJSONClient = (endpoint, postData) => {
       if (err) {
         reject(err);
       }
-      if (check_good_HTTP_Code(response.statusCode)) {
-        reject(new Error(`Request Failed. Status Code: ${response.statusCode}, ${JSON.stringify(body)}`));
+      if (!response) {
+        reject(new Error('Request Failed. Communication Error'));
+      }
+      if (response && check_good_HTTP_Code(response.statusCode)) {
+        reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
       }
       fulfill(body);
     });
@@ -78,8 +84,11 @@ const HTTPPatchJSONClient = (endpoint, postData) => {
       if (err) {
         reject(err);
       }
-      if (check_good_HTTP_Code(response.statusCode)) {
-        reject(new Error(`Request Failed. Status Code: ${response.statusCode}, ${JSON.stringify(body)}`));
+      if (!response) {
+        reject(new Error('Request Failed. Communication Error'));
+      }
+      if (response && check_good_HTTP_Code(response.statusCode)) {
+        reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
       }
       fulfill(body);
     });
@@ -102,7 +111,10 @@ const HTTPDeleteJSONClient = (endpoint) => {
       if (err) {
         reject(err);
       }
-      if (check_good_HTTP_Code(response.statusCode)) {
+      if (!response) {
+        reject(new Error('Request Failed. Communication Error'));
+      }
+      if (response && check_good_HTTP_Code(response.statusCode)) {
         reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
       }
       fulfill(body);

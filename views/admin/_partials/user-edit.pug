@@ -1,0 +1,33 @@
+#EditUser.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+  .modal-dialog.modal-lg(role='document')
+    .modal-content
+      .modal-header
+        h5#exampleModalLabel.modal-title Reset User Password
+        button.close(type='button', data-dismiss='modal', aria-label='Close')
+          span(aria-hidden='true') &times;
+      .modal-body#edit-user
+        form.user-edit-form(method="POST", action="/admin/users/patch")
+          input#edit-csrf(type="hidden" name="_csrf")
+          input#edit-id(type="hidden", name="woot")
+          .form-group
+            label Username
+            p.form-control-static#edit-username
+          .form-group
+            label(for='password-edit') Password
+            input#password-edit.form-control(type='password', name='password', required, readonly)
+          .form-group
+            label Generated Password
+            p.form-control-static#password-out-edit ...
+          .form-group.row
+            .col-sm-12
+              a#generate-edit.btn.btn-block.btn-primary(href="#") Generate
+          .form-group
+            .btn-toolbar
+              .btn-group.mr-2
+                button.btn.btn-primary#edit-submit(type="submit") Submit
+              .btn-group
+                button.btn.btn-secondary(type="reset") Reset
+      .modal-body#edit-loading-bar
+        include ../../includes/loading-bar.pug
+      .modal-footer
+        button.btn.btn-secondary(type='button', data-dismiss='modal') Close

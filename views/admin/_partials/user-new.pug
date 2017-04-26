@@ -1,0 +1,29 @@
+#NewUser.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+  .modal-dialog.modal-lg(role='document')
+    .modal-content
+      .modal-header
+        h5#exampleModalLabel.modal-title New User
+        button.close(type='button', data-dismiss='modal', aria-label='Close')
+          span(aria-hidden='true') &times;
+      form.modal-body(method="POST")#new-user
+        input(type="hidden" name="_csrf" value=`${csrfToken}`)
+        .form-group
+          label(for='username-new') Username
+          input#username-new.form-control(type='text', name='username', required)
+        .form-group
+          label(for='password-new') Password
+          input#password-new.form-control(type='password', name='password', required)
+        .form-group
+          label Generated
+          p.form-control-static#password-out-new ...
+        .form-group.row
+          .col-sm-12
+            a#generate-new.btn.btn-block.btn-primary(href="#") Generate
+        .form-group
+          .btn-toolbar
+            .btn-group.mr-1
+              button.btn.btn-primary#new-submit(type='submit') Submit
+            .btn-group.ml-1
+              button.btn.btn-secondary#new-reset(type='reset') Reset
+      .modal-footer
+        button.btn.btn-secondary(type='button', data-dismiss='modal') Close

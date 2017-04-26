@@ -8,15 +8,31 @@ const HTTP = require('../../helpers/promise-http');
 
 Router.all('*', Auth.User.Protection);
 
-Router.get('/', (req, res, next) => {
-  res.render('user/dns', {
-    title: 'DNS Configuration',
-    csrfToken: req.csrfToken(),
-    errorMessage: req.flash('error'),
-    successMessage: req.flash('success'),
-    breadcrumb: true
+Router.route('/')
+  .get((req, res, next) => {
+    res.render('user/dns', {
+      title: 'DNS Configuration',
+      csrfToken: req.csrfToken(),
+      errorMessage: req.flash('error'),
+      successMessage: req.flash('success'),
+      breadcrumb: true
+    });
+  })
+  .post((req, res, next) => {
+    HTTP.PostJSON('http://api-gate:3000/dns/create', {
+      type: Sanitizer.sanitize(req.body.type),
+      name: Sanitizer.sanitize(req.body.name),
+      ipv4address: Sanitizer.sanitize(req.body.ip4),
+      ipv6address: Sanitizer.sanitize(req.body.ip6),
+      cname: Sanitizer.sanitize(req.body.opt),
+      userid: req.user.id
+    }).then((data) => {
+      req.flash('success', `DNS Entry ${data.type} - ${data.name} Created.`);
+      res.redirect('/users/dns');
+    }).catch((err) => {
+      return next(err);
+    });
   });
-});
 
 Router.get('/partials/list', (req, res, next) => {
   HTTP.GetJSON(`http://api-gate:3000/dns/search/byuser/${req.user.id}`).then((data) => {
@@ -39,22 +55,6 @@ Router.get('/partials/form/:entryID((\\d+))', (req, res, next) => {
       req.flash('error', `DNS Entry ID: ${req.params.entryID} Not Found.`);
       res.redirect('/users/dns');
     }
-  }).catch((err) => {
-    return next(err);
-  });
-});
-
-Router.post('/', (req, res, next) => {
-  HTTP.PostJSON('http://api-gate:3000/dns/create', {
-    type: Sanitizer.sanitize(req.body.type),
-    name: Sanitizer.sanitize(req.body.name),
-    ipv4address: Sanitizer.sanitize(req.body.ip4),
-    ipv6address: Sanitizer.sanitize(req.body.ip6),
-    cname: Sanitizer.sanitize(req.body.opt),
-    userid: req.user.id
-  }).then((data) => {
-    req.flash('success', `DNS Entry ${data.type} - ${data.name} Created.`);
-    res.redirect('/users/dns');
   }).catch((err) => {
     return next(err);
   });
