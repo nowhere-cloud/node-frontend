@@ -71,5 +71,12 @@ Router.get('/delete/:userid', (req, res, next) => {
   res.redirect('/admin/users');
 });
 
+Router.get('/report', (req, res, next) => {
+  User.findAll({ where: { $not: [{ id: 1 }] } }).then((data) => {
+    res.locals.data = data;
+    res.render('admin/report-user');
+  });
+});
+
 
 module.exports = Router;

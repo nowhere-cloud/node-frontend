@@ -1,7 +1,7 @@
-extends ../layout
+extends ../layouts/normal
 
 block menu
-  include common-topbar-user
+  include ../_partials/common-topbar-user
 
 block breadcrumb
   +breadcrumb-item("/users", "Operations Hub")

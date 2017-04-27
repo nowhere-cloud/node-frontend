@@ -1,7 +1,7 @@
-extends layout
+extends ../layouts/fluid
 
 block menu
-  include ../user/common-topbar-user
+  include ../includes/common-topbar-user
 
 block breadcrumb
   +breadcrumb-item("/admin", "Operations Hub")
@@ -16,6 +16,8 @@ block content
     if successMessage.length
       .alert.alert-success !{successMessage}
     .card
+      .card-header
+        a.mt-1.btn.btn-block.btn-primary(href="/admin/users/report") Generate Auditing Report
       table.table#user-loadhere
         tbody
           tr

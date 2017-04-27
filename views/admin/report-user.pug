@@ -1,0 +1,25 @@
+extends ../layouts/report
+
+block report-heading
+  tbody
+    tr
+      th(colspan="5")
+        h4.card-title Private Cloud User Report
+        h6.card-subtitle Generated On #[span#now]
+
+block report-body
+  thead
+    tr
+      th User ID
+      th Username
+      th Password Hash
+      th Created
+      th Updated
+  tbody
+    each entry in data
+      tr
+        td= entry.id
+        td.nosplit= entry.username
+        td.nosplit= entry.password.substr(1, 8)
+        td.split= entry.createdOn
+        td.split= entry.updatedOn

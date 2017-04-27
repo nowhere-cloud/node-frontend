@@ -1,0 +1,49 @@
+extends ../layouts/report
+
+block report-heading
+  tbody
+    tr
+      th(colspan="8")
+        h4.card-title Private Cloud System Report on #{ReportTitle}
+        h6.card-subtitle Generated On #[span#now]
+    if withLegend === true
+      //- Severity Legend
+      tr
+        th(colspan="8") Legend: Severity
+      tr
+        th Emergency
+        th Alert
+        th Crictical
+        th Error
+        th Warning
+        th Notice
+        th Informational
+        th Debug
+      tr
+        td 0
+        td 1
+        td 2
+        td 3
+        td 4
+        td 5
+        td 6
+        td 7
+
+block report-body
+  thead
+    tr
+      th Time
+      th Hostname
+      th Tag
+      if withLegend === true
+        th Severity
+      th(colspan="4") Message
+  tbody
+    each entry in data
+      tr
+        td.nosplit= entry.time
+        td.nosplit= entry.hostname
+        td= entry.tag
+        if withLegend === true
+          td= entry.severity
+        td.split(colspan="4")= entry.msg
