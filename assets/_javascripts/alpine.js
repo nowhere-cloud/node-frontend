@@ -67,7 +67,7 @@
     $('#password-out-new').html(generated);
   });
 
-  $('#generate-edit').on('click', (e) => {
+  $('#user-loadhere').on('click', '#generate-edit', (e) => {
     e.preventDefault();
     let generated = GeneratePasswordFunction();
     $('#password-edit').val(generated);
