@@ -15,7 +15,7 @@
   };
 
   const loadForm = (id) => {
-    $('#edit-user').load('/admin/users/partials/user-form/${id}', (response, status, xhr) => {
+    $('#edit-user').load(`/admin/users/partials/user-form/${id}`, (response, status, xhr) => {
       if (status === 'error') {
         error.html(`${xhr.status} ${xhr.statusText}`);
         error_wrap.html(error);
