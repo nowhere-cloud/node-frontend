@@ -1,7 +1,5 @@
 extends ../layouts/report
 
-- const severity_Human = 'Emergency Alert Critical Error Warning Notice Informational Debug'.split(' ');
-
 block report-heading
   tbody
     tr
@@ -10,6 +8,7 @@ block report-heading
         h6.card-subtitle Generated On #[span#now]
 
 block report-body
+  - const severity_Human = 'Emergency Alert Critical Error Warning Notice Informational Debug'.split(' ');
   thead
     tr
       th Time
