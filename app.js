@@ -30,7 +30,7 @@ if(containerized() && app.get('env') === 'development') {
 if (!process.env.SESS_KEY && app.get('env') !== 'development') {
   throw new Error('Crictical Error: No Crypt Words Defined. This word is important for maintain user security');
 }
-const secret_key = app.get('env') === 'development' ? 'secret' : process.env.SESS_KEY;
+const secret_key = app.get('env') === 'development' ? Math.random().toString(36) : process.env.SESS_KEY;
 
 /**
  * Get key from environment variables
@@ -40,7 +40,7 @@ const secret_key = app.get('env') === 'development' ? 'secret' : process.env.SES
 if (!process.env.BOOT_KEY && app.get('env') !== 'development') {
   throw new Error('Crictical Error: No Initial Admin Password Defined.');
 }
-const boot_key = app.get('env') === 'development' ? Auth.SHA256('secret') : Auth.SHA256(process.env.BOOT_KEY);
+const boot_key = app.get('env') === 'development' ? 'secret' : process.env.BOOT_KEY;
 // Dispose the key in runtime to prevent leakage, umm...
 if (app.get('env') !== 'development') delete process.env.BOOT_KEY;
 
@@ -85,7 +85,7 @@ app.use(Flash());
 
 /* Authentication Stuffs */
 global.mash_key = Auth.SHA256(Math.random().toString(36));
-global.admn_key = Auth.SHA256(`${global.mash_key}${boot_key}${global.mash_key}`);
+global.admn_key = Auth.SHA256(`${global.mash_key}${Auth.SHA256(boot_key)}${global.mash_key}`);
 
 // Create Authenticator
 Auth.Passport.use('local-user', Auth.User.Strategy);

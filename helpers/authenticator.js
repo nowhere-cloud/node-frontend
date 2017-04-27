@@ -66,19 +66,20 @@ const AltPasswordHashFunction = (raw) => {
 const User_Strategy = new LocalStrategy((username, password, callback) => {
   if (env !== 'development') {
     User.findOne({ where: { username: username } }).then((user) => {
-      if (!user) {
-        return callback(null, false);
-      }
-      if (PasswordHashFunction(password) !== user.password) {
-        return callback(null, false);
+      if (!user || PasswordHashFunction(password) !== user.password) {
+        return callback(null, false, {
+          message: 'Authentication Failed.'
+        });
       }
       return callback(null, user);
     }).catch((err) => {
       return callback(err);
     });
   } else {
-    if (username !== 'user' || password !== 'secret') {
-      return callback(null, false);
+    if (username !== 'foo' || PasswordHashFunction(password) !== 'd9a8b776378a511563ad5795158a8b65677d6d67e39bd37c0216602c3d604b8e') {
+      return callback(null, false, {
+        message: 'Please check the development documentation for credentials.'
+      });
     } else {
       return callback(null, {
         id: 1,
@@ -95,7 +96,9 @@ const User_Strategy = new LocalStrategy((username, password, callback) => {
 const Admin_Strategy = new LocalStrategy((username, password, callback) => {
   let admn = global.admn_key;
   if (AltPasswordHashFunction(password) !== admn) {
-    return callback(null, false);
+    return callback(null, false, {
+      message: 'Authentication Failed'
+    });
   }
   // In Database, Administrator ID is 1 with dummy credentials
   return callback(null, {id: 1});
