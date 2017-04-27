@@ -42,14 +42,19 @@ Router.get('/partials/user-list', (req, res, next) => {
 
 Router.get('/partials/user-form/:userid', (req, res, next) => {
   // UID 1 is the Admin user created with random data
-  User.findById(Sanitizer.sanitize(req.params.userid)).then((data) => {
-    res.json({
-      csrf: req.csrfToken(),
-      data: data.username
+  if (req.params.userid === '1') {
+    res.flash('error', 'Error: Action Denied.');
+    res.redirect('/admin/users');
+  } else {
+    User.findById(Sanitizer.sanitize(req.params.userid)).then((data) => {
+      res.json({
+        csrf: req.csrfToken(),
+        data: data.username
+      });
+    }).catch((e) => {
+      return next(e);
     });
-  }).catch((e) => {
-    return next(e);
-  });
+  }
 });
 
 Router.post('/patch', Auth.Admin.UpdateUserPassword, (req, res, next) => {
@@ -58,7 +63,7 @@ Router.post('/patch', Auth.Admin.UpdateUserPassword, (req, res, next) => {
 
 Router.get('/delete/:userid', (req, res, next) => {
   if (req.params.userid === '1') {
-    req.flash('error', 'Error: Action Denied.');
+    res.flash('error', 'Error: Action Denied.');
     res.redirect('/admin/users');
   } else {
     return next();

@@ -2,7 +2,7 @@
 
 const Express = require('express');
 const Router  = Express.Router();
-const Auth      = require('../../helpers/authenticator');
+const Auth    = require('../../helpers/authenticator');
 
 Router.get('/', Auth.Admin.Protection, (req, res, next) => {
   res.render('admin/index', {
