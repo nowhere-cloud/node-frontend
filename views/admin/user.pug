@@ -12,11 +12,9 @@ block content
     p Manage User Accounts.
   .container.hidden-md-down
     if errorMessage.length
-      .card-block
-        .alert.alert-danger !{errorMessage}
+      .alert.alert-danger !{errorMessage}
     if successMessage.length
-      .card-block
-        .alert.alert-success !{successMessage}
+      .alert.alert-success !{successMessage}
     .card
       table.table#user-loadhere
         tbody
