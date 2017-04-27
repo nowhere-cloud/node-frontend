@@ -35,8 +35,9 @@ Router.route('/')
 Router.get('/partials/user-list', (req, res, next) => {
   // UID 1 is the Admin user created with random data
   User.findAll({ where: { $not: [{ id: 1 }] } }).then((data) => {
-    res.locals.data = data;
-    res.render('admin/_partials/user-list');
+    res.render('admin/_partials/user-list', {
+      data: data
+    });
   });
 });
 
@@ -73,8 +74,10 @@ Router.get('/delete/:userid', (req, res, next) => {
 
 Router.get('/report', (req, res, next) => {
   User.findAll({ where: { $not: [{ id: 1 }] } }).then((data) => {
-    res.locals.data = data;
-    res.render('admin/report-user');
+    res.render('admin/report-user', {
+      title: 'User Audit',
+      data: data
+    });
   });
 });
 
