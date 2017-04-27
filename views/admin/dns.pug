@@ -7,10 +7,10 @@ block breadcrumb
   +breadcrumb-item("/admin", "Operations Hub")
 
 block content
-  .container
+  .container-fluid
     h1= title
     p Manage all DNS Alias here.
-  .container.hidden-md-down
+  .container-fluid.hidden-md-down
     if errorMessage.length
       .alert.alert-danger !{errorMessage}
     if successMessage.length

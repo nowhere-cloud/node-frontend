@@ -3,6 +3,7 @@ thead
     th #
     th Username
     th Created
+    th Updated
     th Action
 tbody
   if data.length
@@ -11,10 +12,11 @@ tbody
         td= value.id
         td= value.username
         td= value.createdAt
+        td= value.updatedAt
         td.clearfix
           .btn-group.ml-0.mr-0
             button.btn.btn-sm.btn-primary.user-edit(data-entryid=`${value.id}`) Reset Password
             a.btn.btn-sm.btn-danger.user-delete(href=`/admin/users/delete/${value.id}`) Delete User
   else
     tr.table-info
-      td(colspan="4") No Records
+      td(colspan="5") No Records

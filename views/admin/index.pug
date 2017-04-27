@@ -4,10 +4,10 @@ block menu
   include ../user/common-topbar-user.pug
 
 block content
-  .container
+  .container-fluid
     h1 Welcome! Administrator
     p What would you like to do today?
-  .container
+  .container-fluid
     .card-columns
       .card
         h4.card-header Manage VMs
@@ -45,4 +45,3 @@ block content
           p.card-text You are advised to change your password regularly.
         .card-footer
           a.btn.btn-primary.btn-block(href="/admin/profile") Click
-

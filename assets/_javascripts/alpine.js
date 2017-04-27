@@ -2,7 +2,7 @@
 
 (($) => {
   const error_wrap = $('<tr/>').addClass('table-danger');
-  const error = $('<td/>').attr('colspan', 4);
+  const error = $('<td/>').attr('colspan', 5);
 
   const loadUserTable = () => {
     $('#user-loadhere').load('/admin/users/partials/user-list', (response, status, xhr) => {

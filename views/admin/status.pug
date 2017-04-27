@@ -1,16 +1,16 @@
 extends ../layout.pug
 
 block menu
-  include common-topbar-user.pug
+  include ../user/common-topbar-user.pug
 
 block breadcrumb
   +breadcrumb-item("/admin", "Operations Hub")
 
 block content
-  .container
+  .container-fluid
     h1 #{title}
     p How's the system going?
-  .container.hidden-lg-down
+  .container-fluid.hidden-lg-down
     .card
       h5.card-header System Event Logs
       .card-block.pb-1
