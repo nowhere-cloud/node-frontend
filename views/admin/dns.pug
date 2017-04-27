@@ -11,13 +11,13 @@ block content
     h1= title
     p Manage all DNS Alias here.
   .container.hidden-md-down
+    if errorMessage.length
+      .card-block
+        .alert.alert-danger !{errorMessage}
+    if successMessage.length
+      .card-block
+        .alert.alert-success !{successMessage}
     .card
-      if errorMessage.length
-        .card-block
-          .alert.alert-danger !{errorMessage}
-      if successMessage.length
-        .card-block
-          .alert.alert-success !{successMessage}
       table.table#dns-loadhere
         tbody
           tr
