@@ -95,14 +95,14 @@ Auth.Passport.use('local-admin', Auth.Admin.Strategy);
 
 // Connect Authenticator to User Model
 Auth.Passport.serializeUser(Auth.Serialize);
-Auth.Passport.deserializeUser(Auth.deSerialize);
+Auth.Passport.deserializeUser(Auth.DeSerialize);
 
 // Attach Authenticator
 app.use(Auth.Passport.initialize());
 app.use(Auth.Passport.session());
 
 // Expose User Instance
-app.use(Auth.GlobalUser);
+app.use(Auth.Env.GlobalUser);
 
 /* Load Controllers. */
 

@@ -338,12 +338,14 @@ const Admin_Protection = (req, res, next) => {
 
 module.exports = {
   Connection: DBConnection,
-  Serialize: Serialize,
-  deSerialize: deSerialize,
-  GlobalUser: SetGlobalUserInstance,
   Passport: Passport,
+  Serialize: Serialize,
+  DeSerialize: deSerialize,
   SHA256: GenerateSHA256,
-  Logout: Logout,
+  Env: {
+    GlobalUser: SetGlobalUserInstance,
+    Logout: Logout
+  },
   User: {
     Strategy: User_Strategy,
     UpdatePassword: User_UpdatePassword,

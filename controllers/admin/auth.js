@@ -26,7 +26,7 @@ Router.route('/login')
     res.redirect('/admin');
   });
 
-Router.get('/logout', Auth.Logout, (req, res, next) => {
+Router.get('/logout', Auth.Env.Logout, (req, res, next) => {
   res.redirect('/');
 });
 
