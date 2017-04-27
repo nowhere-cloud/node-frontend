@@ -15,28 +15,23 @@
   };
 
   const loadForm = (id) => {
-    $.getJSON(`/admin/users/partials/user-form/${id}`)
-    .done((data) => {
-      $('#edit-csrf').val(data.csrf);
-      $('#edit-id').val(id);
-      $('#edit-username').html(data.data);
-    })
-    .fail((jqxhr, status, error) => {
-      error.html(`${status} ${error}`);
-      error_wrap.html(error);
-      $('#edit-user').html(error_wrap);
-    })
-    .always(() => {
-      $('#edit-loading-bar').hide();
-      $('#edit-user').show();
+    $('#edit-user').load('/admin/users/partials/user-form/${id}', (response, status, xhr) => {
+      if (status === 'error') {
+        error.html(`${xhr.status} ${xhr.statusText}`);
+        error_wrap.html(error);
+        $('#edit-user').html(error_wrap);
+      } else {
+        $('#edit-loading-bar').hide();
+        $('#edit-user').show();
+      }
     });
   };
 
   const GeneratePasswordFunction = () => {
     let stra = Math.random().toString(36).slice(-10);
     let strb = Math.random().toString(36).slice(-10);
-    let concat = String(stra + strb).replace(/\./g,'a');
-    return concat.split('').sort(function () {
+    let concat = String(stra + strb).replace(/\./g, 'a');
+    return concat.split('').sort(function() {
       return 0.5 - Math.random();
     }).join('');
   };
@@ -80,14 +75,14 @@
   });
 
   // Lazy Load Form (Server Side Render for security)
-  $('#user-loadhere').on('click', '.user-edit', function () {
+  $('#user-loadhere').on('click', '.user-edit', function() {
     loadForm($(this).data('entryid'));
     $('#EditUser').modal('show');
   });
 
-  $('.user-edit-form').on('submit', function (e) {
+  $('#edit-user').on('submit', '.user-edit-form', function(e) {
     e.preventDefault();
-    if($('#password-edit').val() === '') {
+    if ($('#password-edit').val() === '') {
       return false;
     }
     $(this)[0].submit();

@@ -1,0 +1,21 @@
+form.user-edit-form(method="POST", action="/admin/users/patch")
+  input#edit-csrf(type="hidden", name="_csrf", value=`${csrf}`)
+  input#edit-id(type="hidden", name="woot", value=`${data.id}`)
+  .form-group
+    label Username
+    p.form-control-static= data.username
+  .form-group
+    label(for='password-edit') Password
+    input#password-edit.form-control(type='password', name='password', required, readonly)
+  .form-group
+    label Generated Password
+    p.form-control-static#password-out-edit ...
+  .form-group.row
+    .col-sm-12
+      a#generate-edit.btn.btn-block.btn-primary(href="#") Generate
+  .form-group
+    .btn-toolbar
+      .btn-group.mr-2
+        button.btn.btn-primary#edit-submit(type="submit") Submit
+      .btn-group
+        button.btn.btn-secondary(type="reset") Reset

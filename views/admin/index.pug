@@ -1,13 +1,13 @@
-extends ../layout
+extends layout
 
 block menu
-  include ../user/common-topbar-user.pug
+  include ../user/common-topbar-user
 
 block content
-  .container
+  .container-fluid
     h1 Welcome! Administrator
     p What would you like to do today?
-  .container
+  .container-fluid
     .card-columns
       .card
         h4.card-header Manage VMs

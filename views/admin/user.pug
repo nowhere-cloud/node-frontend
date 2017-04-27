@@ -1,16 +1,16 @@
 extends ../layout
 
 block menu
-  include ../user/common-topbar-user.pug
+  include ../user/common-topbar-user
 
 block breadcrumb
   +breadcrumb-item("/admin", "Operations Hub")
 
 block content
-  .container
+  .container-fluid
     h1= title
     p Manage User Accounts.
-  .container.hidden-md-down
+  .container-fluid.hidden-md-down
     if errorMessage.length
       .alert.alert-danger !{errorMessage}
     if successMessage.length
@@ -20,12 +20,12 @@ block content
         tbody
           tr
             td(colspan="3")
-              include ../includes/loading-bar.pug
+              include ../includes/loading-bar
       .card-footer
         button.mb-0.btn.btn-block.btn-primary(type="button", data-toggle="modal", data-target="#NewUser") New User
-  include ../includes/mobile_not_supported.pug
-  include _partials/user-new.pug
-  include _partials/user-edit.pug
+  include ../includes/mobile_not_supported-f
+  include _partials/user-new
+  include _partials/user-edit
     
 block additional-libraries
   script(src="/admin/assets/alpine.js")

@@ -1,0 +1,14 @@
+mixin breadcrumb-item(link, name)
+  li.breadcrumb-item
+    a(href=link)= name
+
+mixin breadcrumb-item-nolink(name)
+  li.breadcrumb-item
+    span= name
+
+if breadcrumb
+  .container-fluid
+    ol.breadcrumb
+      +breadcrumb-item("/", "Home")
+      block breadcrumb
+      li.breadcrumb-item.active #{title}

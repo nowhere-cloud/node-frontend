@@ -43,13 +43,12 @@ Router.get('/partials/user-list', (req, res, next) => {
 Router.get('/partials/user-form/:userid', (req, res, next) => {
   // UID 1 is the Admin user created with random data
   if (req.params.userid === '1') {
-    res.flash('error', 'Error: Action Denied.');
-    res.redirect('/admin/users');
+    res.sendStatus(500);
   } else {
     User.findById(Sanitizer.sanitize(req.params.userid)).then((data) => {
-      res.json({
+      res.render('admin/_partials/user-edit-form', {
         csrf: req.csrfToken(),
-        data: data.username
+        data: data
       });
     }).catch((e) => {
       return next(e);

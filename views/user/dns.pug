@@ -20,11 +20,11 @@ block content
         tbody
           tr
             td(colspan="7")
-              include ../includes/loading-bar.pug
+              include ../includes/loading-bar
       .card-footer
         button.mb-0.btn.btn-block.btn-primary(type="button", data-toggle="modal" data-target="#NewDNS") New Entry
-  include ../includes/mobile_not_supported.pug
-  include _partials/dns-form.pug
-  include _partials/dns-edit.pug
+  include ../includes/mobile_not_supported
+  include _partials/dns-form
+  include _partials/dns-edit
 block additional-libraries
   script(src='/users/assets/kalafina.js')

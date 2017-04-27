@@ -1,16 +1,16 @@
-extends ../layout
+extends layout
 
 block menu
-  include ../user/common-topbar-user.pug
+  include ../user/common-topbar-user
 
 block breadcrumb
   +breadcrumb-item("/admin", "Operations Hub")
 
 block content
-  .container
+  .container-fluid
     h1= title
     p Manage all DNS Alias here.
-  .container.hidden-md-down
+  .container-fluid.hidden-md-down
     if errorMessage.length
       .alert.alert-danger !{errorMessage}
     if successMessage.length
@@ -20,11 +20,11 @@ block content
         tbody
           tr
             td(colspan="7")
-              include ../includes/loading-bar.pug
+              include ../includes/loading-bar
       .card-footer
         button.mb-0.btn.btn-block.btn-primary(type="button", data-toggle="modal" data-target="#NewDNS") New Entry
-  include ../includes/mobile_not_supported.pug
-  include ../user/_partials/dns-form.pug
-  include ../user/_partials/dns-edit.pug
+  include ../includes/mobile_not_supported-f
+  include ../user/_partials/dns-form
+  include ../user/_partials/dns-edit
 block additional-libraries
   script(src='/admin/assets/fhana.js')
