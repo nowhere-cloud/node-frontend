@@ -1,4 +1,4 @@
-form(method="POST", action="/users/dns/patch")
+form.dns-edit-form(method="POST", action="/users/dns/patch")
   input(type="hidden" name="_csrf" value=`${csrfToken}`)
   input(type="hidden", name="woot", value=`${payload.id}`)
   .form-group

@@ -95,10 +95,10 @@
     }
   });
 
-  $('#edit-dns').on('submit', '.dns-edit-form', function(e) {
+  $('#edit-dns').on('submit', 'form.dns-edit-form', function(e) {
     e.preventDefault();
-    if ($('#ipv6-edit').val() === '') {
-      $('#ipv6-edit').val(GenerateIP6($('#ipv4-new').val()));
+    if ($('#ip6-edit').val() === '') {
+      $('#ip6-edit').val(GenerateIP6($('#ip4-edit').val()));
     }
     $(this)[0].submit();
   });
