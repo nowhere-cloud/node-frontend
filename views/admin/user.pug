@@ -16,15 +16,17 @@ block content
     if successMessage.length
       .alert.alert-success !{successMessage}
     .card
-      .card-header
-        a.mt-1.btn.btn-block.btn-primary(href="/admin/users/report") Generate Auditing Report
+      .card-header.btn-toolbar
+        .btn-group.mt-0.mb-0
+          a.btn.btn-block.btn-primary(href="/admin/users/report") Generate Auditing Report
+          a.btn.btn-block.btn-primary(herf="#", data-toggle="modal", data-target="#NewUser") New User
       table.table#user-loadhere
         tbody
           tr
             td(colspan="3")
               include ../includes/loading-bar
       .card-footer
-        button.mb-0.btn.btn-block.btn-primary(type="button", data-toggle="modal", data-target="#NewUser") New User
+        a.mt-0.mb-0.btn.btn-block.btn-primary(herf="#", data-toggle="modal", data-target="#NewUser") New User
   include ../includes/mobile_not_supported-f
   include _partials/user-new
   include _partials/user-edit

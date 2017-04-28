@@ -16,13 +16,17 @@ block content
     if successMessage.length
       .alert.alert-success !{successMessage}
     .card
+      .card-header.btn-toolbar
+        .btn-group.mt-0.mb-0
+          a.btn.btn-block.btn-primary(href="/admin/dns/report") Generate Auditing Report
+          a.btn.btn-block.btn-primary(href="#", data-toggle="modal" data-target="#NewDNS") New Entry
       table.table#dns-loadhere
         tbody
           tr
             td(colspan="7")
               include ../includes/loading-bar
       .card-footer
-        button.mb-0.btn.btn-block.btn-primary(type="button", data-toggle="modal" data-target="#NewDNS") New Entry
+        a.mt-0.mb-0.btn.btn-block.btn-primary(herf="#", data-toggle="modal" data-target="#NewDNS") New Entry
   include ../includes/mobile_not_supported-f
   include ../user/_partials/dns-form
   include ../user/_partials/dns-edit
