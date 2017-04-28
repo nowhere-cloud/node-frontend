@@ -20,6 +20,6 @@ block report-body
       tr
         td= entry.id
         td.nosplit= entry.username
-        td.nosplit= entry.password.substr(1, 8)
+        td.nosplit #{entry.password.substr(1, 4)}...#{entry.password.substr(entry.password.length - 4)}
         td.split= entry.createdAt
         td.split= entry.updatedAt

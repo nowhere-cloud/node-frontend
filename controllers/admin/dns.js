@@ -105,4 +105,13 @@ Router.get('/delete/:entryID((\\d+))', (req, res, next) => {
   });
 });
 
+Router.get('/report', (req, res, next) => {
+  HTTP.GetJSON('http://api-gate:3000/dns/').then((data) => {
+    res.render('admin/report-dns', {
+      title: 'DNS Audit',
+      payload: data
+    });
+  });
+});
+
 module.exports = Router;

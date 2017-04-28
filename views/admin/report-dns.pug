@@ -1,0 +1,29 @@
+extends ../layouts/report
+
+block report-heading
+  tbody
+    tr
+      th(colspan="7")
+        h4.card-title Private Cloud DNS Report
+        h6.card-subtitle Generated On #[span#now]
+
+block report-body
+  thead
+    tr
+      th #
+      th Type
+      th Name
+      th IPv4 Address
+      th IPv6 Address
+      th Value
+      th Owner ID
+  tbody
+    each value, index in payload
+      tr
+        td= value.id
+        td= value.type
+        td= value.name
+        td.overflow= value.ipv4address
+        td.overflow= value.ipv6address
+        td.overflow= value.cname
+        td= value.UserId
