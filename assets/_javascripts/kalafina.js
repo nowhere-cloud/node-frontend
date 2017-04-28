@@ -5,23 +5,23 @@
   const error = $('<td/>').attr('colspan', 7);
 
   const loadTable = () => {
-    $('#dns-loadhere').load('/users/dns/partials/list', (response, status, xhr) => {
+    $('#dns-loadhere').load('/users/dns/partials/list', function (response, status, xhr) {
       if (status === 'error') {
         error.html(`${xhr.status} ${xhr.statusText}`);
         error_wrap.html(error);
-        $('#dns-loadhere').html(error_wrap);
+        $(this).html(error_wrap);
       }
     });
   };
 
   const loadForm = (id) => {
-    $('#edit-dns').load(`/users/dns/partials/form/${id}`, (response, status, xhr) => {
+    $('#edit-dns').load(`/users/dns/partials/form/${id}`, function (response, status, xhr) {
       $('#edit-loading-bar').hide();
-      $('#edit-dns').show();
+      $(this).show();
       if (status === 'error') {
         error.html(`${xhr.status} ${xhr.statusText}`);
         error_wrap.html(error);
-        $('#edit-dns').html(error_wrap);
+        $(this).html(error_wrap);
       }
     });
   };

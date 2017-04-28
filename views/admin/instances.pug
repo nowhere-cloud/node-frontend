@@ -1,16 +1,16 @@
 extends ../layouts/normal
 
 block menu
-  include ../_partials/common-topbar-user
+  include ../includes/common-topbar-user
 
 block breadcrumb
-  +breadcrumb-item("/users", "Operations Hub")
+  +breadcrumb-item("/admin", "Operations Hub")
 
 block content
-  .container
+  .container-fluid
     h1= title
-    p Manage your Virtual Machines here.
-  .container.hidden-md-down
+    p Manage all Virtual Machines here.
+  .container-fluid.hidden-md-down
     .card
       table.table#VM-loadhere
         tbody
@@ -18,3 +18,6 @@ block content
             td(colspan="7")
               include ../includes/loading-bar
   include ../includes/mobile_not_supported
+  
+block additional-libraries
+  script(src="/admin/assets/ame.js")

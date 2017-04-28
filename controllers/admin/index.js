@@ -13,6 +13,8 @@ Router.get('/', Auth.Admin.Protection, (req, res, next) => {
 
 Router.use('/dns', require('./dns'));
 
+Router.use('/instances', require('./instances'));
+
 Router.use('/auth', require('./auth'));
 
 Router.use('/log', require('./status'));

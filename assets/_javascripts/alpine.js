@@ -5,24 +5,24 @@
   const error = $('<td/>').attr('colspan', 5);
 
   const loadUserTable = () => {
-    $('#user-loadhere').load('/admin/users/partials/user-list', (response, status, xhr) => {
+    $('#user-loadhere').load('/admin/users/partials/user-list', function (response, status, xhr) {
       if (status === 'error') {
         error.html(`${xhr.status} ${xhr.statusText}`);
         error_wrap.html(error);
-        $('#user-loadhere').html(error_wrap);
+        $(this).html(error_wrap);
       }
     });
   };
 
   const loadForm = (id) => {
-    $('#edit-user').load(`/admin/users/partials/user-form/${id}`, (response, status, xhr) => {
+    $('#edit-user').load(`/admin/users/partials/user-form/${id}`, function (response, status, xhr) {
       if (status === 'error') {
         error.html(`${xhr.status} ${xhr.statusText}`);
         error_wrap.html(error);
-        $('#edit-user').html(error_wrap);
+        $(this).html(error_wrap);
       } else {
         $('#edit-loading-bar').hide();
-        $('#edit-user').show();
+        $(this).show();
       }
     });
   };
