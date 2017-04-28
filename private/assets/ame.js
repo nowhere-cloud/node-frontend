@@ -1,1 +1,0 @@
-"use strict";!function(t){t("<tr/>").addClass("table-danger"),t("<td/>").attr("colspan",3)}(jQuery);

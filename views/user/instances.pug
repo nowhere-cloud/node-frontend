@@ -1,0 +1,24 @@
+extends ../layouts/normal
+
+block menu
+  include ../includes/common-topbar-user
+
+block breadcrumb
+  +breadcrumb-item("/users", "Operations Hub")
+
+block content
+  .container
+    h1= title
+    p Manage your Virtual Machines here.
+  .container.hidden-md-down
+    .card
+      .card-header
+        include _partials/vm-navbar
+      .tab-content
+        include ../_partials/vm-tabs/vm-all
+        include ../_partials/vm-tabs/vm-net
+        include ../_partials/vm-tabs/vm-vif
+  include ../includes/mobile_not_supported
+  
+block additional-libraries
+  script(src="/users/assets/kanna.js")

@@ -6,9 +6,6 @@ mixin tab-item(target, name, active)
       a.nav-link(href=`#${target}`, data-toggle='tab', role='tab')= name
 
 ul.nav.nav-tabs.card-header-tabs
-  +tab-item('vm-hypervisor', "All VMs (Hypervisor)", true)
-  +tab-item('vm-record', "All VMs (Registered)", false)
-  +tab-item('vm-tpl-hyp', "All Templates (Hypervisor)", false)
-  +tab-item('vm-tpl-rcrd', "All Templates (Registered)", false)
+  +tab-item('vm-hypervisor', "Instances", true)
   +tab-item('vm-net', "Networks", false)
   +tab-item('vm-vif', "vNICs", false)

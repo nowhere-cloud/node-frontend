@@ -1,4 +1,4 @@
-extends ../layouts/normal
+extends ../layouts/fluid
 
 block menu
   include ../includes/common-topbar-user
@@ -13,15 +13,15 @@ block content
   .container-fluid.hidden-md-down
     .card
       .card-header
-        include _partials/vm-tabs/navbar
+        include _partials/vm-navbar
       .tab-content
-        include _partials/vm-tabs/vm-all
-        include _partials/vm-tabs/vm-rcrd
-        include _partials/vm-tabs/vm-tpl-all
-        include _partials/vm-tabs/vm-tpl-rcrd
-        include _partials/vm-tabs/vm-net
-        include _partials/vm-tabs/vm-vif
-  include ../includes/mobile_not_supported
+        include ../_partials/vm-tabs/vm-all
+        include ../_partials/vm-tabs/vm-rcrd
+        include ../_partials/vm-tabs/vm-tpl-all
+        include ../_partials/vm-tabs/vm-tpl-rcrd
+        include ../_partials/vm-tabs/vm-net
+        include ../_partials/vm-tabs/vm-vif
+  include ../includes/mobile_not_supported-f
   
 block additional-libraries
-  script(src="/admin/assets/ame.js")
+  script(src="/admin/assets/tooru.js")
