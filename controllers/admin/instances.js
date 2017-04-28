@@ -16,7 +16,7 @@ Router.get('/', (req, res, next) => {
 
 Router.get('/partials/vm-list', (req, res, next) => {
   HTTP.GetJSON('http://api-gate:3000/xen/vm/').then((data) => {
-    res.render('admin/_partials/vm-list', {
+    res.render('admin/_partials/vm-partials/list', {
       data: data
     });
   });
