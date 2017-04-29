@@ -54,6 +54,6 @@ Router.get('/partials/vif-list-hyp', (req, res, next) => {
   });
 });
 
-Router.use('/api', require('instances-api'));
+Router.use('/api', require('./instances-api'));
 
 module.exports = Router;

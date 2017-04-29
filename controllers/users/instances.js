@@ -34,6 +34,6 @@ Router.get('/partials/net-list-hyp', (req, res, next) => {
   });
 });
 
-Router.use('/api', require('instances-api'));
+Router.use('/api', require('./instances-api'));
 
 module.exports = Router;
