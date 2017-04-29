@@ -24,29 +24,16 @@
     });
   };
 
-  const loadTag = () => {
-    $.get('/admin/log/tag').done((data) => {
-      $('#tags').html('');
+  const loadContent = (endpoint) => {
+    $.get(`/admin/log/${endpoint}`).done((data) => {
+      $(`#${endpoint}`).html('');
       $.each(data, (index, el) => {
         let _w = $('<a/>').addClass('btn btn-secondary mr-1 mb-1');
-        _w.attr('href',`/admin/log/tag/${el._id}`).html(`${el._id} (${el.count})`);
-        _w.appendTo('#tags');
+        _w.attr('href',`/admin/log/${endpoint}/${el._id}`).html(`${el._id} (${el.count})`);
+        _w.appendTo(`#${endpoint}`);
       });
     }).fail((error) => {
-      $('#tags').html(`${error.status} ${error.statusText}`);
-    });
-  };
-
-  const loadHostname = () => {
-    $.get('/admin/log/hostname').done((data) => {
-      $('#hostname').html('');
-      $.each(data, (index, el) => {
-        let _w = $('<a/>').addClass('btn btn-secondary mr-1 mb-1');
-        _w.attr('href',`/admin/log/hostname/${el._id}`).html(`${el._id} (${el.count})`);
-        _w.appendTo('#hostname');
-      });
-    }).fail((error) => {
-      $('#hostname').html(`${error.status} ${error.statusText}`);
+      $(`#${endpoint}`).html(`${error.status} ${error.statusText}`);
     });
   };
 
@@ -56,9 +43,9 @@
   $(document).ready(() => {
     let CheckMobile = new Mobile(); // eslint-disable-line no-undef
     if (!CheckMobile.check()) {
-      loadHostname();
       loadSeverity();
-      loadTag();
+      loadContent('hostname');
+      loadContent('tag');
     }
   });
 })(jQuery);
