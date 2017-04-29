@@ -7,7 +7,7 @@ const Proxy   = require('express-http-proxy');
 const URL     = require('url');
 
 // Actual API Proxified route
-router.use('/v1', Proxy('http://api-gate:3000/', {
+router.use('/v1', Proxy('http://api:3000/', {
   limit: '5mb',
   timeout: 30*1000
 }));

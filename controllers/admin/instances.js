@@ -15,7 +15,7 @@ Router.get('/', (req, res, next) => {
 });
 
 Router.get('/partials/vm-list-hyp', (req, res, next) => {
-  HTTP.GetJSON('http://api-gate:3000/xen/vm/').then((data) => {
+  HTTP.GetJSON('http://api:3000/xen/vm/').then((data) => {
     res.render('_partials/vm-partials/vm-list', {
       data: data
     });
@@ -25,7 +25,7 @@ Router.get('/partials/vm-list-hyp', (req, res, next) => {
 });
 
 Router.get('/partials/vmtpl-list-hyp', (req, res, next) => {
-  HTTP.GetJSON('http://api-gate:3000/xen/vm/templates').then((data) => {
+  HTTP.GetJSON('http://api:3000/xen/vm/templates').then((data) => {
     res.render('_partials/vm-partials/tpl-list', {
       data: data
     });
@@ -35,7 +35,7 @@ Router.get('/partials/vmtpl-list-hyp', (req, res, next) => {
 });
 
 Router.get('/partials/net-list-hyp', (req, res, next) => {
-  HTTP.GetJSON('http://api-gate:3000/xen/net/').then((data) => {
+  HTTP.GetJSON('http://api:3000/xen/net/').then((data) => {
     res.render('_partials/vm-partials/net-list', {
       data: data
     });
@@ -45,7 +45,7 @@ Router.get('/partials/net-list-hyp', (req, res, next) => {
 });
 
 Router.get('/partials/vif-list-hyp', (req, res, next) => {
-  HTTP.GetJSON('http://api-gate:3000/xen/vif/').then((data) => {
+  HTTP.GetJSON('http://api:3000/xen/vif/').then((data) => {
     res.render('_partials/vm-partials/vif-list', {
       data: data
     });

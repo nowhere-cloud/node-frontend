@@ -19,7 +19,7 @@ Router.route('/')
     });
   })
   .post((req, res, next) => {
-    HTTP.PostJSON('http://api-gate:3000/dns/create', {
+    HTTP.PostJSON('http://api:3000/dns/create', {
       type: Sanitizer.sanitize(req.body.type),
       name: Sanitizer.sanitize(req.body.name),
       ipv4address: Sanitizer.sanitize(req.body.ip4),
@@ -35,7 +35,7 @@ Router.route('/')
   });
 
 Router.get('/partials/list', (req, res, next) => {
-  HTTP.GetJSON(`http://api-gate:3000/dns/search/byuser/${req.user.id}`).then((data) => {
+  HTTP.GetJSON(`http://api:3000/dns/search/byuser/${req.user.id}`).then((data) => {
     res.render('user/_partials/dns-table', {
       payload: data
     });
@@ -45,7 +45,7 @@ Router.get('/partials/list', (req, res, next) => {
 });
 
 Router.get('/partials/form/:entryID((\\d+))', (req, res, next) => {
-  HTTP.GetJSON(`http://api-gate:3000/dns/${req.params.entryID}`).then((data) => {
+  HTTP.GetJSON(`http://api:3000/dns/${req.params.entryID}`).then((data) => {
     if (data !== {}) {
       res.render('user/_partials/dns-edit-form', {
         csrfToken: req.csrfToken(),
@@ -62,9 +62,9 @@ Router.get('/partials/form/:entryID((\\d+))', (req, res, next) => {
 
 Router.post('/patch', (req, res, next) => {
   // Get and Patch is designated for security in mind. Make Sure the target item is alive.
-  HTTP.GetJSON(`http://api-gate:3000/dns/${Sanitizer.sanitize(req.body.woot)}`).then((data) => {
+  HTTP.GetJSON(`http://api:3000/dns/${Sanitizer.sanitize(req.body.woot)}`).then((data) => {
     if (data !== {} && data.UserId === req.user.id) {
-      return HTTP.PatchJSON(`http://api-gate:3000/dns/${data.id}`, {
+      return HTTP.PatchJSON(`http://api:3000/dns/${data.id}`, {
         type: data.type,
         name: Sanitizer.sanitize(req.body.name),
         ipv4address: Sanitizer.sanitize(req.body.ip4),
@@ -87,9 +87,9 @@ Router.post('/patch', (req, res, next) => {
 });
 
 Router.get('/delete/:entryID((\\d+))', (req, res, next) => {
-  HTTP.GetJSON(`http://api-gate:3000/dns/${req.params.entryID}`).then((data) => {
+  HTTP.GetJSON(`http://api:3000/dns/${req.params.entryID}`).then((data) => {
     if (data !== {} && data.UserId === req.user.id) {
-      return HTTP.DeleteJSON(`http://api-gate:3000/dns/${data.id}`);
+      return HTTP.DeleteJSON(`http://api:3000/dns/${data.id}`);
     } else {
       return 404;
     }
