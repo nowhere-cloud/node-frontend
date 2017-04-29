@@ -1,11 +1,6 @@
-mixin tab-item(target, name, active)
-  li.nav-item
-    if active === true
-      a.nav-link.active(href=`#${target}`, data-toggle='tab', role='tab')= name
-    else
-      a.nav-link(href=`#${target}`, data-toggle='tab', role='tab')= name
+include ../../_partials/vm-tabs/navbarmixin
 
 ul.nav.nav-tabs.card-header-tabs
-  +tab-item('vm-hypervisor', "Instances", true)
-  +tab-item('vm-net', "Networks", false)
-  +tab-item('vm-vif', "vNICs", false)
+  +tab-item('vm-list-rcrd', "Instances (Registered)", false)
+  +tab-item('net-list-hyp', "Networks", false)
+  +tab-item('vif-list-hyp', "vNICs", false)

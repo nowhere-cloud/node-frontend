@@ -1,0 +1,6 @@
+mixin tab-item(target, name, active)
+  li.nav-item
+    if active === true
+      a.nav-link.active(href=`#${target}`, data-toggle='tab', role='tab', id=`${target}-tab`)= name
+    else
+      a.nav-link(href=`#${target}`, data-toggle='tab', role='tab', id=`${target}-tab`)= name
