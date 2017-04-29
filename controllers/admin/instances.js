@@ -25,7 +25,7 @@ Router.get('/partials/vm-list-hyp', (req, res, next) => {
   });
 });
 
-Router.get('/partials/vmtpl-list-hyp', (req, res, next) => {
+Router.get('/partials/vm-tpl-hyp', (req, res, next) => {
   HTTP.GetJSON('http://api:3000/xen/vm/templates').then((data) => {
     res.render('_partials/vm-partials/tpl-list', {
       mode: 'raw',
