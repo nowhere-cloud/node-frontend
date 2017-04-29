@@ -5,7 +5,7 @@
   const error = $('<td/>').attr('colspan', 3);
 
   const getVMList = () => {
-    $('#VM-loadhere').load('/admin/instances/partials/vm-list', function (response, status, xhr) {
+    $('#VM-loadhere').load('/admin/instances/partials/vm-list-hyp', function (response, status, xhr) {
       if (status === 'error') {
         error.html(`${xhr.status} ${xhr.statusText}`);
         error_wrap.html(error);
