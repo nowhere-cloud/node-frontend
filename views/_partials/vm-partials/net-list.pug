@@ -1,29 +1,17 @@
-if mode === 'raw'
-  table.table
-    thead
-      tr
-        th #
-        th Network UUID
-        th &nbsp;
-    tbody
-      if data.Status === 'Success'
-        each value, index in data.Value
-          tr
-            td= index
-            td.overflow= value
-            td.clearfix
-              button.btn.btn-sm.btn-primary.get-detail(data-uuid=`${value}`) Get Detail
-      else
-        tr.table-danger
-          td(colspan="3")= data.ErrorDescription[0]
-else
-  table.table
-    thead
-      tr
-        th #
-        th VM Name
-        th VM UUID
-        th &nbsp;
-    tbody
-      tr
-        // WIP
+table.table
+  thead
+    tr
+      th #
+      th Network UUID
+      th &nbsp;
+  tbody
+    if data.Status === 'Success'
+      each value, index in data.Value
+        tr
+          td= index
+          td.overflow= value
+          td.clearfix
+            button.btn.btn-sm.btn-primary.get-detail(data-uuid=`${value}`) Get Detail
+    else
+      tr.table-danger
+        td(colspan="3")= data.ErrorDescription[0]
