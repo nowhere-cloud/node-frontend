@@ -11,7 +11,7 @@ table.table
           td= index
           td.overflow= value
           td.clearfix
-            button.btn.btn-sm.btn-primary.get-detail(data-uuid=`${value}`) Get Detail
+            a.btn.btn-sm.btn-primary.get-detail(href=`/admin/instances/vif/${value}`) Get Detail
     else
       tr.table-danger
         td(colspan="3")= data.ErrorDescription[0]

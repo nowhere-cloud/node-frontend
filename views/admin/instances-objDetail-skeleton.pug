@@ -1,0 +1,26 @@
+extends ../layouts/fluid
+
+block menu
+  include ../includes/common-topbar-user
+
+block breadcrumb
+  +breadcrumb-item("/admin", "Operations Hub")
+  +breadcrumb-item("/admin/instances", "Virtual Machines")
+
+block content
+  .container-fluid
+    h1= title
+    p &nbsp;
+  .container-fluid.hidden-md-down
+    .card
+      if type === 'vm'
+        include ../_partials/vm-partials/vm
+      if type === 'vm-templates'
+        include ../_partials/vm-partials/vm-tpl
+      if type === 'net'
+        include ../_partials/vm-partials/net
+      if type === 'vif'
+        include ../_partials/vm-partials/vif
+  include ../includes/mobile_not_supported-f
+  
+block additional-libraries
