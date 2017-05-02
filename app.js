@@ -32,18 +32,6 @@ if (!process.env.SESS_KEY && app.get('env') !== 'development') {
 }
 const secret_key = app.get('env') === 'development' ? Math.random().toString(36) : process.env.SESS_KEY;
 
-/**
- * Get key from environment variables
- * Error if Such Key Not Found. Important for Session Security
- * Generate a random key on development environment.
- */
-if (!process.env.BOOT_KEY && app.get('env') !== 'development') {
-  throw new Error('Crictical Error: No Initial Admin Password Defined.');
-}
-const boot_key = app.get('env') === 'development' ? 'secret' : process.env.BOOT_KEY;
-// Dispose the key in runtime to prevent leakage, umm...
-if (app.get('env') !== 'development') delete process.env.BOOT_KEY;
-
 /* Load Various Supporting Middleware */
 
 app.set('views', Path.join(__dirname, 'views'));
@@ -82,10 +70,6 @@ app.use(Logger('common'));
 app.use(CSRF());
 // Flash Messages (Login Fail, or what!?)
 app.use(Flash());
-
-/* Authentication Stuffs */
-global.mash_key = Auth.SHA256(Math.random().toString(36));
-global.admn_key = Auth.SHA256(`${global.mash_key}${Auth.SHA256(boot_key)}${global.mash_key}`);
 
 // Create Authenticator
 Auth.Passport.use('local-user', Auth.User.Strategy);

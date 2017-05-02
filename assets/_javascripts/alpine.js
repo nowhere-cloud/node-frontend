@@ -27,22 +27,13 @@
     });
   };
 
-  const GeneratePasswordFunction = () => {
-    let stra = Math.random().toString(36).slice(-10);
-    let strb = Math.random().toString(36).slice(-10);
-    let concat = String(stra + strb).replace(/\./g, 'a');
-    return concat.split('').sort(function() {
-      return 0.5 - Math.random();
-    }).join('');
-  };
-
   $(document).ready(function() {
     loadUserTable();
   });
 
   $('#generate-new').on('click', (e) => {
     e.preventDefault();
-    let generated = GeneratePasswordFunction();
+    let generated = GeneratePasswordFunction(); // eslint-disable-line no-undef
     $('#password-new').val(generated);
     $('#password-out-new').html(generated);
     return false();
@@ -62,14 +53,14 @@
 
   $('#generate-new').on('click', (e) => {
     e.preventDefault();
-    let generated = GeneratePasswordFunction();
+    let generated = GeneratePasswordFunction(); // eslint-disable-line no-undef
     $('#password-new').val(generated);
     $('#password-out-new').html(generated);
   });
 
   $('#edit-user').on('click', '#generate-edit', (e) => {
     e.preventDefault();
-    let generated = GeneratePasswordFunction();
+    let generated = GeneratePasswordFunction(); // eslint-disable-line no-undef
     $('#password-edit').val(generated);
     $('#password-out-edit').html(generated);
   });

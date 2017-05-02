@@ -21,6 +21,7 @@ const SessionStore    = require('connect-session-sequelize')(Session.Store);
 const Sanitizer       = require('sanitizer');
 const env             = process.env.NODE_ENV || 'development';
 const Crypto          = require('crypto');
+const HTTP            = require('./promise-http');
 
 /**
  * Calculate SHA256 of a specified String
@@ -48,16 +49,6 @@ const PasswordHashFunction = (raw) => {
  */
 const ForbiddenUserName = () => {
   return ['admin', 'root', 'administrator', 'master'];
-};
-
-/**
- * Hash Function of Admin Password
- * @param {String} raw Clear Text
- * @return {String} Encrypted Password
- */
-const AltPasswordHashFunction = (raw) => {
-  let mash = global.mash_key;
-  return GenerateSHA256(`${mash}${GenerateSHA256(raw)}${mash}`);
 };
 
 /**
@@ -94,14 +85,15 @@ const User_Strategy = new LocalStrategy((username, password, callback) => {
  * Passport Strategy
  */
 const Admin_Strategy = new LocalStrategy((username, password, callback) => {
-  let admn = global.admn_key;
-  if (AltPasswordHashFunction(password) !== admn) {
+  HTTP.PostJSON('http://auth:3000/validate', { password: password }).then((rsvp) => {
+    // In Database, Administrator ID is 1 with dummy credentials
+    return callback(null, {id: 1});
+  }).catch(() => {
+    // On Failed Authentication, bad codes will be returned
     return callback(null, false, {
       message: 'Authentication Failed'
     });
-  }
-  // In Database, Administrator ID is 1 with dummy credentials
-  return callback(null, {id: 1});
+  });
 });
 
 /**
@@ -317,9 +309,13 @@ const Admin_UpdateUserPassword = (req, res, next) => {
  * @param  {Function} next Call next middleware
  */
 const Admin_UpdateOwnPassword = (req, res, next) => {
-  global.admn_key = AltPasswordHashFunction(Sanitizer.sanitize(req.body.password));
-  req.flash('success', 'Password Updated.');
-  return next();
+  HTTP.PostJSON('http://auth:3000/', { password: Sanitizer.sanitize(req.body.password) }).then((rsvp) => {
+    req.flash('success', 'Password Updated.');
+    // In Database, Administrator ID is 1 with dummy credentials
+    return next();
+  }).catch((e) => {
+    return next(e);
+  });
 };
 
 /**
