@@ -1,2 +1,32 @@
-- a = JSON.stringify(data, null, 2)
-pre= a
+if data.Status === "Success"
+  .card-header
+    h5.mb-0= data.Value.MAC
+  .card-block
+    dl.row
+      dt.col-sm-3 Device ID
+      dd.col-sm-9= data.Value.device
+
+      dt.col-sm-3 Device MAC Address
+      dd.col-sm-9= data.Value.MAC
+
+      dt.col-sm-3 Owned By
+      dd.col-sm-9
+        a.btn.btn-link.btn-sm.pl-0(href=`../vm/${data.Value.VM}`)= data.Value.VM
+
+      dt.col-sm-3 Attached?
+      dd.col-sm-9
+        if data.Value.currently_attached === true
+          | Yes
+        else
+          | No
+
+      dt.col-sm-3 Attached To
+      dd.col-sm-9
+        if data.Value.currently_attached === true
+          a.btn.btn-link.btn-sm.pl-0(href=`../net/${data.Value.network}`)= data.Value.network
+        else
+          | Not Attached
+
+else
+  .card-block
+    .alert.alert-danger= data.ErrorDescription[0]
