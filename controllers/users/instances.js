@@ -34,6 +34,37 @@ Router.get('/partials/net-list-hyp', (req, res, next) => {
   });
 });
 
+Router.get('/partials/vif-list-hyp', (req, res, next) => {
+  HTTP.GetJSON('http://api:3000/xen/vif/').then((data) => {
+    res.render('_partials/vm-partials/vif-list', {
+      data: data
+    });
+  }).catch((e) => {
+    return next(e);
+  });
+});
+
+Router.get('/:type/:uuid', (req, res, next) => {
+  // Whitelisting
+  const allowed = ['vm', 'vm-templates', 'net', 'vif'];
+  if (allowed.indexOf(req.params.type) === -1 ) {
+    // Kick to 404 Handler
+    return next();
+  } else {
+    // Build Dynamic Request to reduce code dupe :p
+    HTTP.GetJSON(`http://api:3000/xen/${req.params.type.split('-').join('/')}/${req.params.uuid}`).then((data) => {
+      res.render('user/instances-objDetail-skeleton', {
+        title: `Object "${req.params.uuid}" Details`,
+        mode: 'admin', // To Integrate User View into same tpls
+        type: req.params.type, // Dynamic Include
+        data: data
+      });
+    }).catch((e) => {
+      return next(e);
+    });
+  }
+});
+
 Router.use('/api', require('./instances-api'));
 
 module.exports = Router;
