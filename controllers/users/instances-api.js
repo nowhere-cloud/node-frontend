@@ -15,6 +15,14 @@ Router.get('/vm/:uuid', (req, res, next) => {
   });
 });
 
+Router.get('/vm/:uuid/metrics', (req, res, next) => {
+  HTTP.GetJSON(`http://api:3000/xen/vm/${req.params.uuid}/metrics`).then((data) => {
+    res.json(data);
+  }).catch((e) => {
+    res.sendStatus(500);
+  });
+});
+
 Router.get('/net/:uuid', (req, res, next) => {
   HTTP.GetJSON(`http://api:3000/xen/net/${req.params.uuid}`).then((data) => {
     res.json(data);

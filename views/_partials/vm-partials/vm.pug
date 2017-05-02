@@ -1,2 +1,46 @@
-- a = JSON.stringify(data, null, 2)
-pre= a
+//- Byte Formatter
+//- http://stackoverflow.com/questions/15900485/correct-way-to-convert-size-in-bytes-to-kb-mb-gb-in-javascript
+-
+  function formatBytes(bytes,decimals) {
+   if (bytes == 0) return '0 Bytes';
+   let k = 1000;
+   let dm = decimals || 2;
+   let sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+   let i = Math.floor(Math.log(bytes) / Math.log(k));
+   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  }
+//- End Of Byte Formatter
+
+if data.Status === "Success"
+  .card-header
+    h5.mb-0= data.Value.name_label
+  .card-block
+    dl.row
+      dt.col-sm-3 Power State
+      dd.col-sm-9= data.Value.power_state
+
+      dt.col-sm-3 Memory Size
+      dd.col-sm-9= formatBytes(data.Value.memory_static_max)
+
+      dt.col-sm-3 Network Interfaces
+      dd.col-sm-9
+        ul
+          each item, index in data.Value.VIFs
+            li
+              a.btn.btn-link.btn-sm(href=`../vif/${item}`)= item
+
+      dt.col-sm-3 Boot Arguments
+      dd.col-sm-9
+        input.form-control(type='text', value=`${data.Value.PV_args}`, readonly)
+
+      dt.col-sm-3 Guest Metrics
+      dd.col-sm-9 #[button.btn.btn-primary.btn-sm.vm-get-metrics Click Here]
+
+      dt.col-sm-3 Tags
+      dd.col-sm-9
+        ul
+          each item, index in data.Value.tags
+            li= item
+else
+  .card-block
+    .alert.alert-danger= data.ErrorDescription[0]
