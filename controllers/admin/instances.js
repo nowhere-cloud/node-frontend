@@ -66,11 +66,12 @@ Router.get('/:type/:uuid', (req, res, next) => {
     // Build Dynamic Request to reduce code dupe :p
     HTTP.GetJSON(`http://api:3000/xen/${req.params.type.split('-').join('/')}/${req.params.uuid}`).then((data) => {
       res.render('admin/instances-objDetail-skeleton', {
-        title: `Object "${req.params.uuid}" Details`,
+        title: 'Object Details',
         mode: 'admin', // To Integrate User View into same tpls
         type: req.params.type, // Dynamic Include,
         breadcrumb: true,
-        data: data
+        data: data,
+        uuid: req.params.uuid
       });
     }).catch((e) => {
       return next(e);

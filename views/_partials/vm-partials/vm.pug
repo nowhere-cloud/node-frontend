@@ -24,17 +24,20 @@ if data.Status === "Success"
 
       dt.col-sm-3 Network Interfaces
       dd.col-sm-9
-        ul
+        ul.list-unstyled
           each item, index in data.Value.VIFs
             li
-              a.btn.btn-link.btn-sm(href=`../vif/${item}`)= item
+              a.btn.btn-link.btn-sm.pl-0(href=`../vif/${item}`)= item
+      if mode === 'admin'
+        dt.col-sm-3 Boot Arguments
+        dd.col-sm-9
+          input.form-control(type='text', value=`${data.Value.PV_args}`, readonly)
 
-      dt.col-sm-3 Boot Arguments
-      dd.col-sm-9
-        input.form-control(type='text', value=`${data.Value.PV_args}`, readonly)
-
-      dt.col-sm-3 Guest Metrics
+      dt.col-sm-3 Instance Metrics
       dd.col-sm-9 #[button.btn.btn-primary.btn-sm.vm-get-metrics Click Here]
+      
+      dt.col-sm-3 Instance IP
+      dd.col-sm-9#vmip Loading...
 
       dt.col-sm-3 Tags
       dd.col-sm-9
