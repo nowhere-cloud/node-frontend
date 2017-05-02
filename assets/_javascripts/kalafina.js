@@ -26,30 +26,6 @@
     });
   };
 
-  /**
-   * Denary to Hexadecimal Number
-   * @param {[type]} DEC [description]
-   */
-  const DEC2HEX = (DEC) => {
-    return parseInt(DEC, 10).toString(16);
-  };
-
-  const DEC2HEXp = (DEC) => {
-    let result = parseInt(DEC, 10).toString(16);
-    return result.length === 1
-      ? '0' + result
-      : result;
-  };
-
-  /**
-   * Generate Mapped IPv6 from IPv4
-   * @param {String} IP4 IPv4
-   */
-  const GenerateIP6 = (IP4) => {
-    let splitted = IP4.trim().split('.');
-    return `::FFFF:${DEC2HEX(splitted[0])}${DEC2HEXp(splitted[1])}:${DEC2HEX(splitted[2])}${DEC2HEXp(splitted[3])}`;
-  };
-
   $(document).ready(() => {
     // Lazy Load DNS Table
     loadTable();
@@ -80,7 +56,7 @@
       return false;
     }
     if ($('#dns-type-new').val() === 'A' && $('#ipv6-new').val() === '') {
-      $('#ipv6-new').val(GenerateIP6($('#ipv4-new').val()));
+      $('#ipv6-new').val(GenerateIP6($('#ipv4-new').val())); // eslint-disable-line no-undef
     }
     if ($('#dns-type-new').val() === 'CNAME' && $('#optval-new').val() === '') {
       $('#optval-new').addClass('form-control-danger');
@@ -91,14 +67,14 @@
 
   $('#edit-dns').on('change', '#ip4-edit', function(e) {
     if ($(this).val().split('.').length === 4) {
-      $('#ipv6-edit').val(GenerateIP6($('#ipv4-new').val()));
+      $('#ipv6-edit').val(GenerateIP6($('#ipv4-new').val())); // eslint-disable-line no-undef
     }
   });
 
   $('#edit-dns').on('submit', 'form.dns-edit-form', function(e) {
     e.preventDefault();
     if ($('#ip6-edit').val() === '') {
-      $('#ip6-edit').val(GenerateIP6($('#ip4-edit').val()));
+      $('#ip6-edit').val(GenerateIP6($('#ip4-edit').val())); // eslint-disable-line no-undef
     }
     $(this)[0].submit();
   });
