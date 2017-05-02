@@ -56,7 +56,8 @@ Router.get('/:type/:uuid', (req, res, next) => {
       res.render('user/instances-objDetail-skeleton', {
         title: `Object "${req.params.uuid}" Details`,
         mode: 'admin', // To Integrate User View into same tpls
-        type: req.params.type, // Dynamic Include
+        type: req.params.type, // Dynamic Include,
+        breadcrumb: true,
         data: data
       });
     }).catch((e) => {
