@@ -1,2 +1,17 @@
-- a = JSON.stringify(data, null, 2)
-pre= a
+if data.Status === "Success"
+  .card-header
+    h5.mb-0= data.Value.name_label
+  .card-block
+    dl.row
+      dt.col-sm-3 Descriptions
+      dd.col-sm-9= data.Value.name_description
+      
+      dt.col-sm-3 Connected vNICs
+      dd.col-sm-9
+        ul.list-unstyled
+          each item, index in data.Value.VIFs
+            li
+              a.btn.btn-link.btn-sm.pl-0(href=`../vif/${item}`)= item
+else
+  .card-block
+    .alert.alert-danger= data.ErrorDescription[0]
