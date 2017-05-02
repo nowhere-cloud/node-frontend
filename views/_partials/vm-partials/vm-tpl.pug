@@ -1,2 +1,36 @@
-- a = JSON.stringify(data, null, 2)
-pre= a
+//- Distro Type to Human-Readable
+-
+  function HumanDistro(internal_string) {
+    let HumanReadable = ['Debian (deb)', 'Redhat (RPM)', 'SuSE'];
+    let XenInternal   = ['debianlike', 'rhlike', 'sleslike'];
+    return HumanReadable[XenInternal.indexOf(internal_string)];
+  }
+//- End Of Byte Formatter
+
+if data.Status === "Success"
+  .card-header
+    h5.mb-0= data.Value.name_label
+  .card-block
+    dl.row
+      dt.col-sm-3 Descriptions
+      dd.col-sm-9= data.Value.name_description
+
+      dt.col-sm-3 Minimal Memory Size
+      dd.col-sm-9= formatBytes(data.Value.memory_static_max)
+
+      dt.col-sm-3 Boot Arguments
+      dd.col-sm-9
+        input.form-control(type='text', value=`${data.Value.PV_args}`, readonly)
+
+      dt.col-sm-3 Distro Type
+      //- Alternative JS Object Notation is needed
+      dd.col-sm-9= HumanDistro(data.Value.other_config['install-distro'])
+
+      dt.col-sm-3 Tags
+      dd.col-sm-9
+        ul
+          each item, index in data.Value.tags
+            li= item
+else
+  .card-block
+    .alert.alert-danger= data.ErrorDescription[0]
