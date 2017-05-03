@@ -47,7 +47,7 @@ app.use(cookieParser(secret_key));
 
 // API Tunnel for test.
 // TODO: Remove before deployment.
-app.use('/api', require('./controllers/api'));
+app.use('/api', require('./controllers/api')); // eslint-disable-line global-require
 
 /* Session */
 

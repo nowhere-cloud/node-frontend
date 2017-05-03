@@ -24,6 +24,12 @@ const Crypto          = require('crypto');
 const HTTP            = require('./promise-http');
 
 /**
+ * Hashed Password for development mode
+ * @type {String}
+ */
+const secret = 'd9a8b776378a511563ad5795158a8b65677d6d67e39bd37c0216602c3d604b8e';
+
+/**
  * Calculate SHA256 of a specified String
  * @param {String} source Clear text
  * @return {String}       Cipher text
@@ -67,13 +73,13 @@ const User_Strategy = new LocalStrategy((username, password, callback) => {
       return callback(err);
     });
   } else {
-    if (username !== 'foo' || PasswordHashFunction(password) !== 'd9a8b776378a511563ad5795158a8b65677d6d67e39bd37c0216602c3d604b8e') {
+    if (username !== 'foo' || PasswordHashFunction(password) !== secret) {
       return callback(null, false, {
         message: 'Please check the development documentation for credentials.'
       });
     } else {
       return callback(null, {
-        id: 1,
+        id: 2,
         username: 'foo'
       });
     }
@@ -85,15 +91,28 @@ const User_Strategy = new LocalStrategy((username, password, callback) => {
  * Passport Strategy
  */
 const Admin_Strategy = new LocalStrategy((username, password, callback) => {
-  HTTP.PostJSON('http://auth:3000/validate', { password: password }).then((rsvp) => {
-    // In Database, Administrator ID is 1 with dummy credentials
-    return callback(null, {id: 1});
-  }).catch(() => {
-    // On Failed Authentication, bad codes will be returned
-    return callback(null, false, {
-      message: 'Authentication Failed'
+  if (env !== 'development') {
+    HTTP.PostJSON('http://auth:3000/validate', { password: password }).then((rsvp) => {
+      // In Database, Administrator ID is 1 with dummy credentials
+      return callback(null, {id: 1});
+    }).catch(() => {
+      // On Failed Authentication, bad HTTP codes is returned
+      return callback(null, false, {
+        message: 'Authentication Failed'
+      });
     });
-  });
+  } else {
+    // Offline Development mode Authentication.
+    // For Convinience, it just shares same hash funcition auf user.
+    // In Production, the hash function is totally different.
+    if (PasswordHashFunction(password) !== secret) {
+      return callback(null, false, {
+        message: 'Please check the development documentation for credentials.'
+      });
+    } else {
+      return callback(null, {id: 1});
+    }
+  }
 });
 
 /**
