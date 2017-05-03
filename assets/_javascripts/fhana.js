@@ -51,7 +51,7 @@
 
   $('#new-dns').on('submit', function (e) {
     e.preventDefault();
-    if ($('#ipv4-new').val() === '') {
+    if ($('#dns-type-new').val() === 'A' && $('#ipv4-new').val() === '') {
       $('#ipv4-new').addClass('form-control-danger');
       return false;
     }
