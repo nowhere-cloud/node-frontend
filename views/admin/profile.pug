@@ -38,11 +38,11 @@ block content
               button.btn.btn-info(type="button", data-toggle="modal", data-target="#passwordGenerate")
                 | No Idea? Generate!
   
-  .container-fluid#accordion(role="tablist")
+  .container-fluid.pt-1#accordion(role="tablist")
     .card
       .card-header#heading-reset
         h5.mb-0
-          a(data-toggle="collapse", data-parent="#accordion", href="#collapseOne")
+          a(data-toggle="collapse", data-parent="#accordion", href="#collapse-reset").
             In case of forgotten password...
       .collapse#collapse-reset(role="tabpanel")
         .card-block
