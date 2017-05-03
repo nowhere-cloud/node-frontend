@@ -32,11 +32,10 @@
     if ($('dd#pstate').html() === 'Running') {
       $.get(`../api/vm/${uuid}/ip`).done((json) => {
         let ul = '';
-        if (json !== {}) {
-          ul = $('<ul/>');
-          $('<li/>').html(`IPv4: ${json['0/ip']}`).appendTo(ul);
-          $('<li/>').html(`IPv6: ${json['0/ipv6/0']}`).appendTo(ul);
-
+        if (json.Status === 'Success' && json.Value !== {}) {
+          ul = $('<ul/>').addClass('list-unstyled pl-0');
+          $('<li/>').html(`IPv4: ${json.Value['0/ip']}`).appendTo(ul);
+          $('<li/>').html(`IPv6: ${json.Value['0/ipv6/0']}`).appendTo(ul);
         } else {
           ul = 'Contact Your Administrator for Assistance';
         }
@@ -52,11 +51,20 @@
   };
 
   $(document).ready(() => {
+    $('#modal-metric-main').hide();
     getIP();
   });
 
   $('#vm-get-metrics').on('click', () => {
-    getMetrics();
     $('#modal-metric').modal('show');
+  });
+
+  $('#modal-metric')
+  .on('show.bs.modal', () => {
+    getMetrics();
+  })
+  .on('hide.bs.modal', () => {
+    $('#modal-metric-loading-bar').show();
+    $('#modal-metric-main').hide();
   });
 })(jQuery);
