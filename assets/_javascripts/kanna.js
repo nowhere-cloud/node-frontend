@@ -1,5 +1,7 @@
 'use strict';
 
+// Admin - DNS
+
 (($) => {
   const error_wrap = $('<tr/>').addClass('table-danger');
   const error = $('<td/>').attr('colspan', 7);

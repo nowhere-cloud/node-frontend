@@ -10,17 +10,18 @@ block breadcrumb
 block content
   .container-fluid
     h1= title
-    p= uuid
+    p#uuid= uuid
   .container-fluid.hidden-md-down
-    .card
-      if type === 'vm'
-        include ../_partials/vm-partials/vm
-      if type === 'vm-templates'
-        include ../_partials/vm-partials/vm-tpl
-      if type === 'net'
-        include ../_partials/vm-partials/net
-      if type === 'vif'
-        include ../_partials/vm-partials/vif
+    if type === 'vm'
+      include ../_partials/vm-partials/vm
+    if type === 'vm-templates'
+      include ../_partials/vm-partials/vm-tpl
+    if type === 'net'
+      include ../_partials/vm-partials/net
+    if type === 'vif'
+      include ../_partials/vm-partials/vif
   include ../includes/mobile_not_supported-f
   
 block additional-libraries
+  if type === 'vm'
+    script(src='/admin/assets/heute.js')

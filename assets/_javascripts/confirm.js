@@ -1,5 +1,7 @@
 'use strict';
 
+// Users - Update Password
+
 // https://codepen.io/diegoleme/pen/surIK
 // Pure, no Frills, Absolutely Native HTML5 to Double Check Password.
 // Supported by Most modern days browser. MSIE? Dog won't bite.

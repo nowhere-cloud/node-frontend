@@ -10,7 +10,7 @@ block breadcrumb
 block content
   .container
     h1= title
-    p= uuid
+    p#uuid= uuid
   .container.hidden-md-down
     .card
       if type === 'vm'
@@ -24,3 +24,5 @@ block content
   include ../includes/mobile_not_supported-f
   
 block additional-libraries
+  if type === 'vm'
+    script(src='/users/assets/heute.js')

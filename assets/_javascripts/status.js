@@ -1,5 +1,7 @@
 'use strict';
 
+// Admin - Syslog Viewer
+
 (($) => {
   // Human Readable Syslog Severity, also copied from source code
   const severity_Human = 'Emergency Alert Critical Error Warning Notice Informational Debug'.split(' ');

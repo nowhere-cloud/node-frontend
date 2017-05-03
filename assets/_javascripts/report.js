@@ -1,4 +1,7 @@
 'use strict';
+
+// Admin - Report
+
 (($) => {
   // Use Client Side Date instead of server side date
   const DateString = new PrettyDate(); // eslint-disable-line no-undef

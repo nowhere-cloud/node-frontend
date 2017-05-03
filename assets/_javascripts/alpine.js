@@ -1,5 +1,7 @@
 'use strict';
 
+// Admin - User Management
+
 (($) => {
   const error_wrap = $('<tr/>').addClass('table-danger');
   const error = $('<td/>').attr('colspan', 5);
