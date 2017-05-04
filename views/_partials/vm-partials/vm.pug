@@ -6,13 +6,17 @@ if data.Status === "Success"
       h5.mb-0= data.Value.name_label
     .card-block.pb-1
       .btn-toolbar
-        .btn-group
+        .btn-group.mr-2
           a.btn.btn-success.vm-actions(href="#", data-action="set.vm.power_on") Power On
           a.btn.btn-danger.vm-actions(href="#", data-action="set.vm.power_off") Power Off
           a.btn.btn-warning.vm-actions(href="#", data-action="set.vm.power_reboot") Reboot
+        .btn-group.mr-2
+          a.btn.btn-warning.vm-actions(href="#", data-action="set.vm.power_suspend") Suspend
+          a.btn.btn-success.vm-actions(href="#", data-action="set.vm.power_resume") Resume
+        .btn-group.mr-2
+          a.btn.btn-warning.vm-actions(href="#", data-action="do.vm.destroy") Destroy
         .btn-group
-          a.btn.btn-warning.vm-actions(href="#", data-action="set.vm.power_suspend") Power On
-          a.btn.btn-success.vm-actions(href="#", data-action="set.vm.power_resume") Power Off
+          a.btn.btn-primary.vm-actions(href="#", data-action="do.vm.clone") Clone
     .card-block
       dl.row
         dt.col-sm-3 Power State
@@ -67,6 +71,7 @@ if data.Status === "Success"
             ul
               each item, index in data.Value.tags
                 li= item
+  pre= JSON.stringify(data.Value, false, 2)
 
 else
   .card
