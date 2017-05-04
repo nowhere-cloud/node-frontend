@@ -6,23 +6,20 @@ if data.Status === "Success"
       h5.mb-0= data.Value.name_label
     .card-block.pb-1
       .btn-toolbar
-        .btn-group.mr-2
+        .btn-group
           if data.Value.allowed_operations.indexOf('start') > 0
             a.btn.btn-success.vm-actions(href="#", data-action="set.vm.power_on") Power On
           if data.Value.allowed_operations.indexOf('hard_shutdown') > 0
             a.btn.btn-danger.vm-actions(href="#", data-action="set.vm.power_off") Power Off
           if data.Value.allowed_operations.indexOf('hard_reboot') > 0
             a.btn.btn-warning.vm-actions(href="#", data-action="set.vm.power_reboot") Reboot
-        .btn-group.mr-2
           if data.Value.allowed_operations.indexOf('suspend') > 0
             a.btn.btn-warning.vm-actions(href="#", data-action="set.vm.power_suspend") Suspend
           if data.Value.allowed_operations.indexOf('resume') > 0
             a.btn.btn-success.vm-actions(href="#", data-action="set.vm.power_resume") Resume
-        if data.Value.allowed_operations.indexOf('clone') > 0
-          .btn-group.mr-2
+          if data.Value.allowed_operations.indexOf('clone') > 0
             a.btn.btn-primary.vm-actions(href="#", data-action="do.vm.clone") Clone
-        if data.Value.allowed_operations.indexOf('destroy') > 0
-          .btn-group.mr-2
+          if data.Value.allowed_operations.indexOf('destroy') > 0
             a.btn.btn-warning.vm-actions(href="#", data-action="do.vm.destroy") Destroy
     .card-block
       dl.row
