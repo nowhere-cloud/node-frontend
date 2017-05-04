@@ -4,6 +4,15 @@ if data.Status === "Success"
   .card
     .card-header
       h5.mb-0= data.Value.name_label
+    .card-block.pb-1
+      .btn-toolbar
+        .btn-group
+          a.btn.btn-success.vm-actions(href="#", data-action="set.vm.power_on") Power On
+          a.btn.btn-danger.vm-actions(href="#", data-action="set.vm.power_off") Power Off
+          a.btn.btn-warning.vm-actions(href="#", data-action="set.vm.power_reboot") Reboot
+        .btn-group
+          a.btn.btn-warning.vm-actions(href="#", data-action="set.vm.power_suspend") Power On
+          a.btn.btn-success.vm-actions(href="#", data-action="set.vm.power_resume") Power Off
     .card-block
       dl.row
         dt.col-sm-3 Power State
@@ -58,9 +67,7 @@ if data.Status === "Success"
             ul
               each item, index in data.Value.tags
                 li= item
-    hr
-    .card-block
-        
+
 else
   .card
     .card-block
