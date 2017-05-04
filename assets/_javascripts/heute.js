@@ -21,6 +21,10 @@
         }
         $('#modal-metric-loading-bar').hide();
         $('#modal-metric-main').show();
+      } else {
+        errortext.html(`Contact Administrator: ${json.ErrorDescription}`).addClass('col-sm-12');
+        $('#modal-metric-main').html(errortext);
+        $('#modal-metric-main').show();
       }
     }).fail((error) => {
       errortext.html(`${error.status} ${error.statusText}`);
@@ -29,42 +33,28 @@
   };
 
   const getIP = () => {
-    if ($('dd#pstate').html() === 'Running') {
-      $.get(`../api/vm/${uuid}/ip`).done((json) => {
-        let ul = '';
-        if (json.Status === 'Success' && json.Value !== {}) {
-          ul = $('<ul/>').addClass('list-unstyled pl-0');
-          $('<li/>').html(`IPv4: ${json.Value['0/ip']}`).appendTo(ul);
-          $('<li/>').html(`IPv6: ${json.Value['0/ipv6/0']}`).appendTo(ul);
-        } else {
-          ul = 'Contact Your Administrator for Assistance';
+    $.get(`../api/vm/${uuid}/ip`).done((json) => {
+      if (json.Status === 'Success' && json.Value !== {}) {
+        let ul = $('<ul/>').addClass('list-unstyled');
+        $('<li/>').html(`IPv4: ${json.Value['0/ip']}`).appendTo(ul);
+        $('<li/>').html(`IPv6: ${json.Value['0/ipv6/0']}`).appendTo(ul);
+        if ($('dd#pstate').html() !== 'Running') {
+          $('<li/>').addClass('text-danger').html('Data may not be accurate. Boot Your Instance and refresh this webpage to retreive the most accurate data.').appendTo(ul);
         }
         $('dd#vmip').html(ul);
-      }).fail((error) => {
-        errortext.html(`${error.status} ${error.statusText}`);
+      } else {
+        errortext.html('Contact Your Administrator for Assistance');
         $('dd#vmip').html(errortext);
-      });
-    } else {
-      errortext.html('Sorry, IP is only available for running machines.');
+      }
+    }).fail((error) => {
+      errortext.html(`${error.status} ${error.statusText}`);
       $('dd#vmip').html(errortext);
-    }
+    });
   };
 
   $(document).ready(() => {
     $('#modal-metric-main').hide();
     getIP();
-  });
-
-  $('#vm-get-metrics').on('click', () => {
-    $('#modal-metric').modal('show');
-  });
-
-  $('#modal-metric')
-  .on('show.bs.modal', () => {
     getMetrics();
-  })
-  .on('hide.bs.modal', () => {
-    $('#modal-metric-loading-bar').show();
-    $('#modal-metric-main').hide();
   });
 })(jQuery);

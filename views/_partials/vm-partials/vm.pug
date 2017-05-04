@@ -23,7 +23,19 @@ if data.Status === "Success"
           input.form-control(type='text', value=`${data.Value.PV_args}`, readonly)
 
         dt.col-sm-3 Instance Metrics
-        dd.col-sm-9 #[button.btn.btn-primary.btn-sm#vm-get-metrics Click Here]
+        dd.col-sm-9 
+          .row#modal-metric-loading-bar
+            .col-sm-12
+              include ../../includes/loading-bar.pug
+          dl.row#modal-metric-main
+            dt.col-sm-4 OS Name
+            dd.col-sm-8#modal-metric-osname
+
+            dt.col-sm-4 OS Kernel
+            dd.col-sm-8#modal-metric-kernel
+
+            dt.col-sm-4 Guest Driver
+            dd.col-sm-8#modal-metric-driver
 
         dt.col-sm-3 Instance IP
         dd.col-sm-9#vmip
@@ -44,17 +56,7 @@ if data.Status === "Success"
           button.close(type='button', data-dismiss='modal', aria-label='Close')
             span(aria-hidden='true') &times;
         .modal-body
-          #modal-metric-loading-bar
-            include ../../includes/loading-bar.pug
-          dl.row#modal-metric-main
-            dt.col-sm-3 OS Name
-            dd.col-sm-9#modal-metric-osname
-
-            dt.col-sm-3 OS Kernel
-            dd.col-sm-9#modal-metric-kernel
-
-            dt.col-sm-3 Guest Driver
-            dd.col-sm-9#modal-metric-driver
+          
         .modal-footer
           button.btn.btn-secondary(type='button', data-dismiss='modal') Close
 else
