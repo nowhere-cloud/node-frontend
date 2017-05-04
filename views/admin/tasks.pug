@@ -1,0 +1,25 @@
+extends ../layouts/fluid
+
+block menu
+  include ../includes/common-topbar-user
+
+block breadcrumb
+  +breadcrumb-item("/admin", "Operations Hub")
+
+block content
+  .container-fluid
+    h1= title
+    p Overview of queued tasks.
+  .container-fluid.hidden-md-down
+    .card
+      table.table#tasks-loadhere
+        tbody
+          tr
+            td(colspan="3")
+              include ../includes/loading-bar
+      .card-footer
+        button.btn.btn-primary.mt-0.mb-0(data-toggle="modal", data-target="#NewUser") New User
+  include ../includes/mobile_not_supported-f
+    
+block additional-libraries
+  script(src="/admin/assets/seiretsu.js")

@@ -34,7 +34,7 @@
 
   const getIP = () => {
     $.get(`../api/vm/${uuid}/ip`).done((json) => {
-      if (json.Status === 'Success' && json.Value !== {}) {
+      if (json.Status === 'Success') {
         let ul = $('<ul/>').addClass('list-unstyled');
         $('<li/>').html(`IPv4: ${json.Value['0/ip']}`).appendTo(ul);
         $('<li/>').html(`IPv6: ${json.Value['0/ipv6/0']}`).appendTo(ul);
