@@ -15,12 +15,4 @@ Router.get('/vm/:uuid/metrics', (req, res, next) => {
   });
 });
 
-Router.get('/vm/:uuid/ip', (req, res, next) => {
-  HTTP.GetJSON(`http://api:3000/xen/vm/${req.params.uuid}/ip`).then((data) => {
-    res.json(data);
-  }).catch((e) => {
-    res.sendStatus(500);
-  });
-});
-
 module.exports = Router;

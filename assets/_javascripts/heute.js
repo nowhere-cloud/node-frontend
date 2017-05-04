@@ -10,6 +10,7 @@
   const getMetrics = () => {
     $.get(`../api/vm/${uuid}/metrics`).done((json) => {
       if (json.Status === 'Success') {
+        // Metrics
         if (json.Value.PV_drivers_detected === true) {
           $('#modal-metric-osname').html(json.Value.os_version.name);
           $('#modal-metric-kernel').html(json.Value.os_version.uname);
@@ -21,40 +22,30 @@
         }
         $('#modal-metric-loading-bar').hide();
         $('#modal-metric-main').show();
-      } else {
-        errortext.html(`Contact Administrator: ${json.ErrorDescription}`).addClass('col-sm-12');
-        $('#modal-metric-main').html(errortext);
-        $('#modal-metric-main').show();
-      }
-    }).fail((error) => {
-      errortext.html(`${error.status} ${error.statusText}`);
-      $('dd#vmip').html(errortext);
-    });
-  };
-
-  const getIP = () => {
-    $.get(`../api/vm/${uuid}/ip`).done((json) => {
-      if (json.Status === 'Success') {
+        // IP
         let ul = $('<ul/>').addClass('list-unstyled');
-        $('<li/>').html(`IPv4: ${json.Value['0/ip']}`).appendTo(ul);
-        $('<li/>').html(`IPv6: ${json.Value['0/ipv6/0']}`).appendTo(ul);
+        $('<li/>').html(`IPv4: ${json.Value.networks['0/ip']}`).appendTo(ul);
+        $('<li/>').html(`IPv6: ${json.Value.networks['0/ipv6/0']}`).appendTo(ul);
         if ($('dd#pstate').html() !== 'Running') {
           $('<li/>').addClass('text-danger').html('Data may not be accurate. Boot Your Instance and refresh this webpage to retreive the most accurate data.').appendTo(ul);
         }
         $('dd#vmip').html(ul);
       } else {
-        errortext.html('Contact Your Administrator for Assistance');
+        errortext.html(`Contact Administrator: ${json.ErrorDescription}`).addClass('col-sm-12');
+        $('#modal-metric-main').html(errortext);
         $('dd#vmip').html(errortext);
+        $('#modal-metric-main').show();
       }
     }).fail((error) => {
       errortext.html(`${error.status} ${error.statusText}`);
+      $('#modal-metric-main').html(errortext);
       $('dd#vmip').html(errortext);
+      $('#modal-metric-main').show();
     });
   };
 
   $(document).ready(() => {
     $('#modal-metric-main').hide();
-    getIP();
     getMetrics();
   });
 })(jQuery);
