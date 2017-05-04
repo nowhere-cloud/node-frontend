@@ -23,8 +23,8 @@ if data.Status === "Success"
           input.form-control(type='text', value=`${data.Value.PV_args}`, readonly)
 
         dt.col-sm-3 Instance Metrics
-        dd.col-sm-9 
-          .row#modal-metric-loading-bar
+        dd.col-sm-9
+          .row.loading-bar
             .col-sm-12
               include ../../includes/loading-bar.pug
           dl.row#modal-metric-main
@@ -38,8 +38,19 @@ if data.Status === "Success"
             dd.col-sm-8#modal-metric-driver
 
         dt.col-sm-3 Instance IP
-        dd.col-sm-9#vmip
-          include ../../includes/loading-bar.pug
+        dd.col-sm-9
+          .row.loading-bar
+            .col-sm-12
+              include ../../includes/loading-bar.pug
+          dl.row#modal-ip-main
+            dt.col-sm-4 IPv4
+            dd.col-sm-8#modal-ip-ipv4
+
+            dt.col-sm-4 IPv6
+            dd.col-sm-8#modal-ip-ipv6
+
+            span.col-sm-12.text-danger#modal-ip-alert.
+              Data may not be accurate. Boot Your Instance and refresh this webpage to retreive the most accurate data. 
 
         dt.col-sm-3 Tags
         dd.col-sm-9

@@ -20,32 +20,36 @@
           $('#modal-metric-kernel').html('');
           $('#modal-metric-driver').html('Contact Administrator');
         }
-        $('#modal-metric-loading-bar').hide();
-        $('#modal-metric-main').show();
         // IP
-        let ul = $('<ul/>').addClass('list-unstyled');
-        $('<li/>').html(`IPv4: ${json.Value.networks['0/ip']}`).appendTo(ul);
-        $('<li/>').html(`IPv6: ${json.Value.networks['0/ipv6/0']}`).appendTo(ul);
+        $('#modal-ip-ipv4').html(`IPv4: ${json.Value.networks['0/ip']}`);
+        $('#modal-ip-ipv6').html(`IPv6: ${json.Value.networks['0/ipv6/0']}`);
         if ($('dd#pstate').html() !== 'Running') {
-          $('<li/>').addClass('text-danger').html('Data may not be accurate. Boot Your Instance and refresh this webpage to retreive the most accurate data.').appendTo(ul);
+          $('#modal-ip-alert').show();
         }
-        $('dd#vmip').html(ul);
+        $('#modal-metric-main').show();
+        $('#modal-ip-main').show();
       } else {
         errortext.html(`Contact Administrator: ${json.ErrorDescription}`).addClass('col-sm-12');
         $('#modal-metric-main').html(errortext);
-        $('dd#vmip').html(errortext);
+        $('#modal-ip-main').html(errortext);
+        $('.loading-bar').hide();
         $('#modal-metric-main').show();
+        $('#modal-ip-main').show();
       }
     }).fail((error) => {
       errortext.html(`${error.status} ${error.statusText}`);
       $('#modal-metric-main').html(errortext);
-      $('dd#vmip').html(errortext);
+      $('#modal-ip-main').html(errortext);
+      $('.loading-bar').hide();
       $('#modal-metric-main').show();
+      $('#modal-ip-main').show();
     });
   };
 
   $(document).ready(() => {
+    $('#modal-ip-alert').hide();
     $('#modal-metric-main').hide();
+    $('#modal-ip-main').hide();
     getMetrics();
   });
 })(jQuery);
