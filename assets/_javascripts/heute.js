@@ -26,6 +26,7 @@
         if ($('dd#pstate').html() !== 'Running') {
           $('#modal-ip-alert').show();
         }
+        $('.loading-bar').hide();
         $('#modal-metric-main').show();
         $('#modal-ip-main').show();
       } else {
