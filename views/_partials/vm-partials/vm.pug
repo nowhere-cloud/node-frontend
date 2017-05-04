@@ -46,19 +46,6 @@ if data.Status === "Success"
           ul
             each item, index in data.Value.tags
               li= item
-
-  //- Moday for showing system metrics
-  #modal-metric.modal.fade(tabindex='-1', role='dialog')
-    .modal-dialog(role='document')
-      .modal-content
-        .modal-header
-          h5.modal-title System Metrics
-          button.close(type='button', data-dismiss='modal', aria-label='Close')
-            span(aria-hidden='true') &times;
-        .modal-body
-          
-        .modal-footer
-          button.btn.btn-secondary(type='button', data-dismiss='modal') Close
 else
   .card
     .card-block
