@@ -21,8 +21,8 @@
           $('#modal-metric-driver').html('Contact Administrator');
         }
         // IP
-        $('#modal-ip-ipv4').html(`IPv4: ${json.Value.networks['0/ip']}`);
-        $('#modal-ip-ipv6').html(`IPv6: ${json.Value.networks['0/ipv6/0']}`);
+        $('#modal-ip-ipv4').html(json.Value.networks['0/ip']);
+        $('#modal-ip-ipv6').html(json.Value.networks['0/ipv6/0']);
         if ($('dd#pstate').html() !== 'Running') {
           $('#modal-ip-alert').show();
         }
