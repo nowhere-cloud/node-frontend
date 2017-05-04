@@ -31,9 +31,10 @@ include formatBytes
 
         dt.col-sm-3 Tags
         dd.col-sm-9
-          ul
-            each item, index in data.Value.tags
-              li= item
+          if data.Value.tags.length > 0
+            ul
+              each item, index in data.Value.tags
+                li= item
   else
     .card-block
       .alert.alert-danger= data.ErrorDescription
