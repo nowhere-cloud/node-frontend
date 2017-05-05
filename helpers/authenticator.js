@@ -228,7 +228,7 @@ const Admin_DeleteUser = (req, res, next) => {
  */
 const Admin_GetAllUser = (req, res, next) => {
   HTTP.GetJSON('http://api:3000/user/').then((users) => {
-    res.locals.wwwdata = users;
+    res.locals.data = users;
     next();
   }).catch((err) => {
     return next(err);
