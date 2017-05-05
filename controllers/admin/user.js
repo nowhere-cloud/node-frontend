@@ -3,7 +3,6 @@
 const Express   = require('express');
 const Router    = Express.Router();
 const HTTP      = require('../../helpers/promise-http');
-const User      = require('../../models').User;
 const Auth      = require('../../helpers/authenticator');
 const Sanitizer = require('sanitizer');
 
@@ -32,12 +31,9 @@ Router.route('/')
     res.redirect('/admin/users');
   });
 
-Router.get('/partials/user-list', (req, res, next) => {
-  // UID 1 is the Admin user created with random data
-  User.findAll({ where: { $not: [{ id: 1 }] } }).then((data) => {
-    res.render('admin/_partials/user-list', {
-      data: data
-    });
+Router.get('/partials/user-list', Auth.Admin.GetAllUser, (req, res, next) => {
+  res.render('admin/_partials/user-list', {
+    data: res.locals.data
   });
 });
 
@@ -46,15 +42,13 @@ Router.get('/partials/user-form/:userid', (req, res, next) => {
   if (req.params.userid === '1') {
     res.sendStatus(500);
   } else {
-    User.findById(Sanitizer.sanitize(req.params.userid)).then((data) => {
-      res.render('admin/_partials/user-edit-form', {
-        csrf: req.csrfToken(),
-        data: data
-      });
-    }).catch((e) => {
-      return next(e);
-    });
+    return next();
   }
+}, Auth.Admin.FindUserById, (req, res, next) => {
+  res.render('admin/_partials/user-edit-form', {
+    csrf: req.csrfToken(),
+    data: res.locals.userdata
+  });
 });
 
 Router.post('/patch', Auth.Admin.UpdateUserPassword, (req, res, next) => {
@@ -72,12 +66,10 @@ Router.get('/delete/:userid', (req, res, next) => {
   res.redirect('/admin/users');
 });
 
-Router.get('/report', (req, res, next) => {
-  User.findAll({ where: { $not: [{ id: 1 }] } }).then((data) => {
-    res.render('admin/report-user', {
-      title: 'User Audit',
-      data: data
-    });
+Router.get('/report', Auth.Admin.GetAllUser, (req, res, next) => {
+  res.render('admin/report-user', {
+    title: 'User Audit',
+    data: res.locals.data
   });
 });
 

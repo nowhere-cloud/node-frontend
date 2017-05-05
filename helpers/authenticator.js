@@ -1,21 +1,8 @@
 'use strict';
 
-/**
- * Derivated from a Creative Commons Zero (CC0) Licensed,
- * General Assembly WEB DEVELOPMENT IMMERSIVE Lesson Material
- * https://github.com/ga-wdi-lessons/express-passport-sequelize
- *
- * The Code derivated from the above repo are publicized in Public Domain.
- * The main derivations are:
- * 1. using Native Crypto Library instead of BCrypt.
- * 2. Extracted into a seperate file and called as CommonJS Module.
- * 3. ES6 Optimized.
- */
 const DBConnection    = require('../models').sequelize;
-const User            = require('../models').User;
 const Passport        = require('passport');
 const LocalStrategy   = require('passport-local').Strategy;
-const debug           = require('debug')('authenticator');
 const Session         = require('express-session');
 const SessionStore    = require('connect-session-sequelize')(Session.Store);
 const Sanitizer       = require('sanitizer');
@@ -27,7 +14,7 @@ const HTTP            = require('./promise-http');
  * Hashed Password for development mode
  * @type {String}
  */
-const secret = 'd9a8b776378a511563ad5795158a8b65677d6d67e39bd37c0216602c3d604b8e';
+const secret = 'secret';
 
 /**
  * Calculate SHA256 of a specified String
@@ -37,16 +24,6 @@ const secret = 'd9a8b776378a511563ad5795158a8b65677d6d67e39bd37c0216602c3d604b8e
 const GenerateSHA256 = (source) => {
   let cleanString = Sanitizer.sanitize(source);
   return Crypto.createHash('sha256').update(cleanString).digest('hex');
-};
-
-/**
- * Hash Function of User Password
- * @param {String} raw Clear Text
- * @return {String} Encrypted Password
- */
-const PasswordHashFunction = (raw) => {
-  let reverse = raw.split('').reverse().join('');
-  return GenerateSHA256(`${GenerateSHA256(reverse)}${GenerateSHA256(raw)}${reverse}`);
 };
 
 /**
@@ -62,18 +39,20 @@ const ForbiddenUserName = () => {
  */
 const User_Strategy = new LocalStrategy((username, password, callback) => {
   if (env !== 'development') {
-    User.findOne({ where: { username: username } }).then((user) => {
-      if (!user || PasswordHashFunction(password) !== user.password) {
-        return callback(null, false, {
-          message: 'Authentication Failed.'
-        });
-      }
-      return callback(null, user);
-    }).catch((err) => {
-      return callback(err);
+    HTTP.PostJSON('http://api:3000/user/validate', {
+      username: username,
+      password: password
+    }).then((rsvp) => {
+      // Correct user will receive 200 + Userdata
+      return callback(null, rsvp);
+    }).catch(() => {
+      // Invalid User will receive code 403
+      return callback(null, false, {
+        message: 'Authentication Failed'
+      });
     });
   } else {
-    if (username !== 'foo' || PasswordHashFunction(password) !== secret) {
+    if (username !== 'foo' || password !== secret) {
       return callback(null, false, {
         message: 'Please check the development documentation for credentials.'
       });
@@ -103,9 +82,7 @@ const Admin_Strategy = new LocalStrategy((username, password, callback) => {
     });
   } else {
     // Offline Development mode Authentication.
-    // For Convinience, it just shares same hash funcition auf user.
-    // In Production, the hash function is totally different.
-    if (PasswordHashFunction(password) !== secret) {
+    if (password !== secret) {
       return callback(null, false, {
         message: 'Please check the development documentation for credentials.'
       });
@@ -144,7 +121,7 @@ const deSerialize = (uid, cb) => {
       username: 'foo'
     });
   } else {
-    User.findById(uid).then(function(user) {
+    HTTP.GetJSON(`http://api:3000/user/byid/${uid}`).then((user) => {
       delete user.password;
       cb(null, user);
     }).catch((err) => {
@@ -210,23 +187,19 @@ const Logout = (req, res, next) => {
  * @param  {Function} next Call next middleware
  */
 const Admin_CreateUser = (req, res, next) => {
-  User.findOne({ where: {
-    username: Sanitizer.sanitize(req.body.username)
-  }}).then((user) => {
-    if (user !== null) {
+  HTTP.GetJSON(`http://api:3000/user/byusername/${Sanitizer.sanitize(req.body.username)}`).then((user) => {
+    if (user !== {}) {
       req.flash('error', `User: ${req.body.username} already occupied.`);
       return next();
     } else {
-      User.create({
+      return HTTP.PostJSON('http://api:3000/user/', {
         username: Sanitizer.sanitize(req.body.username),
-        password: PasswordHashFunction(req.body.password)
-      }).then(function(user) {
-        req.flash('success', `User: ${user.username} (UID: ${user.id}) created.`);
-        return next();
-      }).catch((err) => {
-        return next(err);
+        password: Sanitizer.sanitize(req.body.password)
       });
     }
+  }).then((user) => {
+    req.flash('success', `User: ${user.username} (UID: ${user.id}) created.`);
+    return next();
   }).catch((err) => {
     return next(err);
   });
@@ -239,9 +212,7 @@ const Admin_CreateUser = (req, res, next) => {
  * @param  {Function} next Call next middleware
  */
 const Admin_DeleteUser = (req, res, next) => {
-  User.findById(Sanitizer.sanitize(req.params.userid)).then((user) => {
-    return user.destroy();
-  }).then(() => {
+  HTTP.DeleteJSON(`http://api:3000/user/byid/${req.params.userid}`).then(() => {
     req.flash('success', `UID: ${req.params.userid} deleted.`);
     return next();
   }).catch((err) => {
@@ -255,8 +226,23 @@ const Admin_DeleteUser = (req, res, next) => {
  * @param  {Object}   res  Express//Connect Response
  * @param  {Function} next Call next middleware
  */
+const Admin_GetAllUser = (req, res, next) => {
+  HTTP.GetJSON('http://api:3000/user/').then((users) => {
+    res.locals.wwwdata = users;
+    next();
+  }).catch((err) => {
+    return next(err);
+  });
+};
+
+/**
+ * Find User by ID, from requested
+ * @param  {Object}   req  Express//Connect Request
+ * @param  {Object}   res  Express//Connect Response
+ * @param  {Function} next Call next middleware
+ */
 const Admin_GetUserProfile = (req, res, next) => {
-  User.findById(Sanitizer.sanitize(req.body.userid)).then((user) => {
+  HTTP.GetJSON(`http://api:3000/user/byid/${Sanitizer.sanitize(req.body.userid)}`).then((user) => {
     delete user.password;
     res.locals.userdata = user;
     next();
@@ -272,9 +258,7 @@ const Admin_GetUserProfile = (req, res, next) => {
  * @param  {Function} next Call next middleware
  */
 const Admin_FindUserByUsername = (req, res, next) => {
-  User.findOne({
-    username: Sanitizer.sanitize(req.body.username)
-  }).then((user) => {
+  HTTP.GetJSON(`http://api:3000/user/byusername/${Sanitizer.sanitize(req.body.username)}`).then((user) => {
     delete user.password;
     res.locals.userdata = user;
     next();
@@ -290,10 +274,8 @@ const Admin_FindUserByUsername = (req, res, next) => {
  * @param  {Function} next Call next middleware
  */
 const User_UpdatePassword = (req, res, next) => {
-  User.findById(req.user.id).then((user) => {
-    return user.update({
-      password: PasswordHashFunction(req.body.password)
-    });
+  HTTP.PatchJSON(`http://api:3000/user/byid/${req.user.id}`, {
+    password: Sanitizer.sanitize(req.body.password)
   }).then(() => {
     req.flash('success', 'Password Updated.');
     return next();
@@ -309,10 +291,8 @@ const User_UpdatePassword = (req, res, next) => {
  * @param  {Function} next Call next middleware
  */
 const Admin_UpdateUserPassword = (req, res, next) => {
-  User.findById(Sanitizer.sanitize(req.body.woot)).then((user) => {
-    return user.update({
-      password: PasswordHashFunction(req.body.password)
-    });
+  HTTP.PatchJSON(`http://api:3000/user/byid/${Sanitizer.sanitize(req.body.woot)}`, {
+    password: Sanitizer.sanitize(req.body.password)
   }).then(() => {
     req.flash('success', 'Password Updated.');
     return next();
@@ -328,7 +308,9 @@ const Admin_UpdateUserPassword = (req, res, next) => {
  * @param  {Function} next Call next middleware
  */
 const Admin_UpdateOwnPassword = (req, res, next) => {
-  HTTP.PostJSON('http://auth:3000/', { password: Sanitizer.sanitize(req.body.password) }).then((rsvp) => {
+  HTTP.PostJSON('http://auth:3000/', {
+    password: Sanitizer.sanitize(req.body.password)
+  }).then((rsvp) => {
     req.flash('success', 'Password Updated.');
     // In Database, Administrator ID is 1 with dummy credentials
     return next();
@@ -375,6 +357,7 @@ module.exports = {
     UpdateUserPassword: Admin_UpdateUserPassword,
     UpdateOwnPassword: Admin_UpdateOwnPassword,
     Protection: Admin_Protection,
+    GetAllUser: Admin_GetAllUser,
     ForbiddenUserName: ForbiddenUserName
   },
   Session: {
