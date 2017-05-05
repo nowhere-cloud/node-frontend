@@ -11,15 +11,9 @@
     $.get(`../api/vm/${uuid}/metrics`).done((json) => {
       if (json.Status === 'Success') {
         // Metrics
-        if (json.Value.PV_drivers_detected === true) {
-          $('#modal-metric-osname').html(json.Value.os_version.name);
-          $('#modal-metric-kernel').html(json.Value.os_version.uname);
-          $('#modal-metric-driver').html(`${json.Value.PV_drivers_version.major}.${json.Value.PV_drivers_version.minor}.${json.Value.PV_drivers_version.micro}.${json.Value.PV_drivers_version.build}`);
-        } else {
-          $('#modal-metric-osname').html('');
-          $('#modal-metric-kernel').html('');
-          $('#modal-metric-driver').html('Contact Administrator');
-        }
+        $('#modal-metric-osname').html(json.Value.PV_drivers_detected === true ? json.Value.os_version.name : '');
+        $('#modal-metric-kernel').html(json.Value.PV_drivers_detected === true ? json.Value.os_version.uname : '');
+        $('#modal-metric-driver').html(json.Value.PV_drivers_detected === true ? `${json.Value.PV_drivers_version.major}.${json.Value.PV_drivers_version.minor}.${json.Value.PV_drivers_version.micro}.${json.Value.PV_drivers_version.build}` : '');
         // IP
         $('#modal-ip-ipv4').html(json.Value.networks['0/ip']);
         $('#modal-ip-ipv6').html(json.Value.networks['0/ipv6/0']);
@@ -31,19 +25,15 @@
         $('#modal-ip-main').show();
       } else {
         errortext.html(`Contact Administrator: ${json.ErrorDescription}`).addClass('col-sm-12');
-        $('#modal-metric-main').html(errortext);
-        $('#modal-ip-main').html(errortext);
+        $('#modal-metric-main').html(errortext).show();
+        $('#modal-ip-main').html(errortext).show();
         $('.loading-bar').hide();
-        $('#modal-metric-main').show();
-        $('#modal-ip-main').show();
       }
     }).fail((error) => {
       errortext.html(`${error.status} ${error.statusText}`);
-      $('#modal-metric-main').html(errortext);
-      $('#modal-ip-main').html(errortext);
+      $('#modal-metric-main').html(errortext).show();
+      $('#modal-ip-main').html(errortext).show();
       $('.loading-bar').hide();
-      $('#modal-metric-main').show();
-      $('#modal-ip-main').show();
     });
   };
 
@@ -53,4 +43,13 @@
     $('#modal-ip-main').hide();
     getMetrics();
   });
+
+  $('#refresh').on('click', () => {
+    $('#modal-ip-alert').hide();
+    $('#modal-metric-main').hide();
+    $('#modal-ip-main').hide();
+    $('.loading-bar').show();
+    getMetrics();
+  });
+
 })(jQuery);

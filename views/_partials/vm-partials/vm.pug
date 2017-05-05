@@ -23,6 +23,8 @@ if data.Status === "Success"
         if data.Value.allowed_operations.indexOf('destroy') > 0
           .btn-group.mr-2
             a.btn.btn-warning.vm-actions(href="#", data-action="do.vm.destroy") Destroy
+        .btn-group.mr-2
+          a.btn.btn-primary#refresh(href="#") refresh
     .card-block
       dl.row
         dt.col-sm-3 Power State
