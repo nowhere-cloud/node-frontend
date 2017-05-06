@@ -43,11 +43,12 @@
   };
 
   // Unified Client for sending command
-  const PostBoy = (action, payload) => {
+  const PostBoy = (action, payload, token) => {
     $.ajax({
       type: 'POST',
       url: `../api/vm/${uuid}/send`,
       data: {
+        '_csrf': token,
         'action': action,
         'payload': payload
       },
@@ -82,7 +83,7 @@
   });
 
   $('#confirmation-confirm').on('click', function() {
-    PostBoy(verb, {});
+    PostBoy(verb, {}, $(this).data('csrf'));
     $('#confirmation-loading').show();
     $(this).hide();
     $('#confirmation-modal').data('bs.modal').handleUpdate();

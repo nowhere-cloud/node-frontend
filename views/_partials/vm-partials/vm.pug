@@ -73,13 +73,14 @@ if data.Status === "Success"
             dt.col-sm-3 Action
             dd.col-sm-9#confirmation-field-verb
           .row
-            button.btn.btn-primary.btn-block.col-sm-12#confirmation-confirm(type='button') Yes
+            .btn-block.col-sm-12
             .col-sm-12#confirmation-loading
               include ../../includes/loading-bar.pug
           dl.row#confirmation-field-rsvp
             dt.col-sm-3 Task ID
             dd.col-dm-9#confirmation-field-rsvp-etktid
         .modal-footer
+          button.btn.btn-primary#confirmation-confirm(type='button', data-csrf=`${csrf}`) Yes
           button.btn.btn-secondary(data-dismiss='modal') Close/Cancel
 else
   .card

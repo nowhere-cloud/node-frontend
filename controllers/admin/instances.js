@@ -71,7 +71,8 @@ Router.get('/:type/:uuid', (req, res, next) => {
         type: req.params.type, // Dynamic Include,
         breadcrumb: true,
         data: data,
-        uuid: req.params.uuid
+        uuid: req.params.uuid,
+        csrf: req.csrfToken()
       });
     }).catch((e) => {
       return next(e);
