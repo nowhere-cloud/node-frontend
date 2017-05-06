@@ -80,9 +80,10 @@
     $('#confirmation-modal').modal('show').data('bs.modal').handleUpdate();
   });
 
-  $('#confirmation-confirm').on('click', () => {
+  $('#confirmation-confirm').on('click', function() {
     PostBoy(verb, {});
     $('#confirmation-loading').show();
+    $(this).hide();
     $('#confirmation-modal').data('bs.modal').handleUpdate();
   });
 

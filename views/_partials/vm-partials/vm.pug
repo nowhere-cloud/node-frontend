@@ -58,7 +58,29 @@ if data.Status === "Success"
             ul
               each item, index in data.Value.tags
                 li= item
-
+  //- Dialog
+  #confirmation-modal.modal.fade
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          h5.modal-title Confirmation
+          button.close(type='button', data-dismiss="modal")
+            span &times;
+        .modal-body
+          dl.row
+            dt.col-sm-3 Subject
+            dd.col-sm-9#confirmation-field-uuid
+            dt.col-sm-3 Action
+            dd.col-sm-9#confirmation-field-verb
+          .row
+            button.btn.btn-primary.btn-block.col-sm-12#confirmation-confirm(type='button') Yes
+            .col-sm-12#confirmation-loading
+              include ../../includes/loading-bar.pug
+          dl.row#confirmation-field-rsvp
+            dt.col-sm-3 Task ID
+            dd.col-dm-9#confirmation-field-rsvp-etktid
+        .modal-footer
+          button.btn.btn-secondary(data-dismiss='modal') Close/Cancel
 else
   .card
     .card-block
