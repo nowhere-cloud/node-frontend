@@ -25,7 +25,7 @@ Router.route('/')
       ipv4address: Sanitizer.sanitize(req.body.ip4),
       ipv6address: Sanitizer.sanitize(req.body.ip6),
       cname: Sanitizer.sanitize(req.body.opt),
-      userid: 1
+      userid: req.user.id
     }).then((data) => {
       req.flash('success', `DNS Entry ${req.body.type} - ${req.body.name} Created.`);
       res.redirect('/admin/dns');

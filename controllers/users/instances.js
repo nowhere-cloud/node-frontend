@@ -34,19 +34,9 @@ Router.get('/partials/net-list-hyp', (req, res, next) => {
   });
 });
 
-Router.get('/partials/vif-list-hyp', (req, res, next) => {
-  HTTP.GetJSON('http://api:3000/xen/vif/').then((data) => {
-    res.render('_partials/vm-partials/vif-list', {
-      data: data
-    });
-  }).catch((e) => {
-    return next(e);
-  });
-});
-
 Router.get('/:type/:uuid', (req, res, next) => {
   // Whitelisting
-  const allowed = ['vm', 'vm-templates', 'net', 'vif'];
+  const allowed = ['vm', 'net', 'vif'];
   if (allowed.indexOf(req.params.type) === -1 ) {
     // Kick to 404 Handler
     return next();

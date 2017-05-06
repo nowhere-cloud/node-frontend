@@ -17,7 +17,7 @@ Router.use('/instances', require('./instances'));
 
 Router.use('/auth', require('./auth'));
 
-Router.use('/log', require('./status'));
+Router.use('/log', require('./log'));
 
 Router.use('/profile', require('./profile'));
 
