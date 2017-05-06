@@ -67,10 +67,10 @@
     $('#confirmation-field-rsvp').hide();
     setTimeout(() => {
       loadToolbar();
-    }, 2000);
+    }, 1000);
     setTimeout(() => {
       getMetrics();
-    }, 3000);
+    }, 1500);
   });
 
   $('#refresh').on('click', () => {
