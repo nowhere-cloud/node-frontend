@@ -66,8 +66,10 @@
     $('#modal-ip-alert').hide();
     $('#confirmation-loading').hide();
     $('#confirmation-field-rsvp').hide();
-    getMetrics();
-    loadToolbar();
+    setTimeout(() => {
+      getMetrics();
+      loadToolbar();
+    }, 2000);
   });
 
   $('#refresh').on('click', () => {
@@ -79,7 +81,7 @@
     verb = $(this).data('action');
     $('#confirmation-field-uuid').html(uuid);
     $('#confirmation-field-verb').html(babel('action', verb)); // eslint-disable-line no-undef
-    $('#confirmation-modal').modal('show').data('bs.modal').handleUpdate();
+    $('#confirmation-modal').modal('show');
   });
 
   $('#confirmation-confirm').on('click', function() {
