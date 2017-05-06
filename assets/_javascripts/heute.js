@@ -56,7 +56,6 @@
         console.log(data);
         $('#confirmation-loading').hide();
         $('#confirmation-field-rsvp-etktid').html(data.uuid);
-        $('#confirmation-modal').data('bs.modal').handleUpdate();
         $('#confirmation-field-rsvp').show();
       },
       dataType: 'json'});
@@ -90,7 +89,6 @@
     PostBoy(verb, {}, $(this).data('csrf'));
     $('#confirmation-loading').show();
     $(this).hide();
-    $('#confirmation-modal').data('bs.modal').handleUpdate();
   });
 
 })(jQuery);
