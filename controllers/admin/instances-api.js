@@ -11,7 +11,7 @@ Router.get('/vm/:uuid/metrics', (req, res, next) => {
   HTTP.GetJSON(`http://api:3000/xen/vm/${req.params.uuid}/metrics`).then((data) => {
     res.json(data);
   }).catch((e) => {
-    res.sendStatus(500);
+    res.send(e);
   });
 });
 
@@ -24,7 +24,7 @@ Router.post('/vm/:uuid/send', (req, res, next) => {
   }).then((data) => {
     res.json(data);
   }).catch((e) => {
-    res.sendStatus(500);
+    res.send(e);
   });
 });
 
