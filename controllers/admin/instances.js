@@ -79,13 +79,20 @@ Router.get('/:type/:uuid', (req, res, next) => {
   }
 });
 
-Router.get('/vm/:uuid/toolbar', (req, res, next) => {
+Router.get('/:type/:uuid/toolbar', (req, res, next) => {
   // Build Dynamic Request to reduce code dupe :p
-  HTTP.GetJSON(`http://api:3000/xen/${req.params.type.split('-').join('/')}/${req.params.uuid}`).then((data) => {
-    res.render('_partials/vm-partials/vm-toolbar');
-  }).catch((e) => {
-    return next(e);
-  });
+  // Whitelisting
+  const allowed = ['vm', 'vm-templates', 'net', 'vif'];
+  if (allowed.indexOf(req.params.type) === -1 ) {
+    // Kick to 404 Handler
+    return next();
+  } else {
+    HTTP.GetJSON(`http://api:3000/xen/${req.params.type.split('-').join('/')}/${req.params.uuid}`).then((data) => {
+      res.render(`_partials/vm-partials/${req.params.type}-toolbar`);
+    }).catch((e) => {
+      return next(e);
+    });
+  }
 });
 
 Router.use('/api', require('./instances-api'));

@@ -66,6 +66,7 @@
     $('#confirmation-loading').hide();
     $('#confirmation-field-rsvp').hide();
     getMetrics();
+    loadToolbar();
   });
 
   $('#refresh').on('click', () => {

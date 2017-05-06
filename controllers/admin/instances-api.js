@@ -28,4 +28,26 @@ Router.post('/vm/:uuid/send', (req, res, next) => {
   });
 });
 
+Router.post('/vm/:uuid/tag', (req, res, next) => {
+  HTTP.PostJSON(`http://api:3000/xen/vm/${req.params.uuid}/tag`, {
+    userid: req.user.id,
+    payload: req.body.payload
+  }).then((data) => {
+    res.json(data);
+  }).catch((e) => {
+    res.sendStatus(500);
+  });
+});
+
+Router.post('/vm/:uuid/untag', (req, res, next) => {
+  HTTP.PostJSON(`http://api:3000/xen/vm/${req.params.uuid}/tag/rm`, {
+    userid: req.user.id,
+    payload: req.body.payload
+  }).then((data) => {
+    res.json(data);
+  }).catch((e) => {
+    res.sendStatus(500);
+  });
+});
+
 module.exports = Router;
