@@ -88,7 +88,9 @@ Router.get('/:type/:uuid/toolbar', (req, res, next) => {
     return next();
   } else {
     HTTP.GetJSON(`http://api:3000/xen/${req.params.type.split('-').join('/')}/${req.params.uuid}`).then((data) => {
-      res.render(`_partials/vm-partials/${req.params.type}-toolbar`);
+      res.render(`_partials/vm-partials/${req.params.type}-toolbar`, {
+        data: data
+      });
     }).catch((e) => {
       return next(e);
     });
