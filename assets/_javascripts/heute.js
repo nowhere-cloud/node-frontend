@@ -77,7 +77,7 @@
   $('#managed-tool').on('click', '.vm-actions', function() {
     verb = $(this).data('action');
     $('#confirmation-field-uuid').html(uuid);
-    $('#confirmation-field-verb').html(babel(verb)); // eslint-disable-line no-undef
+    $('#confirmation-field-verb').html(babel('action', verb)); // eslint-disable-line no-undef
     $('#confirmation-modal').modal('show').data('bs.modal').handleUpdate();
   });
 
