@@ -89,9 +89,15 @@
 
   $('#refresh').on('click', () => {
     $('#modal-ip-alert').hide();
-    getMetrics();
-    loadToolbar();
-    getPState();
+    setTimeout(() => {
+      getPState();
+    }, 1000);
+    setTimeout(() => {
+      loadToolbar();
+    }, 1500);
+    setTimeout(() => {
+      getMetrics();
+    }, 2000);
   });
 
   $('#managed-tool').on('click', '.vm-actions', function() {

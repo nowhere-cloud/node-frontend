@@ -36,6 +36,17 @@ Router.get('/partials/vm-tpl-hyp', (req, res, next) => {
   });
 });
 
+Router.get('/partials/vm-tpl-reg', (req, res, next) => {
+  HTTP.GetJSON('http://api:3000/xen/vm//templates/bytag/templates-publicise').then((data) => {
+    res.render('_partials/vm-partials/tpl-list', {
+      mode: 'raw',
+      data: data
+    });
+  }).catch((e) => {
+    return next(e);
+  });
+});
+
 Router.get('/partials/net-list-hyp', (req, res, next) => {
   HTTP.GetJSON('http://api:3000/xen/net/').then((data) => {
     res.render('_partials/vm-partials/net-list', {

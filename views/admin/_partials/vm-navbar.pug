@@ -1,9 +1,8 @@
 include ../../_partials/vm-tabs/navbarmixin
 
 ul.nav.nav-tabs.card-header-tabs
-  +tab-item('vm-list-hyp', "Instances (Hypervisor)", true)
-  +tab-item('vm-list-rcrd', "Instances (Registered)", false)
-  +tab-item('vm-tpl-hyp', "Templates (Hypervisor)", false)
-  +tab-item('vm-tpl-rcrd', "Templates (Registered)", false)
+  +tab-item('vm-list-hyp', "Instances", true)
+  +tab-item('vm-tpl-hyp', "Templates (All)", false)
+  +tab-item('vm-tpl-rcrd', "Templates (Published)", false)
   +tab-item('net-list-hyp', "Networks", false)
   +tab-item('vif-list-hyp', "vNICs", false)
