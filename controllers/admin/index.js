@@ -25,6 +25,6 @@ Router.use('/assets', require('./assets'));
 
 Router.use('/users', require('./user'));
 
-Router.use('/tasks', require('./task'));
+Router.use('/tasks', require('./tasks'));
 
 module.exports = Router;
