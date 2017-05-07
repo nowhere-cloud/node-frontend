@@ -15,6 +15,14 @@ Router.get('/vm/:uuid/metrics', (req, res, next) => {
   });
 });
 
+Router.get('/vm/:uuid/pstate', (req, res, next) => {
+  HTTP.GetJSON(`http://api:3000/xen/vm/${req.params.uuid}`).then((data) => {
+    res.send(data.Value.power_state);
+  }).catch((e) => {
+    res.send(e);
+  });
+});
+
 Router.post('/vm/:uuid/send', (req, res, next) => {
   let action = req.body.action.split('.');
   let action_verb = action[action.length - 1]; // Last item

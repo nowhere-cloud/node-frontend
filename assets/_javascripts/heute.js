@@ -33,6 +33,21 @@
     });
   };
 
+  const getPState = () => {
+    $.get(`../api/vm/${uuid}/pstate`).done((rsvp) => {
+      if (rsvp.Status === 'Success') {
+        // Metrics
+        $('#pstate').html(rsvp.power_state);
+      } else {
+        errortext.html(`Contact Administrator: ${rsvp.ErrorDescription}`);
+        $('#pstate').html(errortext);
+      }
+    }).fail((error) => {
+      errortext.html(`${error.status} ${error.statusText}`);
+      $('#pstate').html(errortext);
+    });
+  };
+
   const loadToolbar = () => {
     $('#managed-tool').load(`./${uuid}/toolbar`, function(response, status, xhr) {
       if (status === 'error') {
@@ -53,9 +68,8 @@
         'payload': payload
       },
       success: (data, status, xhr) => {
-        console.log(data);
         $('#confirmation-loading').hide();
-        $('#confirmation-field-rsvp-etktid').html(data.uuid);
+        $('#confirmation-field-rsvp-etktid').html(data.task);
         $('#confirmation-field-rsvp').show();
       },
       dataType: 'json'});
@@ -76,6 +90,8 @@
   $('#refresh').on('click', () => {
     $('#modal-ip-alert').hide();
     getMetrics();
+    loadToolbar();
+    getPState();
   });
 
   $('#managed-tool').on('click', '.vm-actions', function() {
