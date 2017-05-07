@@ -18,9 +18,9 @@ Router.get('/', (req, res, next) => {
 // For Supporting Streamed data. Data will be handled
 // using client side script instead of server-side render.
 // This is a bit differ than others
-Router.get('/api', Proxy('http://api:3000/task/', {
+Router.get('/api', Proxy('http://api:3000/', {
   forwardPath: (req, res) => {
-    return '/';
+    return '/task/';
   },
   limit: '5mb',
   timeout: 30*1000
