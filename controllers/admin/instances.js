@@ -36,7 +36,7 @@ Router.get('/partials/vm-tpl-hyp', (req, res, next) => {
   });
 });
 
-Router.get('/partials/vm-tpl-reg', (req, res, next) => {
+Router.get('/partials/vm-tpl-rcrd', (req, res, next) => {
   HTTP.GetJSON('http://api:3000/xen/vm//templates/bytag/templates-publicise').then((data) => {
     res.render('_partials/vm-partials/tpl-list', {
       mode: 'raw',

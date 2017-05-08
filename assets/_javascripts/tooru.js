@@ -28,6 +28,10 @@
     getPartials('vm-tpl-hyp');
   });
 
+  $('#vm-tpl-rcrd-tab').on('click', () => {
+    getPartials('vm-tpl-rcrd');
+  });
+
   $('#net-list-hyp-tab').on('click', () => {
     getPartials('net-list-hyp');
   });

@@ -89,6 +89,10 @@
         $('#confirmation-loading').hide();
         $('#confirmation-field-rsvp-etktid').html(data.task);
         $('#confirmation-field-rsvp').show();
+        setTimeout(() => {
+          $('#confirmation-modal').modal('hide');
+          $('.vm-actions').hide();
+        }, 10000);
       },
       dataType: 'json'});
   };
