@@ -57,6 +57,18 @@ a.better {
   text-overflow: ellipsis;
 }
 
-.form-control-feedback {
-  display: hidden;
+.vm-actions {
+  display: none;
+}
+
+#modal-ip-alert {
+  display: none;
+}
+
+#confirmation-loading {
+  display: none;
+}
+
+#confirmation-field-rsvp {
+  display: none;
 }

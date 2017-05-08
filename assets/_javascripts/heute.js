@@ -34,10 +34,36 @@
   };
 
   const getPState = () => {
+    /* eslint-disable complexity */
     $.get(`../api/vm/${uuid}/pstate`).done((rsvp) => {
       if (rsvp.Status === 'Success') {
-        console.log(rsvp);
-        $('#pstate').html(rsvp.power_state);
+        $('#pstate').html(rsvp.Value.power_state);
+        $.each(rsvp.Value.allowed_operations, (i, v) => {
+          // Control the visibility of toolbar button
+          switch(v) {
+          case 'start':
+            $('[data-action="set.vm.power_on"]').show();
+            break;
+          case 'hard_shutdown':
+            $('[data-action="set.vm.power_off"]').show();
+            break;
+          case 'hard_reboot':
+            $('[data-action="set.vm.power_reboot"]').show();
+            break;
+          case 'suspend':
+            $('[data-action="set.vm.power_suspend"]').show();
+            break;
+          case 'resume':
+            $('[data-action="set.vm.power_resume"]').show();
+            break;
+          case 'clone':
+            $('[data-action="do.vm.clone"]').show();
+            break;
+          case 'destroy':
+            $('[data-action="do.vm.destroy"]').show();
+            break;
+          }
+        });
       } else {
         errortext.html(`Contact Administrator: ${rsvp.ErrorDescription}`);
         $('#pstate').html(errortext);
@@ -47,6 +73,7 @@
       $('#pstate').html(errortext);
     });
   };
+  /* eslint-enable */
 
   // Unified Client for sending command
   const PostBoy = (action, payload, token) => {
@@ -67,9 +94,6 @@
   };
 
   $(document).ready(() => {
-    $('#modal-ip-alert').hide();
-    $('#confirmation-loading').hide();
-    $('#confirmation-field-rsvp').hide();
     setTimeout(() => {
       getPState();
     }, 1000);
@@ -81,6 +105,7 @@
   $('#refresh').on('click', () => {
     $('#modal-ip-alert').hide();
     setTimeout(() => {
+      $('.vm-actions').hide();
       getPState();
     }, 1000);
     setTimeout(() => {
