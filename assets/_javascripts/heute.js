@@ -36,7 +36,7 @@
   const getPState = () => {
     $.get(`../api/vm/${uuid}/pstate`).done((rsvp) => {
       if (rsvp.Status === 'Success') {
-        // Metrics
+        console.log(rsvp);
         $('#pstate').html(rsvp.power_state);
       } else {
         errortext.html(`Contact Administrator: ${rsvp.ErrorDescription}`);
@@ -45,15 +45,6 @@
     }).fail((error) => {
       errortext.html(`${error.status} ${error.statusText}`);
       $('#pstate').html(errortext);
-    });
-  };
-
-  const loadToolbar = () => {
-    $('#managed-tool').load(`./${uuid}/toolbar`, function(response, status, xhr) {
-      if (status === 'error') {
-        errortext.html(`${xhr.status} ${xhr.statusText}`);
-        $(this).html(errortext);
-      }
     });
   };
 
@@ -80,7 +71,7 @@
     $('#confirmation-loading').hide();
     $('#confirmation-field-rsvp').hide();
     setTimeout(() => {
-      loadToolbar();
+      getPState();
     }, 1000);
     setTimeout(() => {
       getMetrics();
@@ -92,9 +83,6 @@
     setTimeout(() => {
       getPState();
     }, 1000);
-    setTimeout(() => {
-      loadToolbar();
-    }, 1500);
     setTimeout(() => {
       getMetrics();
     }, 2000);
