@@ -14,28 +14,24 @@ block content
     h1= title
     p Overview of queued and completed tasks.
   .container-fluid.hidden-md-down
-    .card.mt-2.mb-2
-      //- The in line style is REQUIRED by the table library
-      table.table.table-striped.table-bordered(style="width: 100%;")#tasks-loadhere
-        thead
-          tr
-            th Task ID
-            th Created
-            th Task
-            th Payload
-            th Sent?
-            th Response
-        tfoot
-          tr
-            th Task ID
-            th Created
-            th Task
-            th Payload
-            th Sent?
-            th Response
-      .card-footer
-        button.btn.btn-primary.mt-0.mb-0#tasks-reload Refresh
-  include ../includes/mobile_not_supported-f
+    //- The in line style is REQUIRED by the table library
+    table.table.table-striped.table-bordered(style="width: 100%;")#tasks-loadhere
+      thead
+        tr
+          th Task ID
+          th Created
+          th Task
+          th Payload
+          th Sent?
+          th Response
+      tfoot
+        tr
+          th Task ID
+          th Created
+          th Task
+          th Payload
+          th Sent?
+          th Response
     
 block additional-libraries
   script(src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js")
