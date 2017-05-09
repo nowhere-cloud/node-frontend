@@ -17,10 +17,14 @@ Router.get('/vm/:uuid/metrics', (req, res, next) => {
 
 Router.get('/vm/:uuid/pstate', (req, res, next) => {
   HTTP.GetJSON(`http://api:3000/xen/vm/${req.params.uuid}`).then((data) => {
+    // Reproduce a reduced data
     if (data.Status === 'Success') {
       res.json({
-        Status: 'Success',
-        power_state: data.Value.power_state
+        Status: data.Status,
+        Value: {
+          allowed_operations: data.Value.allowed_operations,
+          power_state: data.Value.power_state
+        }
       });
     } else {
       res.json(data);
