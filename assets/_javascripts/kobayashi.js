@@ -4,7 +4,7 @@
 
 (($) => {
   const error_wrap = $('<tr/>').addClass('table-danger');
-  const error = $('<td/>').attr('colspan', 3);
+  const error      = $('<td/>').attr('colspan', 3);
 
   const getPartials = (endpoint) => {
     $(`#${endpoint}-loadhere`).load(`/users/instances/partials/${endpoint}`, function (response, status, xhr) {
@@ -17,7 +17,24 @@
   };
 
   $(document).ready(() => {
+    let table = $('#tasks-loadhere').DataTable({
+      'ajax': {
+        'url': '/users/instances/api/tasks',
+        'dataSrc': '',
+        'deferRender': true
+      },
+      'columns': [
+        { 'data': 'uuid' },
+        { 'data': 'createdAt' },
+        { 'data': 'task' },
+        { 'data': 'result.Status'}
+      ]
+    });
     getPartials('vm-list-hyp');
+
+    $('#vm-mytask-tab').on('click', () => {
+      table.ajax.reload();
+    });
   });
 
   $('#vm-list-hyp-tab').on('click', () => {

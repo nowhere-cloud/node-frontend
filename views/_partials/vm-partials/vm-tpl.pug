@@ -13,6 +13,14 @@ include formatBytes
   if data.Status === "Success"
     .card-header
       h5.mb-0= data.Value.name_label
+    .card-block.pb-1
+      .btn-toolbar
+        if admin
+          .btn-group.mr-2#managed-tool
+            a.btn.btn-primary.vm-actions(href="#", data-action="tag") Publish this Template
+            a.btn.btn-primary.vm-actions(href="#", data-action="untag") Un-publish this template
+        .btn-group.mr-2#unmanaged-tool
+          a.btn.btn-primary.vm-actions(href=`provision?t=${uuid}`) Provision a new VM based on this template
     .card-block
       dl.row
         dt.col-sm-3 Descriptions

@@ -69,4 +69,12 @@ Router.post('/vm/:uuid/untag', (req, res, next) => {
   });
 });
 
+Router.get('/tasks', (req, res, next) => {
+  HTTP.GetJSON(`http://api:3000/task/byuid/${req.user.id}`).then((data) => {
+    res.json(data);
+  }).catch((e) => {
+    res.sendStatus(500);
+  });
+});
+
 module.exports = Router;

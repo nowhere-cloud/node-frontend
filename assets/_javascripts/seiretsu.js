@@ -1,5 +1,7 @@
 'use strict';
 
+// Admin - Tasks
+
 (($) => {
   $(document).ready(() => {
     $('#tasks-loadhere').DataTable({

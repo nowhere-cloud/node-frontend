@@ -6,12 +6,16 @@ table.table
       th &nbsp;
   tbody
     if data.Status === 'Success'
-      each value, index in data.Value
-        tr
-          td= index
-          td.overflow= value
-          td.clearfix
-            a.btn.btn-sm.btn-primary.get-detail(href=`/admin/instances/vif/${value}`) Get Detail
+      if data.Value.length > 0
+        each value, index in data.Value
+          tr
+            td= index
+            td.overflow= value
+            td.clearfix
+              a.btn.btn-sm.btn-primary.get-detail(href=`/admin/instances/vif/${value}`) Get Detail
+      else
+        tr.table-info
+          td(colspan="3") No Records.
     else
       tr.table-danger
         td(colspan="3")= data.ErrorDescription[0]

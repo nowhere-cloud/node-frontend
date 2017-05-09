@@ -12,6 +12,8 @@
         error.html(`${xhr.status} ${xhr.statusText}`);
         error_wrap.html(error);
         $(this).html(error_wrap);
+      } else {
+        $(this).DataTable();
       }
     });
   };

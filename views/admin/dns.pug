@@ -1,5 +1,8 @@
 extends ../layouts/fluid
 
+block extra-stylesheet
+  link(rel="stylesheet", href="//cdn.datatables.net/1.10.15/css/dataTables.bootstrap4.min.css")
+
 block menu
   include ../includes/common-topbar-user
 
@@ -30,5 +33,7 @@ block content
   include ../user/_partials/dns-form
   include ../user/_partials/dns-edit
 block additional-libraries
+  script(src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js")
+  script(src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js")
   script(src='/admin/assets/ipcalc.js')
   script(src='/admin/assets/kanna.js')
