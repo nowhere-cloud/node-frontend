@@ -8,19 +8,15 @@ thead
     th Value
     th &nbsp;
 tbody
-  if payload.length
-    each value, index in payload
-      tr
-        td= value.id
-        td= value.type
-        td= value.name
-        td.overflow= value.ipv4address
-        td.overflow= value.ipv6address
-        td.overflow= value.cname
-        td.clearfix
-          .btn-group.float-right.ml-0.mr-0
-            button.btn.btn-sm.btn-primary.dns-edit(data-entryid=`${value.id}`) Edit
-            a.btn.btn-sm.btn-danger.dns-delete(href=`/admin/dns/delete/${value.id}`) Delete
-  else
-    tr.table-info
-      td(colspan="7") No Records
+  each value, index in payload
+    tr
+      td= value.id
+      td= value.type
+      td= value.name
+      td.overflow= value.ipv4address
+      td.overflow= value.ipv6address
+      td.overflow= value.cname
+      td.clearfix
+        .btn-group.float-right.ml-0.mr-0
+          button.btn.btn-sm.btn-primary.dns-edit(data-entryid=`${value.id}`) Edit
+          a.btn.btn-sm.btn-danger.dns-delete(href=`/admin/dns/delete/${value.id}`) Delete
