@@ -72,14 +72,14 @@ if data.Status === "Success"
             dd.col-sm-9#confirmation-field-uuid
             dt.col-sm-3 Action
             dd.col-sm-9#confirmation-field-verb
+          dl.row#confirmation-field-rsvp
+            dt.col-sm-3 Ticket
+            dd.col-sm-9#confirmation-field-rsvp-etktid
+            dt.col-sm-9 Please use this ID to track your Job Progress
           .row
             .btn-block.col-sm-12
             .col-sm-12#confirmation-loading
               include ../../includes/loading-bar.pug
-          dl.row#confirmation-field-rsvp
-            dt.col-sm-3 Task ID
-            dd.col-sm-9#confirmation-field-rsvp-etktid
-            dd.col-sm-9.offset-sm-3 Please use this ID to track your Job Progress
         .modal-footer
           button.btn.btn-primary#confirmation-confirm(type='button', data-csrf=`${csrf}`) Yes
           button.btn.btn-secondary(data-dismiss='modal') Close/Cancel

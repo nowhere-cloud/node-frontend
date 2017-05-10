@@ -188,7 +188,7 @@ const Logout = (req, res, next) => {
  */
 const Admin_CreateUser = (req, res, next) => {
   HTTP.GetJSON(`http://api:3000/user/byusername/${Sanitizer.sanitize(req.body.username)}`).then((user) => {
-    if (user !== {}) {
+    if (user !== null) {
       req.flash('error', `User: ${req.body.username} already occupied.`);
       return next();
     } else {
