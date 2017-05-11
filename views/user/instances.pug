@@ -11,6 +11,10 @@ block content
     h1= title
     p Manage your Virtual Machines here.
   .container.hidden-md-down
+    if errorMessage.length
+      .alert.alert-danger !{errorMessage}
+    if successMessage.length
+      .alert.alert-success !{successMessage}
     .card
       .card-header
         include _partials/vm-navbar

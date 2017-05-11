@@ -10,7 +10,9 @@ Router.all('*', Auth.Admin.Protection);
 Router.get('/', (req, res, next) => {
   res.render('admin/instances', {
     title: 'Virtual Machines',
-    breadcrumb: true
+    breadcrumb: true,
+    errorMessage: req.flash('error'),
+    successMessage: req.flash('success')
   });
 });
 
@@ -66,6 +68,72 @@ Router.get('/partials/vif-list-hyp', (req, res, next) => {
     return next(e);
   });
 });
+
+Router.route('/vm/provision')
+  .get((req, res, next) => {
+    HTTP.GetJSON(`http://api:3000/xen/vm/templates/${req.query.t}`).then((data) => {
+      res.render('admin/instances-provision', {
+        title: 'Provision a New VM Instance',
+        uuid: req.query.t,
+        data: data,
+        csrf: req.csrfToken()
+      });
+    }).catch((e) => {
+      return next(e);
+    });
+  })
+  .post((req, res, next) => {
+    HTTP.PostJSON('http://api:3000/xen/vm/create', {
+      userid: req.body.uid,
+      payload: {
+        userid: req.body.uid,
+        src: req.body.uuid,
+        vm_name: req.body.vm_name,
+        ks: req.body.kickstart, // Link to Answer File
+        repo: req.body.repo,
+        distro: req.body.distro,
+        debian_distro: req.body.debian_distro,
+        network: req.body.network,
+        disk_size: req.body.disk_size,
+        disk_unit: req.body.disk_unit,
+        ram_size: req.body.ram_size,
+        ram_unit: req.body.ram_unit
+      }
+    }).then((key) => {
+      req.flash('success', `Job Received. Task ID: ${key.task}`);
+      res.redirect('/admin/instances');
+    }).catch((e) => {
+      return next(e);
+    });
+  });
+
+Router.route('/vm/clone')
+  .get((req, res, next) => {
+    HTTP.GetJSON(`http://api:3000/xen/vm/${req.query.t}`).then((data) => {
+      res.render('admin/instances-clone', {
+        title: 'Clone an VM Instance',
+        uuid: req.query.t,
+        data: data,
+        csrf: req.csrfToken()
+      });
+    }).catch((e) => {
+      return next(e);
+    });
+  })
+  .post((req, res, next) => {
+    HTTP.PostJSON(`http://api:3000/xen/vm/${req.query.t}/clone`, {
+      userid: req.body.uid,
+      payload: {
+        userid: req.body.uid,
+        vm_name: req.body.vm_name
+      }
+    }).then((key) => {
+      req.flash('success', `Job Received. Task ID: ${key.task}`);
+      res.redirect('/admin/instances');
+    }).catch((e) => {
+      return next(e);
+    });
+  });
 
 Router.get('/:type/:uuid', (req, res, next) => {
   // Whitelisting

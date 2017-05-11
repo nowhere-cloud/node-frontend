@@ -121,7 +121,12 @@
     verb = $(this).data('action');
     $('#confirmation-field-uuid').html(uuid);
     $('#confirmation-field-verb').html(babel('action', verb)); // eslint-disable-line no-undef
-    $('#confirmation-modal').modal('show');
+    if (verb === 'do.vm.clone') {
+      // Clonging is handled on a special webpage
+      window.location.href = `clone?t=${uuid}`;
+    } else {
+      $('#confirmation-modal').modal('show');
+    }
   });
 
   $('#confirmation-confirm').on('click', function() {
