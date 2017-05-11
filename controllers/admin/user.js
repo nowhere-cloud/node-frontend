@@ -26,6 +26,7 @@ Router.route('/')
         return false;
       }
     });
+    res.locals.username = req.body.username;
     return next();
   }, Auth.Admin.NewUser, (req, res, next) => {
     res.redirect('/admin/users');
@@ -42,6 +43,7 @@ Router.get('/partials/user-form/:userid', (req, res, next) => {
   if (req.params.userid === '1') {
     res.sendStatus(500);
   } else {
+    res.locals.userid = req.params.userid;
     return next();
   }
 }, Auth.Admin.FindUserById, (req, res, next) => {
@@ -60,6 +62,7 @@ Router.get('/delete/:userid', (req, res, next) => {
     res.flash('error', 'Error: Action Denied.');
     res.redirect('/admin/users');
   } else {
+    res.locals.userid = req.params.userid;
     return next();
   }
 }, Auth.Admin.DeleteUser, (req, res, next) => {

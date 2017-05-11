@@ -187,7 +187,7 @@ const Logout = (req, res, next) => {
  * @param  {Function} next Call next middleware
  */
 const Admin_CreateUser = (req, res, next) => {
-  HTTP.GetJSON(`http://api:3000/user/byusername/${Sanitizer.sanitize(req.body.username)}`).then((user) => {
+  HTTP.GetJSON(`http://api:3000/user/byusername/${Sanitizer.sanitize(res.locals.username)}`).then((user) => {
     if (user !== null) {
       req.flash('error', `User: ${req.body.username} already occupied.`);
       return next();
@@ -212,8 +212,8 @@ const Admin_CreateUser = (req, res, next) => {
  * @param  {Function} next Call next middleware
  */
 const Admin_DeleteUser = (req, res, next) => {
-  HTTP.DeleteJSON(`http://api:3000/user/byid/${req.params.userid}`).then(() => {
-    req.flash('success', `UID: ${req.params.userid} deleted.`);
+  HTTP.DeleteJSON(`http://api:3000/user/byid/${res.locals.userid}`).then(() => {
+    req.flash('success', `UID: ${res.locals.userid} deleted.`);
     return next();
   }).catch((err) => {
     return next(err);
@@ -242,7 +242,7 @@ const Admin_GetAllUser = (req, res, next) => {
  * @param  {Function} next Call next middleware
  */
 const Admin_GetUserProfile = (req, res, next) => {
-  HTTP.GetJSON(`http://api:3000/user/byid/${Sanitizer.sanitize(req.body.userid)}`).then((user) => {
+  HTTP.GetJSON(`http://api:3000/user/byid/${Sanitizer.sanitize(res.locals.userid)}`).then((user) => {
     delete user.password;
     res.locals.userdata = user;
     next();
@@ -258,7 +258,7 @@ const Admin_GetUserProfile = (req, res, next) => {
  * @param  {Function} next Call next middleware
  */
 const Admin_FindUserByUsername = (req, res, next) => {
-  HTTP.GetJSON(`http://api:3000/user/byusername/${Sanitizer.sanitize(req.body.username)}`).then((user) => {
+  HTTP.GetJSON(`http://api:3000/user/byusername/${Sanitizer.sanitize(res.locals.username)}`).then((user) => {
     delete user.password;
     res.locals.userdata = user;
     next();
