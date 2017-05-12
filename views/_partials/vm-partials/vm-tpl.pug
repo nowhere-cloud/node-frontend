@@ -15,7 +15,7 @@ include formatBytes
       h5.mb-0= data.Value.name_label
     .card-block.pb-1
       .btn-toolbar
-        if admin
+        if mode === 'admin'
           .btn-group.mr-2#managed-tool
             a.btn.btn-primary.vm-actions(href="#", data-action="tag") Publish this Template
             a.btn.btn-primary.vm-actions(href="#", data-action="untag") Un-publish this template
@@ -40,7 +40,7 @@ include formatBytes
         dt.col-sm-3 Tags
         dd.col-sm-9
           if data.Value.tags.length > 0
-            ul
+            ul#tags
               each item, index in data.Value.tags
                 li= item
   else

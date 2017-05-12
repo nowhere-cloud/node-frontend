@@ -62,9 +62,9 @@ Router.route('/vm/provision')
   })
   .post((req, res, next) => {
     HTTP.PostJSON('http://api:3000/xen/vm/create', {
-      userid: req.body.uid,
+      userid: req.user.id,
       payload: {
-        userid: req.body.uid,
+        userid: req.user.id,
         src: req.body.uuid,
         vm_name: req.body.vm_name,
         ks: req.body.kickstart, // Link to Answer File
@@ -100,9 +100,9 @@ Router.route('/vm/clone')
   })
   .post((req, res, next) => {
     HTTP.PostJSON(`http://api:3000/xen/vm/${req.query.t}/clone`, {
-      userid: req.body.uid,
+      userid: req.user.id,
       payload: {
-        userid: req.body.uid,
+        userid: req.user.id,
         vm_name: req.body.vm_name
       }
     }).then((key) => {
@@ -115,7 +115,7 @@ Router.route('/vm/clone')
 
 Router.get('/:type/:uuid', (req, res, next) => {
   // Whitelisting
-  const allowed = ['vm', 'net', 'vif'];
+  const allowed = ['vm', 'net', 'vm-templates', 'vif'];
   if (allowed.indexOf(req.params.type) === -1 ) {
     // Kick to 404 Handler
     return next();
