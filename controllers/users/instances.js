@@ -88,7 +88,7 @@ Router.route('/vm/provision')
 Router.route('/vm/clone')
   .get((req, res, next) => {
     HTTP.GetJSON(`http://api:3000/xen/vm/${req.query.t}`).then((data) => {
-      res.render('admin/instances-clone', {
+      res.render('user/instances-clone', {
         title: 'Clone an VM Instance',
         uuid: req.query.t,
         data: data,
@@ -99,7 +99,7 @@ Router.route('/vm/clone')
     });
   })
   .post((req, res, next) => {
-    HTTP.PostJSON(`http://api:3000/xen/vm/${req.query.t}/clone`, {
+    HTTP.PostJSON(`http://api:3000/xen/vm/${req.body.uuid}/clone`, {
       userid: req.user.id,
       payload: {
         userid: req.user.id,

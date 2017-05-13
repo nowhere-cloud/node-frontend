@@ -121,7 +121,7 @@ Router.route('/vm/clone')
     });
   })
   .post((req, res, next) => {
-    HTTP.PostJSON(`http://api:3000/xen/vm/${req.query.t}/clone`, {
+    HTTP.PostJSON(`http://api:3000/xen/vm/${req.body.uuid}/clone`, {
       userid: req.body.uid,
       payload: {
         userid: req.body.uid,

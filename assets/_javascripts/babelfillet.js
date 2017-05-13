@@ -6,7 +6,8 @@ const map = {
     'set.vm.power_off': 'Power Off',
     'set.vm.power_reboot': 'Reboot',
     'set.vm.power_suspend': 'Suspend',
-    'set.vm.power_resume': 'Resume'
+    'set.vm.power_resume': 'Resume',
+    'do.vm.destroy': 'Destroy'
   }
 };
 

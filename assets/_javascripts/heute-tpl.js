@@ -1,7 +1,7 @@
 'use strict';
 
-// Admin/Users - Instances - VM
-// For Retreving Metrics + IP
+// Admin- Templates
+// For Controlling tagger
 
 (($) => {
   let uuid = $('p#uuid').html().trim();

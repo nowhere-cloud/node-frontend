@@ -1,0 +1,33 @@
+extends ../layouts/fluid
+
+block menu
+  include ../includes/common-topbar-user
+
+block breadcrumb
+  +breadcrumb-item("/admin", "Operations Hub")
+  +breadcrumb-item("/admin/instances", "Virtual Machines")
+
+block content
+  .container-fluid
+    h1= title
+    p Get into the inception (?)
+  .container-fluid.hidden-md-down
+    form.card(method="POST")
+      .card-block
+        .form-group
+          label(for="uuid") Source Instance UUID
+          input.form-control#uuid(type="text", name="uuid", readonly, value=`${uuid}`)
+        .form-group
+          label(for="vm_name") Name this Instance
+          input.form-control#vm_name(type="text", name="vm_name", required)
+        .form-group
+          label(for="uid") Assign to User
+          input.form-control#uid(type="number", min="1", step="1", name="uid", required)
+          small.form-text.text-muted#uidHelp Enter 1 to make this instance visible to Administrators Only.
+          input(type="hidden", name="_csrf", value=`${csrf}`)
+      .card-footer
+        button.btn.btn-primary(action="submit") Submit
+        button.btn.btn-secondary(action="reset") Reset
+  include ../includes/mobile_not_supported-f
+
+block additional-libraries
