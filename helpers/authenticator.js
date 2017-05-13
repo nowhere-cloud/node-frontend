@@ -7,7 +7,6 @@ const Session         = require('express-session');
 const SessionStore    = require('connect-session-sequelize')(Session.Store);
 const Sanitizer       = require('sanitizer');
 const env             = process.env.NODE_ENV || 'development';
-const Crypto          = require('crypto');
 const HTTP            = require('./promise-http');
 
 /**
@@ -15,16 +14,6 @@ const HTTP            = require('./promise-http');
  * @type {String}
  */
 const secret = 'secret';
-
-/**
- * Calculate SHA256 of a specified String
- * @param {String} source Clear text
- * @return {String}       Cipher text
- */
-const GenerateSHA256 = (source) => {
-  let cleanString = Sanitizer.sanitize(source);
-  return Crypto.createHash('sha256').update(cleanString).digest('hex');
-};
 
 /**
  * Forbidden Usernames
@@ -122,10 +111,11 @@ const deSerialize = (uid, cb) => {
     });
   } else {
     HTTP.GetJSON(`http://api:3000/user/byid/${uid}`).then((user) => {
-      delete user.password;
+      if (user.hasOwnProperty('password'))
+        delete user.password;
       cb(null, user);
-    }).catch((err) => {
-      cb(err);
+    }).catch((e) => {
+      cb(e);
     });
   }
 };
@@ -177,7 +167,7 @@ const Session_StoreInstance = new SessionStore({
  */
 const Logout = (req, res, next) => {
   req.logout();
-  next();
+  return next();
 };
 
 /**
@@ -189,7 +179,7 @@ const Logout = (req, res, next) => {
 const Admin_CreateUser = (req, res, next) => {
   HTTP.GetJSON(`http://api:3000/user/byusername/${Sanitizer.sanitize(res.locals.username)}`).then((user) => {
     if (user !== null) {
-      req.flash('error', `User: ${req.body.username} already occupied.`);
+      req.flash('eor', `User: ${req.body.username} already occupied.`);
       return next();
     } else {
       return HTTP.PostJSON('http://api:3000/user/', {
@@ -200,8 +190,8 @@ const Admin_CreateUser = (req, res, next) => {
   }).then((user) => {
     req.flash('success', `User: ${user.username} (UID: ${user.id}) created.`);
     return next();
-  }).catch((err) => {
-    return next(err);
+  }).catch((e) => {
+    return next(e);
   });
 };
 
@@ -215,8 +205,8 @@ const Admin_DeleteUser = (req, res, next) => {
   HTTP.DeleteJSON(`http://api:3000/user/byid/${res.locals.userid}`).then(() => {
     req.flash('success', `UID: ${res.locals.userid} deleted.`);
     return next();
-  }).catch((err) => {
-    return next(err);
+  }).catch((e) => {
+    return next(e);
   });
 };
 
@@ -230,8 +220,8 @@ const Admin_GetAllUser = (req, res, next) => {
   HTTP.GetJSON('http://api:3000/user/').then((users) => {
     res.locals.data = users;
     next();
-  }).catch((err) => {
-    return next(err);
+  }).catch((e) => {
+    return next(e);
   });
 };
 
@@ -243,11 +233,12 @@ const Admin_GetAllUser = (req, res, next) => {
  */
 const Admin_GetUserProfile = (req, res, next) => {
   HTTP.GetJSON(`http://api:3000/user/byid/${Sanitizer.sanitize(res.locals.userid)}`).then((user) => {
-    delete user.password;
+    if (user.hasOwnProperty('password'))
+      delete user.password;
     res.locals.userdata = user;
-    next();
-  }).catch((err) => {
-    return next(err);
+    return next();
+  }).catch((e) => {
+    return next(e);
   });
 };
 
@@ -259,11 +250,12 @@ const Admin_GetUserProfile = (req, res, next) => {
  */
 const Admin_FindUserByUsername = (req, res, next) => {
   HTTP.GetJSON(`http://api:3000/user/byusername/${Sanitizer.sanitize(res.locals.username)}`).then((user) => {
-    delete user.password;
+    if (user.hasOwnProperty('password'))
+      delete user.password;
     res.locals.userdata = user;
-    next();
-  }).catch((err) => {
-    return next(err);
+    return next();
+  }).catch((e) => {
+    return next(e);
   });
 };
 
@@ -279,8 +271,8 @@ const User_UpdatePassword = (req, res, next) => {
   }).then(() => {
     req.flash('success', 'Password Updated.');
     return next();
-  }).catch((err) => {
-    return next(err);
+  }).catch((e) => {
+    return next(e);
   });
 };
 
@@ -296,8 +288,8 @@ const Admin_UpdateUserPassword = (req, res, next) => {
   }).then(() => {
     req.flash('success', 'Password Updated.');
     return next();
-  }).catch((err) => {
-    return next(err);
+  }).catch((e) => {
+    return next(e);
   });
 };
 
@@ -338,7 +330,6 @@ module.exports = {
   Passport: Passport,
   Serialize: Serialize,
   DeSerialize: deSerialize,
-  SHA256: GenerateSHA256,
   Env: {
     GlobalUser: SetGlobalUserInstance,
     Logout: Logout

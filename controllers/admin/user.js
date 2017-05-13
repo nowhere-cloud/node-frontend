@@ -76,5 +76,20 @@ Router.get('/report', Auth.Admin.GetAllUser, (req, res, next) => {
   });
 });
 
+Router.get('/api/search/byid/:id(/\[[0-9]+\]/)', (req, res, next) => {
+  if (req.params.id > 1) {
+    return next();
+  } else {
+    req.sendStatus(404);
+  }
+}, Auth.Admin.FindUserById, (req, res, next) => {
+  // Field Filtering + Error Handling is already done on Authentication SubSystem
+  if (res.locals.userdata) {
+    res.json(res.locals.userdata);
+  } else {
+    res.sendStatus(404);
+  }
+});
+
 
 module.exports = Router;

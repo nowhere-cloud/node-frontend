@@ -29,10 +29,16 @@ const HTTPGetJSONClient = (endpoint) => {
         reject(err);
       }
       if (!response) {
-        reject(new Error('Request Failed. Communication Error'));
+        reject({
+          status: 504,
+          message: 'Request Failed. Upstream Communication Error'
+        });
       }
       if (response && check_good_HTTP_Code(response.statusCode)) {
-        reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
+        reject({
+          status: response.statusCode,
+          message: JSON.stringify(body, null, 2)
+        });
       }
       fulfill(body);
     });
@@ -57,10 +63,16 @@ const HTTPPostJSONClient = (endpoint, postData) => {
         reject(err);
       }
       if (!response) {
-        reject(new Error('Request Failed. Communication Error'));
+        reject({
+          status: 504,
+          message: 'Request Failed. Upstream Communication Error'
+        });
       }
       if (response && check_good_HTTP_Code(response.statusCode)) {
-        reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
+        reject({
+          status: response.statusCode,
+          message: JSON.stringify(body, null, 2)
+        });
       }
       fulfill(body);
     });
@@ -85,10 +97,16 @@ const HTTPPatchJSONClient = (endpoint, postData) => {
         reject(err);
       }
       if (!response) {
-        reject(new Error('Request Failed. Communication Error'));
+        reject({
+          status: 504,
+          message: 'Request Failed. Upstream Communication Error'
+        });
       }
       if (response && check_good_HTTP_Code(response.statusCode)) {
-        reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
+        reject({
+          status: response.statusCode,
+          message: JSON.stringify(body, null, 2)
+        });
       }
       fulfill(body);
     });
@@ -112,10 +130,16 @@ const HTTPDeleteJSONClient = (endpoint) => {
         reject(err);
       }
       if (!response) {
-        reject(new Error('Request Failed. Communication Error'));
+        reject({
+          status: 504,
+          message: 'Request Failed. Upstream Communication Error'
+        });
       }
       if (response && check_good_HTTP_Code(response.statusCode)) {
-        reject(new Error(`Request Failed. Status Code: ${response.statusCode}`));
+        reject({
+          status: response.statusCode,
+          message: JSON.stringify(body, null, 2)
+        });
       }
       fulfill(body);
     });

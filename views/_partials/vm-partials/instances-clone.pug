@@ -1,0 +1,17 @@
+form.card(method="POST")
+  .card-block
+    .form-group
+      label(for="uuid") Source Instance UUID
+      input.form-control#uuid(type="text", name="uuid", readonly, value=`${uuid}`)
+    .form-group
+      label(for="vm_name") Name this Instance
+      input.form-control#vm_name(type="text", name="vm_name", required)
+    if mode === 'admin'
+      .form-group
+        label(for="uid") Assign to User
+        input.form-control#uid(type="number", min="1", step="1", name="uid", required)
+        small.form-text.text-muted#uidHelp Enter 1 to make this instance visible to Administrators Only.
+  .card-footer
+    input(type="hidden", name="_csrf", value=`${csrf}`)
+    button.btn.btn-primary(action="submit") Submit
+    button.btn.btn-secondary(action="reset") Reset

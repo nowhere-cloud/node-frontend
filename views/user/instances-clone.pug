@@ -12,16 +12,5 @@ block content
     h1= title
     p Get into the inception (?)
   .container.hidden-md-down
-    form.card(method="POST")
-      .card-block
-        .form-group
-          label(for="uuid") Source Instance UUID
-          input.form-control#uuid(type="text", name="uuid", readonly, value=`${uuid}`)
-        .form-group
-          label(for="vm_name") Name this Instance
-          input.form-control#vm_name(type="text", name="vm_name", required)
-          input(type="hidden", name="_csrf", value=`${csrf}`)
-      .card-footer
-        button.btn.btn-primary(action="submit") Submit
-        button.btn.btn-secondary(action="reset") Reset
+    include ../_partials/vm-partials/instances-clone
   include ../includes/mobile_not_supported
