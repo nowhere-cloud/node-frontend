@@ -1,0 +1,19 @@
+extends ../layouts/fluid
+
+block menu
+  include ../includes/common-topbar-user
+
+block breadcrumb
+  +breadcrumb-item("/admin", "Operations Hub")
+  +breadcrumb-item("/admin/instances", "Virtual Machines")
+
+block content
+  .container-fluid
+    h1= title
+    p Get a clean working environment.
+  .container-fluid.hidden-md-down
+    include ../_partials/vm-partials/instances-provision
+  include ../includes/mobile_not_supported-f
+  
+block additional-libraries
+  script(src="/admin/assets/provision-a.js")

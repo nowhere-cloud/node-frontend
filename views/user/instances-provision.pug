@@ -1,0 +1,19 @@
+extends ../layouts/normal
+
+block menu
+  include ../includes/common-topbar-user
+
+block breadcrumb
+  +breadcrumb-item("/users", "Operations Hub")
+  +breadcrumb-item("/users/instances", "Virtual Machines")
+
+block content
+  .container
+    h1= title
+    p Get a clean working environment
+  .container.hidden-md-down
+    include ../_partials/vm-partials/instances-provision
+  include ../includes/mobile_not_supported
+  
+block additional-libraries
+  script(src="/users/assets/provision.js")

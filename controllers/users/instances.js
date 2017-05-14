@@ -50,7 +50,7 @@ Router.get('/partials/net-list-hyp', (req, res, next) => {
 Router.route('/vm/provision')
   .get((req, res, next) => {
     HTTP.GetJSON(`http://api:3000/xen/vm/templates/${req.query.t}`).then((data) => {
-      res.render('admin/instances-provision', {
+      res.render('user/instances-provision', {
         title: 'Provision a New VM Instance',
         uuid: req.query.t,
         data: data,
@@ -79,7 +79,7 @@ Router.route('/vm/provision')
       }
     }).then((key) => {
       req.flash('success', `Job Received. Task ID: ${key.task}`);
-      res.redirect('/admin/instances');
+      res.redirect('/users/instances');
     }).catch((e) => {
       return next(e);
     });
@@ -107,7 +107,7 @@ Router.route('/vm/clone')
       }
     }).then((key) => {
       req.flash('success', `Job Received. Task ID: ${key.task}`);
-      res.redirect('/admin/instances');
+      res.redirect('/users/instances');
     }).catch((e) => {
       return next(e);
     });
