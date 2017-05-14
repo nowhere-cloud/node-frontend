@@ -69,4 +69,20 @@ Router.post('/vm/:uuid/untag', (req, res, next) => {
   });
 });
 
+Router.get('/net/allowed_values', (req, res, next) => {
+  HTTP.GetJSON('http://api:3000/xen/net/xencenter').then((data) => {
+    res.json(data);
+  }).catch((e) => {
+    res.sendStatus(500);
+  });
+});
+
+Router.get('/net/:uuid', (req, res, next) => {
+  HTTP.GetJSON(`http://api:3000/xen/net/${req.params.uuid}`).then((data) => {
+    res.json(data);
+  }).catch((e) => {
+    res.sendStatus(500);
+  });
+});
+
 module.exports = Router;

@@ -2,7 +2,7 @@
 
 // Admin - DNS
 
-//=include ../_javascripts/ipcalc.js
+//=require ../_javascripts/ipcalc.js
 
 (($) => {
   const error_wrap = $('<tr/>').addClass('table-danger');

@@ -3,6 +3,7 @@ form.card(method="POST")
     .form-group
       label(for="uuid") Source Template UUID
       input.form-control#uuid(type="text", name="uuid", readonly, value=`${uuid}`)
+      small.form-text.text-muted Template Name: #{data.Value.name_label}
     .form-group
       label(for="vm_name") Name this Instance
       input.form-control#vm_name(type="text", name="vm_name", required)
@@ -27,9 +28,10 @@ form.card(method="POST")
       .form-group
         label(for="network") Select a network.
         select.form-control#network(name="network")
+        small.form-text.text-muted#networkHelp 
     else
       //- User Network is loaded over script.
-      input(type="hidden", name="network")
+      input#network(type="hidden", name="network")
     .form-group
       label(for="disk_size") Size of Disk
       input.form-control#disk_size(type="number", name="disk_size", min="8", step="1", value="8", required)
@@ -42,7 +44,7 @@ form.card(method="POST")
     .form-group
       label(for="ram_size") Size of Memory.
       input.form-control#ram_size(type="number", name="ram_size", min="1", step="1", required)
-      small.form-text.text-muted#ram_sizeHelp 1GB is enough for general computing.
+      small.form-text.text-muted#ram_sizeHelp General Computing: 512MB ~ 2GB. Fair Usage Policy: 4GB
     .form-group
       label(for="ram_unit") Unit of Disk Size.
       select.form-control#ram_unit(name="ram_unit", required)

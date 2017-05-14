@@ -81,4 +81,12 @@ Router.get('/tasks', (req, res, next) => {
   });
 });
 
+Router.get('/net/allowed_values', (req, res, next) => {
+  HTTP.GetJSON('http://api:3000/xen/net/auto').then((data) => {
+    res.json(data);
+  }).catch((e) => {
+    res.sendStatus(500);
+  });
+});
+
 module.exports = Router;

@@ -9,7 +9,7 @@
 // https://developers.google.com/web/updates/2015/04/cut-and-copy-commands
 // Generate Password
 
-//=include passwdgen.js 
+//=require passwdgen.js
 
 (($) => {
   const password = $('#password')[0];

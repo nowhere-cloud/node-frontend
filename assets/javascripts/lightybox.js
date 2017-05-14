@@ -1,6 +1,6 @@
 'use strict';
 
-//=include ../_javascripts/MobileCheck.js
+//=require ../_javascripts/MobileCheck.js
 
 (($) => {
   const replaceLink = (src) => {

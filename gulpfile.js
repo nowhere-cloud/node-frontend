@@ -32,7 +32,7 @@ const pjs_path_u  = 'assets/javascripts-u/*.j+(s|sx|sm)';
 
 Gulp.task('Transpile and Minify JavaScript', () => {
   return Gulp.src(js_path)
-    .pipe(Includes()).on('error', console.error)
+    .pipe(Includes({ hardFail: true })).on('error', console.error)
     .pipe(Babel(Babel_options))
     .pipe(Uglify(Uglify_options))
     .pipe(Gulp.dest('public/assets/javascripts'));
@@ -40,7 +40,7 @@ Gulp.task('Transpile and Minify JavaScript', () => {
 
 Gulp.task('Transpile and Minify Protected Admin JavaScript', () => {
   return Gulp.src(pjs_path_a)
-    .pipe(Includes()).on('error', console.error)
+    .pipe(Includes({ hardFail: true })).on('error', console.error)
     .pipe(Babel(Babel_options))
     .pipe(Uglify(Uglify_options))
     .pipe(Gulp.dest('private/assets-a'));
@@ -48,7 +48,7 @@ Gulp.task('Transpile and Minify Protected Admin JavaScript', () => {
 
 Gulp.task('Transpile and Minify Protected User JavaScript', () => {
   return Gulp.src(pjs_path_u)
-    .pipe(Includes()).on('error', console.error)
+    .pipe(Includes({ hardFail: true })).on('error', console.error)
     .pipe(Babel(Babel_options))
     .pipe(Uglify(Uglify_options))
     .pipe(Gulp.dest('private/assets-u'));
@@ -64,7 +64,7 @@ Gulp.task('Compile and Minify CSS', () => {
 Gulp.task('Transpile JavaScript and Generate SourceMap', () => {
   return Gulp.src(js_path)
     .pipe(SourceMaps.init())
-    .pipe(Includes()).on('error', console.error)
+    .pipe(Includes({ hardFail: true })).on('error', console.error)
     .pipe(Babel(Babel_options))
     .pipe(SourceMaps.write('.'))
     .pipe(Gulp.dest('public/assets/javascripts'));
@@ -73,7 +73,7 @@ Gulp.task('Transpile JavaScript and Generate SourceMap', () => {
 Gulp.task('Transpile Protected Admin JavaScript and Generate SourceMap', () => {
   return Gulp.src(pjs_path_a)
     .pipe(SourceMaps.init())
-    .pipe(Includes()).on('error', console.error)
+    .pipe(Includes({ hardFail: true })).on('error', console.error)
     .pipe(Babel(Babel_options))
     .pipe(SourceMaps.write('.'))
     .pipe(Gulp.dest('private/assets-a'));
@@ -82,7 +82,7 @@ Gulp.task('Transpile Protected Admin JavaScript and Generate SourceMap', () => {
 Gulp.task('Transpile Protected User JavaScript and Generate SourceMap', () => {
   return Gulp.src(pjs_path_u)
     .pipe(SourceMaps.init())
-    .pipe(Includes()).on('error', console.error)
+    .pipe(Includes({ hardFail: true })).on('error', console.error)
     .pipe(Babel(Babel_options))
     .pipe(SourceMaps.write('.'))
     .pipe(Gulp.dest('private/assets-u'));
