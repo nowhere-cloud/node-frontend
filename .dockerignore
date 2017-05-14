@@ -6,6 +6,5 @@ node_modules
 .gitignore
 .pug-lintrc
 .tern-project
-gulpfile.js
 LICENSE
 nodemon.json
