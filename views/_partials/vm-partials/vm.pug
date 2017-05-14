@@ -49,7 +49,7 @@ if data.Status === "Success"
             dt.col-sm-3 IPv6
             dd.col-sm-9#modal-ip-ipv6
 
-            span.col-sm-12.text-danger#modal-ip-alert.
+            span.col-sm-12.text-danger.invisible#modal-ip-alert.
               Data may not be accurate. Boot Your Instance and refresh this webpage to retreive the most accurate data. 
 
         dt.col-sm-3 Tags
@@ -72,13 +72,13 @@ if data.Status === "Success"
             dd.col-sm-9#confirmation-field-uuid
             dt.col-sm-3 Action
             dd.col-sm-9#confirmation-field-verb
-          dl.row#confirmation-field-rsvp
+          dl.row.invisible#confirmation-field-rsvp
             dt.col-sm-3 Ticket
             dd.col-sm-9#confirmation-field-rsvp-etktid
             dt.col-sm-9 Please use this ID to track your Job Progress
           .row
             .btn-block.col-sm-12
-            .col-sm-12#confirmation-loading
+            .col-sm-12.invisible#confirmation-loading
               include ../../includes/loading-bar.pug
         .modal-footer
           button.btn.btn-primary#confirmation-confirm(type='button', data-csrf=`${csrf}`) Yes

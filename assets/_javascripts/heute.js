@@ -19,7 +19,7 @@
         $('#modal-ip-ipv4').html(json.Value.networks['0/ip']);
         $('#modal-ip-ipv6').html(json.Value.networks['0/ipv6/0']);
         if ($('dd#pstate').html() !== 'Running') {
-          $('#modal-ip-alert').show();
+          $('#modal-ip-alert').removeClass('invisible');
         }
       } else {
         errortext.html(`Contact Administrator: ${json.ErrorDescription}`).addClass('col-sm-12');
@@ -42,25 +42,25 @@
           // Control the visibility of toolbar button
           switch(v) {
           case 'start':
-            $('[data-action="set.vm.power_on"]').show();
+            $('[data-action="set.vm.power_on"]').removeClass('invisible');
             break;
           case 'hard_shutdown':
-            $('[data-action="set.vm.power_off"]').show();
+            $('[data-action="set.vm.power_off"]').removeClass('invisible');
             break;
           case 'hard_reboot':
-            $('[data-action="set.vm.power_reboot"]').show();
+            $('[data-action="set.vm.power_reboot"]').removeClass('invisible');
             break;
           case 'suspend':
-            $('[data-action="set.vm.power_suspend"]').show();
+            $('[data-action="set.vm.power_suspend"]').removeClass('invisible');
             break;
           case 'resume':
-            $('[data-action="set.vm.power_resume"]').show();
+            $('[data-action="set.vm.power_resume"]').removeClass('invisible');
             break;
           case 'clone':
-            $('[data-action="do.vm.clone"]').show();
+            $('[data-action="do.vm.clone"]').removeClass('invisible');
             break;
           case 'destroy':
-            $('[data-action="do.vm.destroy"]').show();
+            $('[data-action="do.vm.destroy"]').removeClass('invisible');
             break;
           }
         });
@@ -86,12 +86,12 @@
         'payload': payload
       },
       success: (data, status, xhr) => {
-        $('#confirmation-loading').hide();
+        $('#confirmation-loading').addClass('invisible');
         $('#confirmation-field-rsvp-etktid').html(data.task);
-        $('#confirmation-field-rsvp').show();
+        $('#confirmation-field-rsvp').removeClass('invisible');
         setTimeout(() => {
           $('#confirmation-modal').modal('hide');
-          $('.vm-actions').hide();
+          $('.vm-actions').addClass('invisible');
         }, 10000);
       },
       dataType: 'json'});
@@ -107,9 +107,9 @@
   });
 
   $('#refresh').on('click', () => {
-    $('#modal-ip-alert').hide();
+    $('#modal-ip-alert').addClass('invisible');
     setTimeout(() => {
-      $('.vm-actions').hide();
+      $('.vm-actions').addClass('invisible');
       getPState();
     }, 1000);
     setTimeout(() => {
@@ -131,8 +131,8 @@
 
   $('#confirmation-confirm').on('click', function() {
     PostBoy(verb, {}, $(this).data('csrf'));
-    $('#confirmation-loading').show();
-    $(this).hide();
+    $('#confirmation-loading').removeClass('invisible');
+    $(this).addClass('invisible');
   });
 
 })(jQuery);

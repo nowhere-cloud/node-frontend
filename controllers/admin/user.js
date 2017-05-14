@@ -77,6 +77,8 @@ Router.get('/report', Auth.Admin.GetAllUser, (req, res, next) => {
 });
 
 Router.get('/api/search/byid/:id(/\[[0-9]+\]/)', (req, res, next) => {
+  // UID #1 => User with generated credentials => will return dummy user's username => security
+  // Additionally, RegExp Check on input type is used for security
   if (req.params.id > 1) {
     return next();
   } else {
