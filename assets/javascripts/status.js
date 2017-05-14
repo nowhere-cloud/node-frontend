@@ -1,5 +1,8 @@
 'use strict';
 
+//=include ../_javascripts/Date.js
+//=include ../_javascripts/MobileCheck.js 
+
 (($) => {
 
   /**

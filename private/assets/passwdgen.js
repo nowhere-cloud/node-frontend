@@ -1,1 +1,0 @@
-"use strict";var GeneratePasswordFunction=function(){var t=Math.random().toString(36).slice(-10),r=Math.random().toString(36).slice(-10);return String(t+r).replace(/\./g,"a").split("").sort(function(){return.5-Math.random()}).join("")};

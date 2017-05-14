@@ -10,7 +10,7 @@ Router.all('*', Auth.User.Protection);
 // Protected Assets
 Router.get('/:filename', (req, res, next) => {
   let options = {
-    root: Path.join(__dirname, '../../private/assets'),
+    root: Path.join(__dirname, '../../private/assets-u'),
     dotfiles: 'deny'
   };
   res.sendFile(req.params.filename, options, (err => {

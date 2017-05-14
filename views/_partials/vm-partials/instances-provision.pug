@@ -9,26 +9,31 @@ form.card(method="POST")
     .form-group
       label(for="kickstart") Provide an URL to kickstart configuration
       input.form-control#kickstart(type="url", name="kickstart", required)
-      small.form-text.text-muted#ksHelp File MUST BE stored on a Plain HTTP Location.
+      small.form-text.text-muted#ksHelp File MUST BE located on a Plain HTTP Location.
     .form-group
-      label(for="kickstart") Provide an URL to Software Repository
-      input.form-control#kickstart(type="url", name="kickstart", required)
-      small.form-text.text-muted#ksHelp File MUST BE stored on a Plain HTTP Location.
+      label(for="repo") Provide an URL to Software Repository
+      input.form-control#repo(type="url", name="repo", required)
+      small.form-text.text-muted#repoHelp Repository MUST BE located on a Plain HTTP Location.
+    //- Distro Type is loaded from server.
+    input(type="hidden", name="distro", value=`${data.Value.other_config['install-distro']}`)
+    //- This param is required for Debian Families (including Ubuntu)
     if data.Value.other_config['install-distro'] === 'debianlike'
       .form-group
-        label(for="distro") Provide the release codename of the OS to be installed.
-        input.form-control#distro(type="text", name="distro", required)
-        small.form-text.text-muted#distroHelp e.g. Debian: jessie (8), wheezy (7). Ubuntu (LTS is always preferred): xenial (16.04), trusty (14.04)
+        label(for="debian_distro") Provide the release codename of the OS to be installed.
+        input.form-control#debian_distro(type="text", name="debian_distro", required)
+        small.form-text.text-muted#debian_distroHelp e.g. Debian: jessie (8), wheezy (7). Ubuntu (LTS is always preferred): xenial (16.04), trusty (14.04)
     if mode === 'admin'
+      //- Custom network is available for Admin
       .form-group
         label(for="network") Select a network.
         select.form-control#network(name="network")
     else
+      //- User Network is loaded over script.
       input(type="hidden", name="network")
     .form-group
       label(for="disk_size") Size of Disk
-      // 8GB is the base size of any usual Linux Distro Suggestion
       input.form-control#disk_size(type="number", name="disk_size", min="8", step="1", value="8", required)
+      small.form-text.text-muted#disk_sizeHelp 8GB is the minimal requirements for most Linux Distros.
     .form-group
       label(for="disk_unit") Unit of Disk Size.
       select.form-control#disk_unit(name="disk_unit", required)
@@ -36,7 +41,8 @@ form.card(method="POST")
         option(value="M") MB
     .form-group
       label(for="ram_size") Size of Memory.
-      input.form-control#disk_size(type="number", name="ram_size", min="1", step="1", required)
+      input.form-control#ram_size(type="number", name="ram_size", min="1", step="1", required)
+      small.form-text.text-muted#ram_sizeHelp 1GB is enough for general computing.
     .form-group
       label(for="ram_unit") Unit of Disk Size.
       select.form-control#ram_unit(name="ram_unit", required)
@@ -49,6 +55,5 @@ form.card(method="POST")
         small.form-text.text-muted#uidHelp Enter 1 to make this instance visible to Administrators Only.
   .card-footer
     input(type="hidden", name="_csrf", value=`${csrf}`)
-    input(type="hidden", name="distro", value=`${data.Value.other_config['install-distro']}`)
     button.btn.btn-primary(action="submit") Submit
     button.btn.btn-secondary(action="reset") Reset

@@ -1,1 +1,0 @@
-"use strict";var DEC2HEX=function(t){return parseInt(t,10).toString(16)},DEC2HEXp=function(t){var r=parseInt(t,10).toString(16);return 1===r.length?"0"+r:r},GenerateIP6=function(t){var r=t.trim().split(".");return"::FFFF:"+DEC2HEX(r[0])+DEC2HEXp(r[1])+":"+DEC2HEX(r[2])+DEC2HEXp(r[3])};

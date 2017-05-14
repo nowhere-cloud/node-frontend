@@ -1,5 +1,7 @@
 'use strict';
 
+//=include ../_javascripts/Date.js 
+
 // Admin - Report
 
 (($) => {

@@ -9,10 +9,12 @@
 // https://developers.google.com/web/updates/2015/04/cut-and-copy-commands
 // Generate Password
 
+//=include passwdgen.js 
+
 (($) => {
-  const password = $('#password').get(0);
-  const confirm = $('#cfm_password').get(0);
-  const gen_field = $('#generatedPassword').get(0);
+  const password = $('#password')[0];
+  const confirm = $('#cfm_password')[0];
+  const gen_field = $('#generatedPassword')[0];
   const modal = $('#passwordGenerate');
   let generated = '';
 

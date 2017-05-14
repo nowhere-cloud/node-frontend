@@ -2,6 +2,8 @@
 
 // Admin - User Management
 
+//=include ../_javascripts/passwdgen.js
+
 (($) => {
   const error_wrap = $('<tr/>').addClass('table-danger');
   const error = $('<td/>').attr('colspan', 5);

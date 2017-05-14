@@ -2,6 +2,9 @@
 
 // Admin - Syslog Viewer
 
+//=include ../_javascripts/Date.js
+//=include ../_javascripts/MobileCheck.js
+
 (($) => {
   // Human Readable Syslog Severity, also copied from source code
   const severity_Human = 'Emergency Alert Critical Error Warning Notice Informational Debug'.split(' ');

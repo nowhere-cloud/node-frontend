@@ -1,8 +1,7 @@
 'use strict';
 
-// Admin -> Instances -> Clone
-// For Fetching User ID during clone process
-// UID #1 is not looked up on both server side & client side script
+// Admin -> Instances -> Provisioning
+// For Loading choices for network
 
 (($) => {
   let SubmitOK = false;
@@ -41,8 +40,7 @@
       $(this)[0].submit();
     } else {
       // For invalid User ID, Type check is handoffed to HTML5
-      $('#uid').addClass('form-control-danger').parent().addClass('has-danger');
-      $('#uidHelp').html('Please double-check the User ID Value.').removeClass('text-muted').addClass('text-danger');
+      $('#uid')[0].setCustomValidity('Please double-check the User ID Value.');
       return false;
     }
   });

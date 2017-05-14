@@ -1,5 +1,7 @@
 'use strict';
 
+//=include ../_javascripts/MobileCheck.js
+
 (($) => {
   const replaceLink = (src) => {
     $('img#lightboximage').attr('src', src);
