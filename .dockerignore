@@ -7,6 +7,5 @@ node_modules
 .pug-lintrc
 .tern-project
 gulpfile.js
-assets/
 LICENSE
 nodemon.json

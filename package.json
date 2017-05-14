@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/block-for-mysql.js && node ./bin/www.js",
+    "clean": "gulp clean",
     "build": "gulp clean && gulp",
     "build-dev": "gulp clean && gulp development"
   },

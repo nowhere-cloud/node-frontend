@@ -1,1 +1,0 @@
-"use strict";!function(t){t("form").on("submit",function(t){t.preventDefault()})}(jQuery);
