@@ -6,8 +6,8 @@
 (($) => {
   let FormIsReady = false;
   let NetReady = false;
-  //=require ../_javascripts/provision.js
-  //=require ../_javascripts/instance-network.js
+  //=include ../_javascripts/provision.js
+  //=include ../_javascripts/instance-network.js
 
   $(document).ready(function() {
     $('#network').val(FetchNetwork()[0]); // eslint-disable-line no-undef

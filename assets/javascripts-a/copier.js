@@ -5,7 +5,7 @@
 (($) => {
   let FormIsReady = false;
 
-  //=require ../_javascripts/instance-userid.js
+  //=include ../_javascripts/instance-userid.js
 
   $('form').on('submit', function (e) {
     e.preventDefault();

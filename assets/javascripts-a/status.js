@@ -2,8 +2,8 @@
 
 // Admin - Syslog Viewer
 
-//=require ../_javascripts/Date.js
-//=require ../_javascripts/MobileCheck.js
+//=include ../_javascripts/Date.js
+//=include ../_javascripts/MobileCheck.js
 
 (($) => {
   // Human Readable Syslog Severity, also copied from source code

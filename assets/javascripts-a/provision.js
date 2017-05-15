@@ -7,9 +7,9 @@
   let FormIsReady = false;
   // For Pulling Network List Control
   let NetReady = false;
-  //=require ../_javascripts/provision.js
-  //=require ../_javascripts/instance-userid.js
-  //=require ../_javascripts/instance-network.js
+  //=include ../_javascripts/provision.js
+  //=include ../_javascripts/instance-userid.js
+  //=include ../_javascripts/instance-network.js
 
   const FetchNetworkDetail = (uuid) => {
     FormIsReady = false;

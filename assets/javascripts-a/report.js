@@ -1,6 +1,6 @@
 'use strict';
 
-//=require ../_javascripts/Date.js
+//=include ../_javascripts/Date.js
 
 // Admin - Report
 

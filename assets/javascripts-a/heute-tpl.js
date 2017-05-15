@@ -3,7 +3,7 @@
 // Admin- Templates
 // For Controlling tagger
 
-//=require ../_javascripts/babelfillet.js
+//=include ../_javascripts/babelfillet.js
 
 (($) => {
   let uuid = $('p#uuid').html().trim();

@@ -2,7 +2,7 @@
 
 // Users - DNS
 
-//=require ../_javascripts/ipcalc.js
+//=include ../_javascripts/ipcalc.js
 
 (($) => {
   const error_wrap = $('<tr/>').addClass('table-danger');

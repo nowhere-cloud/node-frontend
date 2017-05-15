@@ -3,7 +3,7 @@
 // Admin/Users - Instances - VM
 // For Retreving Metrics + IP
 
-//=require babelfillet.js
+//=include babelfillet.js
 
 (($) => {
   let uuid = $('p#uuid').html().trim();

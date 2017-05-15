@@ -1,7 +1,7 @@
 'use strict';
 
-//=require ../_javascripts/Date.js
-//=require ../_javascripts/MobileCheck.js
+//=include ../_javascripts/Date.js
+//=include ../_javascripts/MobileCheck.js
 
 (($) => {
 

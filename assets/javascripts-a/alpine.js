@@ -2,7 +2,7 @@
 
 // Admin - User Management
 
-//=require ../_javascripts/passwdgen.js
+//=include ../_javascripts/passwdgen.js
 
 (($) => {
   const error_wrap = $('<tr/>').addClass('table-danger');
