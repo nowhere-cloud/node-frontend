@@ -20,9 +20,9 @@
       }
     });
     if (tagged === true) {
-      $('.vm-actions[data-action="untag"]').show();
+      $('.vm-actions[data-action="untag"]').removeClass('disabled');
     } else {
-      $('.vm-actions[data-action="tag"]').show();
+      $('.vm-actions[data-action="tag"]').removeClass('disabled');
     }
   };
   /* eslint-enable */

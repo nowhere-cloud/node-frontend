@@ -27,7 +27,7 @@
         { 'data': 'uuid' },
         { 'data': 'createdAt' },
         { 'data': 'task' },
-        { 'data': 'result.Status'}
+        { 'data': 'result'}
       ]
     });
     getPartials('vm-list-hyp');

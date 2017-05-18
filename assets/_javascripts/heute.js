@@ -21,7 +21,7 @@
         $('#modal-ip-ipv4').html(json.Value.networks['0/ip']);
         $('#modal-ip-ipv6').html(json.Value.networks['0/ipv6/0']);
         if ($('dd#pstate').html() !== 'Running') {
-          $('#modal-ip-alert').removeClass('invisible');
+          $('#modal-ip-alert').removeClass('disabled');
         }
       } else {
         errortext.html(`Contact Administrator: ${json.ErrorDescription}`).addClass('col-sm-12');
@@ -44,25 +44,25 @@
           // Control the visibility of toolbar button
           switch(v) {
           case 'start':
-            $('[data-action="set.vm.power_on"]').removeClass('invisible');
+            $('[data-action="set.vm.power_on"]').removeClass('disabled');
             break;
           case 'hard_shutdown':
-            $('[data-action="set.vm.power_off"]').removeClass('invisible');
+            $('[data-action="set.vm.power_off"]').removeClass('disabled');
             break;
           case 'hard_reboot':
-            $('[data-action="set.vm.power_reboot"]').removeClass('invisible');
+            $('[data-action="set.vm.power_reboot"]').removeClass('disabled');
             break;
           case 'suspend':
-            $('[data-action="set.vm.power_suspend"]').removeClass('invisible');
+            $('[data-action="set.vm.power_suspend"]').removeClass('disabled');
             break;
           case 'resume':
-            $('[data-action="set.vm.power_resume"]').removeClass('invisible');
+            $('[data-action="set.vm.power_resume"]').removeClass('disabled');
             break;
           case 'clone':
-            $('[data-action="do.vm.clone"]').removeClass('invisible');
+            $('[data-action="do.vm.clone"]').removeClass('disabled');
             break;
           case 'destroy':
-            $('[data-action="do.vm.destroy"]').removeClass('invisible');
+            $('[data-action="do.vm.destroy"]').removeClass('disabled');
             break;
           }
         });
@@ -88,12 +88,12 @@
         'payload': payload
       },
       success: (data, status, xhr) => {
-        $('#confirmation-loading').addClass('invisible');
+        $('#confirmation-loading').addClass('disabled');
         $('#confirmation-field-rsvp-etktid').html(data.task);
-        $('#confirmation-field-rsvp').removeClass('invisible');
+        $('#confirmation-field-rsvp').removeClass('disabled');
         setTimeout(() => {
           $('#confirmation-modal').modal('hide');
-          $('.vm-actions').addClass('invisible');
+          $('.vm-actions').addClass('disabled');
         }, 10000);
       },
       dataType: 'json'});
@@ -109,9 +109,9 @@
   });
 
   $('#refresh').on('click', () => {
-    $('#modal-ip-alert').addClass('invisible');
+    $('#modal-ip-alert').addClass('disabled');
     setTimeout(() => {
-      $('.vm-actions').addClass('invisible');
+      $('.vm-actions').addClass('disabled');
       getPState();
     }, 1000);
     setTimeout(() => {
@@ -133,8 +133,8 @@
 
   $('#confirmation-confirm').on('click', function() {
     PostBoy(verb, {}, $(this).data('csrf'));
-    $('#confirmation-loading').removeClass('invisible');
-    $(this).addClass('invisible');
+    $('#confirmation-loading').removeClass('disabled');
+    $(this).addClass('disabled');
   });
 
 })(jQuery);

@@ -16,7 +16,7 @@
         { 'data': 'task' },
         { 'data': 'payload' },
         { 'data': 'sent' },
-        { 'data': 'result.Status'}
+        { 'data': 'result'}
       ]
     });
   });

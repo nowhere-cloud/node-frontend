@@ -17,8 +17,8 @@ include formatBytes
       .btn-toolbar
         if mode === 'admin'
           .btn-group.mr-2#managed-tool
-            a.btn.btn-primary.vm-actions(href="#", data-action="tag") Publish this Template
-            a.btn.btn-primary.vm-actions(href="#", data-action="untag") Un-publish this template
+            a.btn.btn-primary.vm-actions.disabled(href="#", data-action="tag") Publish this Template
+            a.btn.btn-primary.vm-actions.disabled(href="#", data-action="untag") Un-publish this template
         .btn-group.mr-2#unmanaged-tool
           a.btn.btn-primary(href=`../vm/provision?t=${uuid}`) Provision a new VM based on this template
     .card-block
